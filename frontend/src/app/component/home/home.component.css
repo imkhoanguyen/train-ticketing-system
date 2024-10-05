@@ -1,0 +1,28 @@
+.train-icon {
+  width: 50px;
+  height: 50px;
+  background-color: lightblue;
+  border-radius: 50%;
+  margin: auto;
+  position: relative;
+}
+.train-icon::before {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -10px;
+  left: 10px;
+}
+.train-icon::after {
+  content: "";
+  width: 10px;
+  height: 10px;
+  background-color: black;
+  border-radius: 50%;
+  position: absolute;
+  bottom: -10px;
+  right: 10px;
+}

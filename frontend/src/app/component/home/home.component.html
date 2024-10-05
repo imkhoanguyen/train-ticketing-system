@@ -1,0 +1,79 @@
+<div class="container text-center mt-4">
+  <div class="row justify-content-center align-items-center mb-3">
+    <div class="col-auto">
+      <p-dropdown
+        [options]="stations"
+        [(ngModel)]="selectedStation"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="Ga đi"
+        [style]="{ width: '250px' }"
+      ></p-dropdown>
+    </div>
+    <div class="col-auto">
+      <i class="pi pi-arrow-right-arrow-left exchange-icon"></i>
+    </div>
+    <div class="col-auto">
+      <p-dropdown
+        [options]="stations"
+        [(ngModel)]="selectedStation"
+        optionLabel="name"
+        [filter]="true"
+        filterBy="name"
+        [showClear]="true"
+        placeholder="Ga đến"
+        [style]="{ width: '250px' }"
+      ></p-dropdown>
+    </div>
+  </div>
+
+  <div class="row justify-content-center align-items-center mb-3">
+    <div class="col-auto">
+      <p-radioButton
+        name="type"
+        value="motChieu"
+        [(ngModel)]="type"
+        inputId="type1"
+      />
+      <label for="type1" class="ml-2">Một chiều</label>
+    </div>
+    <div class="col-auto">
+      <p-radioButton
+        name="type"
+        value="khuHoi"
+        [(ngModel)]="type"
+        inputId="type2"
+      />
+      <label for="type2" class="ml-2">Khứ hồi</label>
+    </div>
+  </div>
+  <div class="flex-auto">
+    <label for="icondisplay" class="font-bold block mb-2"> Ngày đi</label><br />
+    <p-calendar
+      [(ngModel)]="date1"
+      [iconDisplay]="'input'"
+      [showIcon]="true"
+      [readonlyInput]="true"
+      inputId="icondisplay"
+    />
+  </div>
+  <div class="flex-auto">
+    <label for="icondisplay" class="font-bold block mb-2"> Ngày về</label><br />
+    <p-calendar
+      [(ngModel)]="date2"
+      [iconDisplay]="'input'"
+      [showIcon]="true"
+      [readonlyInput]="true"
+      inputId="icondisplay"
+      [disabled]="true"
+    />
+  </div>
+  <p-button
+    label="Search"
+    icon="pi pi-check"
+    [loading]="loading"
+    (onClick)="load()"
+  />
+</div>
