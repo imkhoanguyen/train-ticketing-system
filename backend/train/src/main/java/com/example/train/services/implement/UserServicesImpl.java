@@ -1,6 +1,5 @@
 package com.example.train.services.implement;
 
-import com.example.train.dto.request.UserRequestDto;
 import com.example.train.dto.response.UserDetailResponse;
 import com.example.train.entity.User;
 import com.example.train.repository.UserRepository;

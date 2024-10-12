@@ -3,13 +3,14 @@ package com.example.train.dto.request;
 import java.io.Serializable;
 
 public class UserRequestDto implements Serializable {
+
     private String userName;
     private String fullName;
     private String phoneNumber;
     private String email;
     private String cmnd;
     private String roleName;
-
+    
     public UserRequestDto(String userName, String fullName, String phoneNumber, String email, String cmnd, String roleName) {
         this.userName = userName;
         this.fullName = fullName;
@@ -66,4 +67,5 @@ public class UserRequestDto implements Serializable {
     public String getRoleName() {
         return roleName;
     }
+
 }
