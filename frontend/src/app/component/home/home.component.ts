@@ -13,21 +13,29 @@ import { ButtonModule } from 'primeng/button';
   styleUrl: './home.component.css',
 })
 export class HomeComponent {
-  stations: Station[] | undefined;
-
-  selectedStation: Station | undefined;
-  type!: string;
-
-  date1: Date | undefined;
-
-  date2: Date | undefined;
+  stations: any[] = []; // Populate with station data
+  selectedStation: any;
+  selectedDestination: any;
+  tripType: string = 'motchieu'; // Default trip type
+  departureDate!: Date;
+  returnDate!: null;
   loading: boolean = false;
 
-  load() {
-    this.loading = true;
+  constructor() {}
 
+  load() {
+    // Add your search functionality here
+    this.loading = true;
     setTimeout(() => {
       this.loading = false;
-    }, 2000);
+      // Perform search
+    }, 1000);
+  }
+
+  onTripTypeChange() {
+    // If 'motchieu' is selected, disable the return date field
+    if (this.tripType === 'motchieu') {
+      this.returnDate = null;
+    }
   }
 }
