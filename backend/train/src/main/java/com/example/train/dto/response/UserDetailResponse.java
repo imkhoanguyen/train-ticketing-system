@@ -1,6 +1,6 @@
 package com.example.train.dto.response;
 
-import jakarta.persistence.Column;
+// import jakarta.persistence.Column;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
