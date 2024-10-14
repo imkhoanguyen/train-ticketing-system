@@ -1,10 +1,12 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { DropdownModule } from 'primeng/dropdown';
 import { Station } from '../../_models/station.module';
-import { FormsModule } from '@angular/forms';
+import {FormGroup, FormsModule} from '@angular/forms';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { CalendarModule } from 'primeng/calendar';
 import { ButtonModule } from 'primeng/button';
+import {StationService} from "../../_services/station.service";
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -12,30 +14,51 @@ import { ButtonModule } from 'primeng/button';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
-export class HomeComponent {
-  stations: any[] = []; // Populate with station data
+export class HomeComponent implements OnInit{
+  stations: Station[] = [];
   selectedStation: any;
   selectedDestination: any;
-  tripType: string = 'motchieu'; // Default trip type
+  tripType: string = 'motchieu';
   departureDate!: Date;
   returnDate!: null;
   loading: boolean = false;
 
-  constructor() {}
+  stationForm!: FormGroup;
+  constructor(private stationService: StationService,
+              private router: Router
+  ) {}
 
+  ngOnInit(): void {
+    this.loadStations();
+  }
   load() {
-    // Add your search functionality here
     this.loading = true;
     setTimeout(() => {
       this.loading = false;
-      // Perform search
     }, 1000);
+    this.router.navigate(['/booking']);
   }
 
   onTripTypeChange() {
-    // If 'motchieu' is selected, disable the return date field
     if (this.tripType === 'motchieu') {
       this.returnDate = null;
     }
+  }
+  loadStations(){
+    this.stationService.getAllStations().subscribe(
+      (response: any) => {
+        this.stations = response.data;
+      },
+      (error) => {
+        console.log('error load stations', error);
+      }
+    );
+  }
+  search(){
+    this.loading = true;
+    setTimeout(() => {
+      this.loading = false;
+    }, 1000);
+    this.router.navigate(['/train-results']);
   }
 }

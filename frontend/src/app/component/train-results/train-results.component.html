@@ -1,0 +1,84 @@
+<div class="container search-container">
+  <img class="background-img" src="https://storage.googleapis.com/a1aa/image/5Md8ezettmmfRpTWyOjCFPP9sGeefiqEQCHNrMf8Bfzon2hmTA.jpg" alt="">
+  <div class="search-bar">
+   <input placeholder="Peate Trailing Inderty" type="text"/>
+   <button >
+    <i class="fas fa-search">Tìm kiếm
+    </i>
+   </button>
+  </div>
+  <div class="row">
+   <div class="col-12">
+    <h2 class="section-title">
+     Kết quả
+    </h2>
+   </div>
+   <div class="col-md-4 mb-4" (click)="trainDetail()">
+    <div class="card">
+     <img alt="Train on a track with mountains in the background" class="card-img-top" height="200" src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg" width="300"/>
+     <div class="card-body">
+      <h5 class="card-title">
+       SE1
+      </h5>
+      <p class="card-text">
+        Chỗ trống: 103
+
+      </p>
+     </div>
+    </div>
+   </div>
+   <div class="col-md-4 mb-4">
+    <div class="card">
+     <img alt="Train on a track with mountains in the background" class="card-img-top" height="200" src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg" width="300"/>
+     <div class="card-body">
+      <h5 class="card-title">
+       SE2
+      </h5>
+      <p class="card-text">
+        Chỗ trống: 103
+
+      </p>
+     </div>
+    </div>
+   </div>
+   <div class="col-md-4 mb-4">
+    <div class="card">
+     <img alt="Train on a track with mountains in the background" class="card-img-top" height="200" src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg" width="300"/>
+     <div class="card-body">
+      <h5 class="card-title">
+       SE3
+      </h5>
+      <p class="card-text">
+       Chỗ trống: 103
+      </p>
+     </div>
+    </div>
+   </div>
+  </div>
+ </div>
+ <p-dialog
+    header="Chi tiết chuyến đi"
+    [modal]="true"
+    [(visible)]="isVisible"
+    [style]="{ width: '70rem' }"
+    [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
+        <p class="mb-5">
+            Lorem ipsum dolor sit amet...
+        </p>
+        <p class="mb-5">
+            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
+        </p>
+        <p class="mb-5">
+            At vero eos et accusamus et iusto odio dignissimos...
+        </p>
+        <p class="mb-5">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+        </p>
+        <p class="mb-5">
+            "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium...
+        </p>
+        <p>
+            At vero eos et accusamus et iusto odio dignissimos...
+        </p>
+</p-dialog>
+

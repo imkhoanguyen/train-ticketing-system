@@ -1,72 +1,64 @@
-<div class="container text-center mt-4">
-  <div class="row justify-content-center align-items-center mb-3">
-    <div class="col-4 pdropdown">
-
-      <p-dropdown
-        [options]="stations"
-        [(ngModel)]="selectedStation"
-        optionLabel="name"
-        [filter]="true"
-        filterBy="name"
-        [showClear]="true"
-        placeholder="Ga đi"
-        [style]="{ width: '250px' }"
-      ></p-dropdown>
-    </div><br>
-    <div class="col-2 d-flex justify-content-center  exchange-icon">
-      <i class="pi pi-arrow-right-arrow-left"></i>
-    </div>
-    <div class="col-4 pdropdown">
-      <p-dropdown
-        [options]="stations"
-        [(ngModel)]="selectedDestination"
-        optionLabel="name"
-        [filter]="true"
-        filterBy="name"
-        [showClear]="true"
-        placeholder="Ga đến"
-        [style]="{ width: '250px' }"
-      ></p-dropdown>
+<nav class="navbar navbar-expand-lg bg-body-tertiary">
+  <div class="container-fluid">
+    <a class="navbar-brand" href="#">Train</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+      <ul class="navbar-nav me-auto">
+        <li class="nav-item">
+          <a class="nav-link active" aria-current="page" href="#">Trang chủ</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Tìm vé</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Thông tin đặt chỗ</a>
+        </li>
+      </ul>
+      <ul class="navbar-nav ms-auto">
+        <li class="nav-item">
+          <a class="nav-link" href="#">Đăng nhập</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="#">Đăng ký</a>
+        </li>
+      </ul>
     </div>
   </div>
+</nav>
 
-  <div class="row justify-content-center align-items-center mb-3">
-    <div class="radio-group">
-      <input type="radio" id="motchieu" name="tripType" [(ngModel)]="tripType" value="motchieu" (change)="onTripTypeChange()">
-      <label for="motchieu">Một chiều</label>
-      <input type="radio" id="khuhoi" name="tripType" [(ngModel)]="tripType" value="khuhoi" (change)="onTripTypeChange()">
-      <label for="khuhoi">Khứ hồi</label>
+<div class="container-fluid train-bg">
+  <img src="http://res.cloudinary.com/dlhwuvhhp/image/upload/v1728816606/chatapp-images/a8923ee2-43db-4933-ae67-b347b8602e98.webp" alt="Train" class="background-img" />
+  <div class="book-tickets">
+    <div class="row justify-content-center align-items-center mb-3">
+      <div class="col-md-6 pdropdown">
+        <p-dropdown [options]="stations" [(ngModel)]="selectedStation" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Ga đi" [style]="{ width: '100%' }"></p-dropdown>
+      </div>
+      <div class="col-md-6 pdropdown">
+        <p-dropdown [options]="stations" [(ngModel)]="selectedDestination" optionLabel="name" [filter]="true" filterBy="name" [showClear]="true" placeholder="Ga đến" [style]="{ width: '100%' }"></p-dropdown>
+      </div>
+    </div>
+    <div class="row justify-content-center align-items-center mb-3">
+      <div class="radio-group">
+        <input type="radio" id="motchieu" name="tripType" [(ngModel)]="tripType" value="motchieu" (change)="onTripTypeChange()">
+        <label for="motchieu">Một chiều</label>
+        <input type="radio" id="khuhoi" name="tripType" [(ngModel)]="tripType" value="khuhoi" (change)="onTripTypeChange()">
+        <label for="khuhoi">Khứ hồi</label>
+      </div>
+    </div>
+    <div class="row justify-content-center align-items-center mb-3">
+      <div class="col-auto">
+        <label for="departureDate">Ngày đi</label><br />
+        <p-calendar [(ngModel)]="departureDate" [iconDisplay]="'input'" [showIcon]="true" [readonlyInput]="true" inputId="departureDate" />
+      </div>
+      <div class="col-auto">
+        <label for="returnDate">Ngày về</label><br />
+        <p-calendar [(ngModel)]="returnDate" [iconDisplay]="'input'" [showIcon]="true" [readonlyInput]="true" inputId="returnDate" [disabled]="tripType === 'motchieu'" />
+      </div>
+    </div>
+    <div class="row justify-content-center">
+      <button class="btn btn-primary" (click)="search()">Tìm kiếm</button>
     </div>
   </div>
-
-  <div class="row justify-content-center align-items-center mb-3">
-    <div class="col-auto">
-      <label for="departureDate">Ngày đi</label><br />
-      <p-calendar
-        [(ngModel)]="departureDate"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        [readonlyInput]="true"
-        inputId="departureDate"
-      />
-    </div>
-    <div class="col-auto">
-      <label for="returnDate">Ngày về</label><br />
-      <p-calendar
-        [(ngModel)]="returnDate"
-        [iconDisplay]="'input'"
-        [showIcon]="true"
-        [readonlyInput]="true"
-        inputId="returnDate"
-        [disabled]="tripType === 'motchieu'"
-      />
-    </div>
-  </div>
-
-  <p-button
-    label="Search"
-    icon="pi pi-check"
-    [loading]="loading"
-    (onClick)="load()"
-  ></p-button>
 </div>

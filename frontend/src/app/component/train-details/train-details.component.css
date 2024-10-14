@@ -1,0 +1,116 @@
+.info-card {
+  background: white;
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  position: absolute;
+  top: 50px;
+  left: 50px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.info-card img {
+  width: 100%;
+  border-radius: 10px;
+}
+.info-card h5 {
+  margin-top: 10px;
+  font-size: 18px;
+}
+.info-card .stations {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.info-card .stations span {
+  font-size: 14px;
+  color: gray;
+}
+.booking-card {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 10px;
+  padding: 20px;
+  width: 300px;
+  position: absolute;
+  top: 50px;
+  right: 50px;
+  color: white;
+}
+.booking-card h5 {
+  font-size: 18px;
+}
+.booking-card .time-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+}
+.booking-card .time-buttons button {
+  background: orange;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 16px;
+}
+.booking-card .details {
+  margin-top: 20px;
+  font-size: 14px;
+}
+.booking-card .details span {
+  display: block;
+  margin-top: 5px;
+}
+.booking-card .footer-buttons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+.booking-card .footer-buttons button {
+  background: gray;
+  border: none;
+  padding: 10px;
+  border-radius: 5px;
+  color: white;
+  font-size: 14px;
+}
+.seats-card {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  width: 500px;
+  position: absolute;
+  bottom: 50px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+.seats-card h5 {
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+.seats-card .seats {
+  display: flex;
+  justify-content: space-between;
+}
+.seats-card .seats .seat {
+  width: 50px;
+  height: 80px;
+  background: lightgray;
+  border-radius: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: white;
+}
+.seats-card .seats .seat.selected {
+  background: orange;
+}
+.background-img {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  background-size: cover;
+  image-rendering: crisp-edges;
+}
