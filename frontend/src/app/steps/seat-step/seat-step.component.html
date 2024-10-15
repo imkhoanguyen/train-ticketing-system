@@ -1,0 +1,72 @@
+<div class="container">
+  <table class="table table-striped table-hover">
+    <thead>
+      <tr>
+        <th scope="col" class="text-center align-middle">Họ tên</th>
+        <th scope="col" class="text-center align-middle">Thông tin chỗ</th>
+        <th scope="col" class="text-center align-middle">Giá vé</th>
+        <th scope="col" class="text-center align-middle">Giảm đối tượng</th>
+        <th scope="col" class="text-center align-middle">Khuyến mại</th>
+        <th scope="col" class="text-center align-middle">Thành tiền</th>
+        <th scope="col" class="text-center align-middle">Xóa vé</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="text-center align-middle">
+          <div class="mb-3">
+            <div class="input-group">
+              <span class="input-group-text description">Họ và tên</span>
+              <input type="text" class="form-control" id="fullName" aria-label="fullName">
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="input-group">
+              <span class="input-group-text description">Đối tượng</span>
+              <select class="form-select" id="selectTarget" aria-label="select example">
+                <option selected>Chọn đối tượng</option>
+                <option value="1">Người lớn</option>
+                <option value="2">Trẻ em</option>
+                <option value="3">Người cao tuổi</option>
+              </select>
+            </div>
+          </div>
+          <div class="mb-3">
+            <div class="input-group">
+              <span class="input-group-text description">Số giấy tờ</span>
+              <input type="text" class="form-control" id="cmnd" aria-label="cmnd">
+            </div>
+          </div>
+        </td>
+        <td class="text-center align-middle">Ghế 1</td>
+        <td class="text-center align-middle">250.000đ</td>
+        <td class="text-center align-middle">100.000đ</td>
+        <td class="text-center align-middle">0đ</td>
+        <td class="text-center align-middle">150.000đ</td>
+        <td class="text-center align-middle">
+          <button class="btn btn-danger"><i class="bi bi-trash"></i> Xóa vé</button>
+        </td>
+      </tr>
+      <tr>
+
+      <tr>
+        <td class="align-middle">
+          <button class="btn btn-danger"><i class="bi bi-trash"></i> Xóa tất cả các vé</button>
+        </td>
+        <td colspan="3" class="text-center align-middle">
+          <div class="input-group">
+            <input type="text" class="form-control d-inline-block" style="width: auto;" placeholder="Nhập mã giảm giá tại đây">
+            <button class="btn btn-primary">Áp dụng</button>
+          </div>
+        </td>
+        <td></td>
+        <td class="text-center align-middle">300.000đ</td>
+        <td></td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="d-flex justify-content-end">
+    <button (click)="nextPage()" class="btn btn-primary btn-lg">Next <i class="bi bi-arrow-right-circle"></i></button>
+  </div>
+</div>
+
