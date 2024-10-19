@@ -12,7 +12,7 @@ public interface  StationService {
     void deleteStation(int id);
     void restoreStation(int id);
     
-    // List<StationDetailResponse> getAllStation(int pageNumber, int pageSize);
     List<StationDetailResponse> getAllStation();
     StationDetailResponse getStation(int id);
+
 }

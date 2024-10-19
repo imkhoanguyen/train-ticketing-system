@@ -8,6 +8,9 @@ import { SeatStepComponent } from './steps/seat-step/seat-step.component';
 import { PersonalStepComponent } from './steps/personal-step/personal-step.component';
 import { ConfirmationStepComponent } from './steps/confirmation-step/confirmation-step.component';
 import { PaymentStepComponent } from './steps/payment-step/payment-step.component';
+import { RouteComponent } from './component/admin/route/route.component';
+import { SchedulesComponent } from './component/admin/schedules/schedules.component';
+
 export const routes: Routes = [
   { path: '', component: HomeComponent,},
   { path: 'train-results', component: TrainResultsComponent,},
@@ -23,4 +26,6 @@ export const routes: Routes = [
   },
   { path: 'role', component: RoleComponent,},
   { path: 'admin/station', component: StationComponent,},
+  { path: 'admin/route', component: RouteComponent,},
+  { path: 'admin/route/schedule/:id', component: SchedulesComponent,},
 ];
