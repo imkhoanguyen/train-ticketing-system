@@ -1,19 +1,21 @@
 <div class="container">
-    <button pButton 
-      label="Quay lại" 
-      icon="pi pi-arrow-left" 
-      class="p-button-success mb-2" 
-      [routerLink]="['/admin/route']" 
-      routerLinkActive="active">
-    </button>
-    <h2>Lịch trình</h2>
-    <div class="button-container">
-      <button pButton label="Thêm mới" icon="pi pi-plus" class="p-button-success mb-2" (click)="newSchedule()"></button>
+    <div class="header-container">
+        <button pButton 
+          label="Quay lại" 
+          icon="pi pi-arrow-left" 
+          class="p-button-success mb-2 back-button" 
+          [routerLink]="['/admin/route']" 
+          routerLinkActive="active">
+        </button>
+        <h2 class="schedule-title">Lịch trình</h2>
     </div>
   
-    <div class="mb-2 search-container">
-      <i class="pi pi-search search-icon"></i>
-      <input type="text" pInputText [(ngModel)]="searchQuery" placeholder="Tìm kiếm theo tên tàu" />
+    <div class="button-container">
+      <button pButton label="Thêm mới" icon="pi pi-plus" class="p-button-success mb-2" (click)="newSchedule()"></button>
+      <div class="search-container">
+        <i class="pi pi-search search-icon"></i>
+        <input type="text" pInputText [(ngModel)]="searchQuery" placeholder="Tìm kiếm theo tên tàu" />
+      </div>
     </div>
   
     <p-table [value]="filteredSchedules" [paginator]="true" [rows]="5" responsiveLayout="scroll" class="custom-table">
@@ -41,10 +43,8 @@
             <button pButton icon="pi pi-trash" class="p-button-rounded p-button-danger" (click)="confirmDelete(schedule.id)"></button>
           </td>
         </tr>
-        
       </ng-template>
     </p-table>
-
 
     <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true" header="Thông tin chuyến tàu">
       <div class="container">
@@ -56,7 +56,6 @@
         <form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
           <div class="p-field">
             <label for="routeType">Tên chuyến tàu:</label>
-            
             <input id="routeSelect" formControlName="routeSelect" pInputText  placeholder="Nhập tên chuyến tàu" />
           </div>
   
@@ -82,10 +81,10 @@
               [showIcon]="true"
               dateFormat="dd/mm/yy"
               placeholder="Chọn ngày và giờ bắt đầu"
+              [appendTo]="'body'"
             ></p-calendar>
           </div>
         
-          <!-- Chọn ngày kết thúc -->
           <div class="p-field">
             <label for="endDate">Ngày và giờ kết thúc:</label>
             <p-calendar 
@@ -96,6 +95,7 @@
               [showIcon]="true"
               dateFormat="dd/mm/yy"
               placeholder="Chọn ngày và giờ kết thúc"
+              [appendTo]="'body'"
             ></p-calendar>
           </div>
 
@@ -115,5 +115,4 @@
       <button pButton label="Có" (click)="deleteSchedule()" class="p-button-rounded p-button-info mr-2"></button>
       <button pButton label="Không" (click)="hideConfirmDialog()" class="p-button-rounded p-button-danger"></button>
     </p-dialog>
-  </div>
-  
+</div>

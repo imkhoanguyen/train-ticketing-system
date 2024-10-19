@@ -1,0 +1,158 @@
+/* General container styling */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Header and button spacing */
+.header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+}
+
+.schedule-title {
+    flex-grow: 1;
+    text-align: center;
+    margin: 0;
+    color: #333;
+    font-weight: 600;
+}
+
+.back-button {
+    font-size: 0.85rem; /* Adjust button size */
+}
+
+/* Button and search input spacing */
+.button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+}
+
+.search-container {
+    position: relative;
+    margin-left: 16px;
+    width: 300px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #666;
+}
+
+input[pInputText] {
+    padding-left: 36px;
+    width: 100%;
+}
+
+/* PrimeNG table styling */
+.custom-table {
+    border-collapse: collapse;
+    width: 100%;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.even-row {
+    background-color: #f9f9f9;
+}
+
+.odd-row {
+    background-color: #fff;
+}
+
+.custom-table th {
+    background-color: #007bff;
+    color: white;
+    text-align: left;
+    padding: 8px;
+}
+
+.custom-table th p-sortIcon {
+    margin-left: 8px;
+}
+
+.custom-table td {
+    padding: 12px 8px;
+}
+
+.custom-table td button {
+    margin-right: 4px;
+}
+
+/* Dialogs */
+p-dialog .container {
+    padding: 16px;
+}
+
+p-dialog h2 {
+    margin-bottom: 24px;
+}
+
+p-dialog form {
+    width: 300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.p-field {
+    margin-bottom: 16px;
+}
+
+.p-field label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    display: block;
+}
+
+/* Form elements */
+input[pInputText],
+p-dropdown,
+p-calendar {
+    width: 100%;
+}
+
+button[type="submit"] {
+    margin-top: 12px;
+    width: 100%;
+}
+
+/* Confirmation dialog */
+p-dialog[header="Xác nhận"] {
+    text-align: center;
+}
+
+p-dialog[header="Xác nhận"] button {
+    margin: 8px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .search-container {
+        width: 100%;
+    }
+
+    .button-container {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    p-dialog .container {
+        padding: 8px;
+    }
+
+    p-dialog form {
+        align-items: center;
+    }
+
+    button[type="submit"] {
+        width: auto;
+    }
+}
