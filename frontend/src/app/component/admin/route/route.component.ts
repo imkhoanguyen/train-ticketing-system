@@ -11,6 +11,7 @@ import { RouteService } from '../../../_services/route.service';
 import {RouteModule} from '../../../_models/route.module'
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
+import { StationService } from '../../../_services/station.service';
 
 @Component({
   selector: 'app-route',
@@ -33,6 +34,7 @@ import { DropdownModule } from 'primeng/dropdown';
 })
 export class RouteComponent implements OnInit{
   routes: RouteModule[]=[];
+  stations: RouteModule[]=[];
   searchQuery: string = '';
 
   routeForm!: FormGroup;
@@ -45,11 +47,13 @@ export class RouteComponent implements OnInit{
   constructor(
     private formBuilder: FormBuilder,
     private routeservice:RouteService,
+    private stationService:StationService
   ){
     
   }
   ngOnInit(): void {
     this.loadRoutes();
+    this.loadStations();
     this.routeForm = this.formBuilder.group({
       name: ['', Validators.required],
       stationStart: [null, Validators.required],
@@ -57,34 +61,45 @@ export class RouteComponent implements OnInit{
       is_active: [false]
     });
   }
-
-  loadRoutes() {
-    this.routeservice.getAllRoutes().subscribe(
+  loadStations(){
+    this.stationService.getAllStations().subscribe(
       (response: any) => {
-        this.routes = response.data; 
-        // console.log(this.routes)
+        this.stations = response.data; 
+        console.log(this.stations)
         const uniqueStartStations = new Map<number, string>();
         const uniqueEndStations = new Map<number, string>();
 
-        this.routes.forEach((route: any) => {
-          if (!uniqueStartStations.has(route.startStationId)|| !uniqueEndStations.has(route.endStationId)) {
-            uniqueStartStations.set(route.startStationId, route.startStationName);
-            uniqueEndStations.set(route.endStationId, route.endStationName);
+        this.stations.forEach((station: any) => {
+          if (!uniqueStartStations.has(station.id)|| !uniqueEndStations.has(station.id)) {
+            uniqueStartStations.set(station.id, station.name);
+            uniqueEndStations.set(station.id, station.name);
           }
         });
 
-        // Chuyển Map thành mảng đối tượng
         this.stationStartOptions = Array.from(uniqueStartStations.entries()).map(([id, name]) => ({
           startStationId: id,
           startStationName: name,
         }));
-
+        console.log(this.stationStartOptions)
         this.stationEndOptions = Array.from(uniqueEndStations.entries()).map(([id, name]) => ({
           endStationId: id,
           endStationName: name,
         }));
+      },
+      (error) => {
+        console.log('error load routes', error);
+      }
+    );
+  }
+  loadRoutes() {
+    
+    this.routeservice.getAllRoutes().subscribe(
+      (response: any) => {
+        this.routes = response.data; 
+        // console.log(this.routes)
+       
 
-        this.checkVoucherValidity()
+        this.checkDeleteValidity()
       },
       (error) => {
         console.log('error load routes', error);
@@ -93,7 +108,7 @@ export class RouteComponent implements OnInit{
   }
 
   
-  checkVoucherValidity() {
+  checkDeleteValidity() {
     this.routes.forEach((route) => {
       route.is_delete=!route.is_delete
     });
