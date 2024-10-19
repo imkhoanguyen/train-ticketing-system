@@ -13,7 +13,7 @@ import { TooltipModule } from 'primeng/tooltip';
   styleUrl: './train-results.component.css'
 })
 export class TrainResultsComponent implements OnInit {
-  isVisible = true;
+  isVisible = false;
   seats = [
     { isAvailable: true, isSelected: false },  // Ghế 0
     { isAvailable: false, isSelected: false }, // Ghế 1
@@ -76,7 +76,7 @@ export class TrainResultsComponent implements OnInit {
       const seatData = localStorage.getItem('seat' + index);
       if (seatData) {
         const parsedData = JSON.parse(seatData);
-        if (dateNow - parsedData.time > 60000) { 
+        if (dateNow - parsedData.time > 60000) {
           localStorage.removeItem('seat' + index);
           this.seats[index].isSelected = false;
           this.selectedSeats = this.selectedSeats.filter((seatIndex) => seatIndex !== index);
@@ -115,7 +115,7 @@ export class TrainResultsComponent implements OnInit {
   }
 
   onSubmit(): void {
-    this.router.navigate(['/train-cart']);
+    this.router.navigate(['/booking/seat']);
   }
 }
 

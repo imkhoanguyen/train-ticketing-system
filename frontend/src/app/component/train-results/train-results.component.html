@@ -1,45 +1,66 @@
-<div class="container result-container">
+<div class="container ">
   <img class="background-img"
     src="https://storage.googleapis.com/a1aa/image/5Md8ezettmmfRpTWyOjCFPP9sGeefiqEQCHNrMf8Bfzon2hmTA.jpg" alt="" />
-
   <div class="row">
-    <div class="col-12">
-      <h2 class="section-title">Kết quả</h2>
-    </div>
-    <div class="col-md-4 mb-4" (click)="trainDetail()">
-      <div class="card">
-        <img alt="Train on a track with mountains in the background" class="card-img-top" height="200"
-          src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg"
-          width="300" />
-        <div class="card-body">
-          <h5 class="card-title">SE1</h5>
-          <p class="card-text">Chỗ trống: 103</p>
+    <div class="col-8 result-container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="section-title">Kết quả</h2>
+        </div>
+        <div class="col-md-4 mb-4" (click)="trainDetail()">
+          <div class="card">
+            <img alt="Train on a track with mountains in the background" class="card-img-top" height="200"
+              src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg"
+              width="300" />
+            <div class="card-body">
+              <h5 class="card-title">SE1</h5>
+              <p class="card-text">Chỗ trống: 103</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4" (click)="trainDetail()">
+          <div class="card">
+            <img alt="Train on a track with mountains in the background" class="card-img-top" height="200"
+              src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg"
+              width="300" />
+            <div class="card-body">
+              <h5 class="card-title">SE2</h5>
+              <p class="card-text">Chỗ trống: 103</p>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4 mb-4" (click)="trainDetail()">
+          <div class="card">
+            <img alt="Train on a track with mountains in the background" class="card-img-top" height="200"
+              src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg"
+              width="300" />
+            <div class="card-body">
+              <h5 class="card-title">SE3</h5>
+              <p class="card-text">Chỗ trống: 103</p>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-    <div class="col-md-4 mb-4" (click)="trainDetail()">
-      <div class="card">
-        <img alt="Train on a track with mountains in the background" class="card-img-top" height="200"
-          src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg"
-          width="300" />
-        <div class="card-body">
-          <h5 class="card-title">SE2</h5>
-          <p class="card-text">Chỗ trống: 103</p>
+    <div class="col-4 result-container">
+      <div class="row">
+        <div class="col-12">
+          <h2 class="section-title">Giỏ vé</h2>
+        </div>
+      <div class="ticket">
+
+        <li *ngFor="let seatIndex of selectedSeats">
+          Ghế:  {{seatIndex +1}} {{ countdownTimes[seatIndex] }}
+          <i class="pi pi-trash" (click)="removeSeat(seatIndex)"></i>
+        </li>
+        <div class="action-buttons mt-3 d-flex justify-conter-center ">
+          <button class="submit-btn" (click)="onSubmit()">Mua vé</button>
         </div>
       </div>
     </div>
-    <div class="col-md-4 mb-4" (click)="trainDetail()">
-      <div class="card">
-        <img alt="Train on a track with mountains in the background" class="card-img-top" height="200"
-          src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg"
-          width="300" />
-        <div class="card-body">
-          <h5 class="card-title">SE3</h5>
-          <p class="card-text">Chỗ trống: 103</p>
-        </div>
-      </div>
-    </div>
+
   </div>
+
 </div>
 
 <p-dialog header="Chi tiết tàu" [modal]="true" [(visible)]="isVisible" [style]="{ width: '70rem' }"
@@ -75,13 +96,7 @@
                 <i class="pi pi-ticket"></i><strong>Số lượng chỗ trống:</strong> 103
               </p>
             </div>
-            <div class="col-6 ticket">
-              <h4>Giỏ vé</h4>
-              <li *ngFor="let seatIndex of selectedSeats">
-                Ghế:  {{seatIndex +1}} {{ countdownTimes[seatIndex] }}
-                <i class="pi pi-trash" (click)="removeSeat(seatIndex)"></i>
-              </li>
-            </div>
+
           </div>
         </div>
       </div>
@@ -121,7 +136,7 @@
     </div>
     <div class="action-buttons mt-3">
       <button class="cancel-btn" (click)="removeSeatAll()">Hủy chọn</button>
-      <button class="submit-btn" (click)="onSubmit()">Mua vé</button>
+      <button class="btn btn-danger" >Đóng </button>
     </div>
   </div>
 </p-dialog>
