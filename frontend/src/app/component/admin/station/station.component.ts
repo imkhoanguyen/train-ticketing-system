@@ -142,14 +142,14 @@ export class StationComponent implements OnInit{
     if (this.stationForm.valid) {
       const stationData = {
         name: this.stationForm.get('name')?.value,
-        isDelete: this.stationForm.get('is_active')?.value ? 'true' : 'false'
+        isDelete: !this.stationForm.get('is_active')?.value ? 'true' : 'false'
       };
       
       if (!this.currentState) {
         this.stationService.AddStation(stationData).subscribe({
           next: (response) => {
             console.log('Station added successfully', response);
-            this.displayDialog = false; // Đóng dialog
+            this.loadStations()
           },
           error: (err) => {
             console.log('Failed to add station', err);
@@ -159,13 +159,14 @@ export class StationComponent implements OnInit{
         this.stationService.UpdateStation(this.id,stationData).subscribe({
           next: (response) => {
             console.log('Station updated successfully', response);
-            this.displayDialog = false; // Đóng dialog
+            this.loadStations()
           },
           error: (err) => {
             console.log('Failed to update station', err);
           }
         });
       }
+      this.displayDialog = false; // Đóng dialog
     }
   }
 

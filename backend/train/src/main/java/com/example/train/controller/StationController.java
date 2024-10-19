@@ -36,18 +36,13 @@ public class StationController {
     private final StationService stationService;
 
     @Operation(summary = "Get list of stations per pageNo", description = "Send a request via this API to get station list by pageNo and pageSize")
-    // @GetMapping("/list")
-    // public ResponseData<?> getAllStations(@RequestParam(defaultValue = "0", required = false) int pageNumber,
-    //                                       @Min(10) @RequestParam(defaultValue = "20", required = false) int pageSize,
-    //                                       @RequestParam(required = false) String sortBy) {
-    //     log.info("Request get all stations");
-    //     return new ResponseData<>(HttpStatus.OK.value(), "stations", stationService.getAllStation(pageNumber, pageSize));
-    // }
     @GetMapping("/list")
     public ResponseData<?> getAllStations() {
         log.info("Request get all stations");
         return new ResponseData<>(HttpStatus.OK.value(), "stations", stationService.getAllStation());
+        
     }
+
 
     @Operation(summary = "Get station by ID", description = "Send a request to retrieve a station by its ID")
     @GetMapping("/{id}")
