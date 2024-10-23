@@ -52,21 +52,6 @@ public class StationServicesImpl implements StationService {
     }
 
     @Override
-    // public List<StationDetailResponse> getAllStation(int pageNumber, int pageSize) {
-    //     PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
-
-    //     Page<Station> stationPage = stationRepository.findAll(pageRequest);
-
-    //     List<StationDetailResponse> stationResponses = stationPage.getContent().stream()
-    //             .map(station -> StationDetailResponse.builder()
-    //                     .id(station.getId())
-    //                     .name(station.getName())
-    //                     .isDelete(station.is_delete())
-    //                     .build())
-    //             .toList();
-
-    //     return stationResponses;
-    // }
     public List<StationDetailResponse> getAllStation() {
         List<Station> stations = stationRepository.findAll();
 

@@ -1,5 +1,7 @@
 package com.example.train.entity;
 
+import java.math.BigDecimal;
+
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -17,18 +19,21 @@ import lombok.Setter;
 // tạo ra constructor với tất cả tham số
 @AllArgsConstructor
 @Entity
-@Table(name = "carriage")
+@Table(name = "seat")
 @Data
-public class Carriage {
+public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "carriage_id", nullable = false)
+    private int carriageId;
+
     @Column(name = "name")
     private String name;
 
-    @Column(name = "train_id", nullable = false)
-    private int trainId;
+    @Column(name = "price")
+    private BigDecimal price;
 
     @Column(name = "description")  
     private String  description;
@@ -37,5 +42,5 @@ public class Carriage {
     private boolean isDelete;
 
     @Transient
-    private String nameTrain;
+    private String nameCarriage;
 }
