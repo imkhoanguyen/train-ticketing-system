@@ -13,6 +13,8 @@ import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { TrainService } from '../../../_services/train.service'
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { RouteService } from '../../../_services/route.service';
+
 
 @Component({
   selector: 'app-schedules',
@@ -37,6 +39,7 @@ export class SchedulesComponent implements OnInit {
   routeId!: number;
   schedules: schedule[]=[];
   trains: Train[]=[];
+  selectedRoute: any;
   id!:number;
   searchQuery: string = '';
 
@@ -51,22 +54,22 @@ export class SchedulesComponent implements OnInit {
 
   confirmDialogVisible: boolean = false;
   scheduleToDelete!: number;
-
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
     private scheduleService:ScheduleService,
-    private trainService:TrainService
+    private trainService:TrainService,
+    private routeService:RouteService
   ) {}
 
   ngOnInit(): void {
-    // Lấy id từ URL
     this.route.paramMap.subscribe(params => {
       const id = params.get('id');
       if (id) {
         this.routeId = +id; 
       }
     });
+    this.loadRouteName();
     this.loadSchedules();
     this.scheduleForm = this.formBuilder.group({
       routeSelect: [{ value: null, disabled: true }, Validators.required],
@@ -88,20 +91,7 @@ export class SchedulesComponent implements OnInit {
           endDate: new Date(new Date(schedule.endDate).getTime() + 7 * 60 * 60 * 1000)
         }));
         console.log(this.existingSchedules)
-        const uniqueRoutes = new Map<number, string>();
-
-
-        this.schedules.forEach((schedule: any) => {
-          // if (!uniqueRoutes.has(schedule.routeId)|| !uniqueTrains.has(schedule.trainId)) {
-          if ( !uniqueRoutes.has(schedule.trainId)) {
-            uniqueRoutes.set(schedule.routeId, schedule.routeName);
-          }
-        });
-
-        this.routesOptions = Array.from(uniqueRoutes.entries()).map(([id, name]) => ({
-          routeId: id,
-          routeName: name,
-        }));
+        
 
       },
       (error) => {
@@ -129,6 +119,14 @@ export class SchedulesComponent implements OnInit {
     );
   }
 
+  loadRouteName(){
+    this.routeService.getRouteById(this.routeId).subscribe(
+      (response: any)=>{
+        this.selectedRoute=response.data;
+        // console.log(this.selectedRoute)            
+      }
+    )
+  }
   get filteredSchedules() {
     if (!this.searchQuery) {
       return this.schedules; 
@@ -149,10 +147,8 @@ export class SchedulesComponent implements OnInit {
   newSchedule(){
     this.currentState=false;
     this.showDialog()
-    this.routesOptions.forEach(route => {
-        console.log(route.routeName); 
-        this.scheduleForm.get('routeSelect')?.setValue(route.routeName); 
-    });
+    // console.log(this.selectedRoute.name)
+    this.scheduleForm.get('routeSelect')?.setValue(this.selectedRoute.name); 
   }
 
   editSchedule(id: number) {
@@ -190,6 +186,11 @@ export class SchedulesComponent implements OnInit {
         endDate:new Date(this.scheduleForm.get('endDate')?.value).toISOString()
       };
 
+      if (scheduleData.startDate > scheduleData.endDate) {
+        alert('Ngày bắt đầu không được lớn hơn ngày kết thúc.');
+        return;
+      }
+
       const newStartDate = new Date(scheduleData.startDate);
       const newEndDate = new Date(scheduleData.endDate);
 
@@ -200,7 +201,7 @@ export class SchedulesComponent implements OnInit {
 
       if (!this.currentState) {
         
-        // console.log(scheduleData)
+        
         this.scheduleService.AddSchedule(scheduleData).subscribe({
           next: (response) => {
             console.log('Schedule added successfully', response);

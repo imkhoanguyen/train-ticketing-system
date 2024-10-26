@@ -1,0 +1,125 @@
+/* General container styling */
+.container {
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+/* Centered header */
+.text-center {
+    text-align: center;
+}
+
+/* Button container adjustments */
+.button-container {
+    display: flex;
+    align-items: center; /* Align items vertically center */
+    justify-content: space-between; /* Space between the button and the search */
+    margin-bottom: 16px;
+}
+
+/* Search input and icon */
+.search-container {
+    position: relative;
+    margin-left: 16px; /* Space between button and search */
+    width: 300px; /* Adjust width as necessary */
+}
+
+/* Search input styling */
+.search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: #666;
+}
+
+input[pInputText] {
+    padding-left: 36px;
+    width: 100%;
+}
+
+/* Make "Quay lại" button smaller */
+.p-button-success {
+    font-size: 0.9em; /* Reduce button size */
+    padding: 0.4em 0.8em; /* Adjust padding */
+}
+
+/* Table styling */
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.custom-table th {
+    background-color: #4CAF50; /* Header background color */
+    color: white; /* Header text color */
+    padding: 10px;
+    text-align: left;
+}
+
+.custom-table td {
+    padding: 10px;
+    border: 1px solid #ddd; /* Border for table cells */
+}
+
+/* Row hover effect */
+.custom-table tr:hover {
+    background-color: #f1f1f1; /* Light grey background on hover */
+}
+
+/* Styles for even and odd rows */
+.even-row {
+    background-color: #f9f9f9; /* Light background for even rows */
+}
+
+.odd-row {
+    background-color: #ffffff; /* White background for odd rows */
+}
+
+.eye-button {
+    margin-left: 5px;
+    background-color: #007bff; /* Change to desired color */
+    color: white; /* Text color */
+    border: none; /* Remove border */
+}
+
+.eye-button:hover {
+    background-color: #0056b3; /* Darker shade on hover */
+}
+
+/* Center the dialog title */
+.p-dialog-header {
+    text-align: center; /* Center the title text */
+}
+
+/* Style the form within the dialog */
+.dialog-form {
+    display: flex; /* Use flexbox for layout */
+    flex-direction: column; /* Stack children vertically */
+    align-items: stretch; /* Stretch to fill the container */
+    gap: 1em; /* Space between form fields */
+}
+
+/* Style for the label and input field */
+.dialog-form label {
+    margin-bottom: 0.5em; /* Space between label and input */
+}
+
+/* Make all inputs and dropdowns the same width */
+.dialog-form input[pInputText],
+.dialog-form p-dropdown {
+    width: 100%; /* Set width to 100% for consistency */
+}
+
+/* Align the checkbox to the left */
+.p-field-checkbox {
+    display: flex; /* Use flexbox for checkbox alignment */
+    align-items: center; /* Center checkbox vertically */
+}
+
+/* Center the submit button */
+.dialog-form .submit-button {
+    align-self: center; /* Center the button horizontally */
+}

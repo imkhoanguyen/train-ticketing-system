@@ -1,0 +1,143 @@
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f7f9fc;
+    border-radius: 10px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+.header-container {
+    display: flex;
+    justify-content: space-between; /* Căn giữa giữa nút và tiêu đề */
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.seat-title {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+    flex-grow: 1; /* Để tiêu đề chiếm không gian còn lại */
+    text-align: center; /* Căn giữa tiêu đề */
+}
+
+.button-search-container {
+    display: flex;
+    justify-content: space-between; /* Căn giữa giữa nút và thanh tìm kiếm */
+    align-items: center; /* Căn giữa theo chiều dọc */
+    margin-bottom: 20px; /* Khoảng cách dưới */
+}
+
+.search-container {
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    margin-right: 5px;
+    font-size: 1.5rem;
+    color: #4CAF50;
+}
+
+.custom-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+p-table {
+    font-family: 'Arial', sans-serif;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+p-table th {
+    background-color: #4CAF50;
+    color: white;
+    padding: 12px 15px;
+    text-align: left;
+    font-weight: bold;
+}
+
+p-table td {
+    padding: 10px 15px;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s;
+}
+
+p-table tr:hover td {
+    background-color: #f1f1f1;
+}
+
+p-inputSwitch {
+    width: 50px;
+}
+
+.even-row {
+    background-color: #f9f9f9;
+}
+
+.odd-row {
+    background-color: #ffffff;
+}
+
+.p-button {
+    transition: background-color 0.3s, color 0.3s;
+    margin-left: 5px;
+}
+
+.p-button-success-1 {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
+    margin-top: 10px;
+}
+
+.p-dialog {
+    max-width: 600px;
+    width: 90%;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+}
+
+.p-dialog-header {
+    background-color: #4CAF50;
+    color: white;
+    font-size: 1.5rem;
+    padding: 15px;
+}
+
+.p-dialog-content {
+    padding: 20px;
+}
+
+.p-field {
+    margin-bottom: 20px;
+}
+
+.p-field label {
+    font-weight: bold;
+    display: block;
+}
+
+.p-dialog-footer {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px;
+}
+
+.p-dialog-footer .p-button {
+    margin-left: 10px;
+}
+
+.p-dialog-header .p-dialog-header-close {
+    color: white;
+}
+
+@media (max-width: 768px) {
+    .p-dialog {
+        width: 95%;
+    }
+}

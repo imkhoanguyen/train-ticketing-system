@@ -10,6 +10,9 @@ import { ConfirmationStepComponent } from './steps/confirmation-step/confirmatio
 import { PaymentStepComponent } from './steps/payment-step/payment-step.component';
 import { RouteComponent } from './component/admin/route/route.component';
 import { SchedulesComponent } from './component/admin/schedules/schedules.component';
+import { TrainComponent } from './component/admin/train/train.component';
+import { CarriageComponent } from './component/admin/carriage/carriage.component';
+import { SeatComponent } from './component/admin/seat/seat.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent,},
@@ -28,4 +31,7 @@ export const routes: Routes = [
   { path: 'admin/station', component: StationComponent,},
   { path: 'admin/route', component: RouteComponent,},
   { path: 'admin/route/schedule/:id', component: SchedulesComponent,},
+  { path: 'admin/train', component: TrainComponent,},
+  { path: 'admin/train/carriage/:trainid', component:CarriageComponent ,},
+  { path: 'admin/train/carriage/:trainid/seat/:id', component:SeatComponent ,},
 ];

@@ -12,6 +12,7 @@ import {RouteModule} from '../../../_models/route.module'
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { StationService } from '../../../_services/station.service';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-route',
@@ -44,6 +45,9 @@ export class RouteComponent implements OnInit{
   stationStartOptions: any[] = [];
   stationEndOptions: any[] = [];
 
+  uploadDialog: boolean = false;
+  fileData: any[] = [];
+
   constructor(
     private formBuilder: FormBuilder,
     private routeservice:RouteService,
@@ -65,7 +69,7 @@ export class RouteComponent implements OnInit{
     this.stationService.getAllStations().subscribe(
       (response: any) => {
         this.stations = response.data; 
-        console.log(this.stations)
+        // console.log(this.stations)
         const uniqueStartStations = new Map<number, string>();
         const uniqueEndStations = new Map<number, string>();
 
@@ -143,7 +147,7 @@ export class RouteComponent implements OnInit{
       return this.routes; // If no search query, return all stations
     }
     return this.routes.filter(route =>
-      // route.name.toLowerCase().includes(this.searchQuery.toLowerCase()) 
+      route.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       route.startStationName?.toLowerCase().includes(this.searchQuery.toLowerCase()) 
       || route.endStationName?.toLowerCase().includes(this.searchQuery.toLowerCase()) 
     );
@@ -185,7 +189,12 @@ export class RouteComponent implements OnInit{
         endStationId: this.routeForm.get('stationEnd')?.value,
         isDelete: !this.routeForm.get('is_active')?.value ? 'true' : 'false'
       };
-      
+      if (routeData.startStationId == routeData.endStationId){
+        alert('Ga khởi hành và kết thúc không được giống nhau');
+        return;
+      }
+      // console.log(routeData.startStationId)
+      // console.log(routeData.endStationId)
       if (!this.currentState) {
         // console.log(routeData)
         this.routeservice.AddRoute(routeData).subscribe({
@@ -214,4 +223,48 @@ export class RouteComponent implements OnInit{
     }
   }
 
+  showUploadDialog() {
+    this.uploadDialog = true; // Open the upload dialog
+  }
+
+  onFileChange(event: any): void {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onload = (e: any) => {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: 'binary' });
+        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
+        this.fileData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
+
+        console.log('Raw data from Excel:', this.fileData);
+        // You may want to map the data into the required format
+        this.fileData = this.fileData.map(row => ({
+          name: row[0],
+          startStationId: row[1],
+          endStationId: row[2],
+          isDelete: row[3] 
+          
+        }));
+        console.log('Parsed file data:', this.fileData);
+      };
+      // reader.readAsBinaryString(file);
+    }
+  }
+
+  uploadStations(): void {
+    if (this.fileData.length > 0) {
+      this.stationService.AddMultipleStations(this.fileData).subscribe({
+        next: (response) => {
+          console.log('Stations added successfully', response);
+          this.loadStations(); // Reload the stations list
+        },
+        error: (err) => {
+          console.log('Failed to add stations', err);
+        }
+      });
+    } else {
+      console.log('No data to upload');
+    }
+  }
 }
