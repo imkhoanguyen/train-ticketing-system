@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.train.dto.request.CarriageRequestDto;
+
 import com.example.train.dto.request.SeatRequestDto;
-import com.example.train.dto.response.CarriageDetailResponse;
+
 import com.example.train.dto.response.ResponseData;
 import com.example.train.dto.response.SeatDetailResponse;
 import com.example.train.services.SeatService;

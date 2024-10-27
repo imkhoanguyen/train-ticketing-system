@@ -5,7 +5,7 @@ export interface schedule {
     startDate:Date;
     endDate: Date;
 
-    routeName?: string; // Nếu cần thiết
+    routeName?: string; 
     trainName?: string; 
   }
   

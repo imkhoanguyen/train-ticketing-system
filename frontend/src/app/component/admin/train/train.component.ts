@@ -245,7 +245,7 @@ export class TrainComponent implements OnInit{
       reader.onload = (e: any) => {
         console.log(e.target.result)
         this.imagePreviewUrl = e.target.result; // Display preview
-        const pictureUrl = `assets/${this.imageName}`; // Set pictureUrl path
+        const pictureUrl = `${this.imageName}`; // Set pictureUrl path
         
         this.trainForm.patchValue({ pictureUrl }); // Set pictureUrl to the form
         console.log('Image preview URL:', this.imagePreviewUrl);

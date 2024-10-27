@@ -90,24 +90,6 @@ export class CarriageComponent implements OnInit {
     );
   }
 
-  // loadTrains() {
-  //   this.trainService.getAllTrains().subscribe(
-  //     (response: any) => {
-  //       this.trains = response.data; 
-
-  //       this.trainsOptions = this.trains.map(train => ({
-  //         trainId: train.id,
-  //         trainName: train.name
-  //       }));
-        
-        
-  //     },
-  //     (error) => {
-  //       console.log('error load routes', error);
-  //     }
-  //   );
-  // }
-
   loadTrainName(){
     this.trainService.getTrainById(this.trainId).subscribe(
       (response: any)=>{

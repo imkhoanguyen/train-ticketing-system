@@ -13,6 +13,8 @@ import { SchedulesComponent } from './component/admin/schedules/schedules.compon
 import { TrainComponent } from './component/admin/train/train.component';
 import { CarriageComponent } from './component/admin/carriage/carriage.component';
 import { SeatComponent } from './component/admin/seat/seat.component';
+import { OrderComponent } from './component/admin/order/order.component';
+import { TicketComponent } from './component/admin/ticket/ticket.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent,},
@@ -34,4 +36,6 @@ export const routes: Routes = [
   { path: 'admin/train', component: TrainComponent,},
   { path: 'admin/train/carriage/:trainid', component:CarriageComponent ,},
   { path: 'admin/train/carriage/:trainid/seat/:id', component:SeatComponent ,},
+  { path: 'admin/order', component:OrderComponent ,},
+  { path: 'admin/order/ticket/:id', component: TicketComponent,},
 ];

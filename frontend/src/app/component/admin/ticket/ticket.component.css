@@ -1,0 +1,50 @@
+.container {
+    padding: 20px;
+  }
+  
+  .header-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .ticket-title {
+    margin: 0 auto; /* Center the title horizontally */
+    text-align: center;
+  }
+  
+  .button-search-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  .search-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    width: 50%; /* Adjust width as needed */
+  }
+  
+  .search-icon {
+    margin-right: 8px;
+  }
+  
+  .export-button {
+    margin-left: auto; /* Push the button to the far right */
+  }
+  
+  .custom-table {
+    width: 100%;
+  }
+  
+  .even-row {
+    background-color: #f9f9f9;
+  }
+  
+  .odd-row {
+    background-color: #fff;
+  }
+  
