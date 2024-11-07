@@ -12,18 +12,21 @@ export class PromotionService {
   getPromotionWithLimit(
     page: number = 1,
     size: number = 10,
-    search: string | null,
+    search: string = '',
     sortBy: string = 'id,desc'
   ) {
     let params = new HttpParams();
-    params.set('pageNumber', page);
-    params.set('pageSize', size);
-    params.set('sortBy', sortBy);
+    params = params.set('pageNumber', page.toString());
+    params = params.set('pageSize', size.toString());
+    params = params.set('sortBy', sortBy);
 
     if (search) {
-      params.set('search', search);
+      params = params.set('search', search);
     }
 
-    return this.http.get<any>(this.baseUrl + "/promotion/list", {observe: 'response', params});
+    return this.http.get<any>(this.baseUrl + '/promotion/list', {
+      observe: 'response',
+      params,
+    });
   }
 }
