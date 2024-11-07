@@ -28,8 +28,8 @@ public class OrderItemServiceImpl implements OrderItemService{
                 .map(orderItem -> {
                     return OrderItemDetailResponse.builder()
                             .id(orderItem.getId())
-                            .ticket_id(orderItem.getTicket_id())
-                            .order_id(orderItem.getOrderId())
+//                            .ticket_id(orderItem.getTicket_id())
+//                            .order_id(orderItem.getOrderId())
                             .build();
                 })
                 .toList();

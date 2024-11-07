@@ -36,16 +36,16 @@ public class SeatServiceImpl implements SeatService{
 
         List<SeatDetailResponse> seatDetailResponses = seats.stream()
                 .map(seat -> {
-                    String carriageName = carriageMap.get(seat.getCarriageId());
+//                    String carriageName = carriageMap.get(seat.getCarriageId());
 
                     return SeatDetailResponse.builder()
                             .id(seat.getId())
-                            .carriageId(seat.getCarriageId())
-                            .name(seat.getName())
-                            .price(seat.getPrice()) 
-                            .description(seat.getDescription())
-                            .is_delete(seat.isDelete())
-                            .carriageName(carriageName) 
+//                            .carriageId(seat.getCarriageId())
+//                            .name(seat.getName())
+//                            .price(seat.getPrice())
+//                            .description(seat.getDescription())
+//                            .is_delete(seat.isDelete())
+//                            .carriageName(carriageName)
                             .build();
                 })
                 .toList();
@@ -64,23 +64,23 @@ public class SeatServiceImpl implements SeatService{
         Map<Integer, String> carriageMap = carriages.stream()
                 .collect(Collectors.toMap(Carriage::getId, Carriage::getName));
         
-        String carriageName = carriageMap.get(seat.getCarriageId());
+//        String carriageName = carriageMap.get(seat.getCarriageId());
         
         return SeatDetailResponse.builder()
                 .id(seat.getId())
-                .carriageId(seat.getCarriageId())
+//                .carriageId(seat.getCarriageId())
                 .name(seat.getName())
                 .price(seat.getPrice())
                 .description(seat.getDescription())
                 .is_delete(seat.isDelete())
-                .carriageName(carriageName) 
+//                .carriageName(carriageName)
                 .build();
     }
 
     @Override
     public void addSeat(SeatRequestDto seatRequestDto) {
         Seat seat = Seat.builder()
-            .carriageId(seatRequestDto.getCarriageId())
+//            .carriageId(seatRequestDto.getCarriageId())
             .name(seatRequestDto.getName()) 
             .price(seatRequestDto.getPrice())
             .description(seatRequestDto.getDescription())     
@@ -94,7 +94,7 @@ public class SeatServiceImpl implements SeatService{
     public void updateSeat(int id, SeatRequestDto seatRequestDto) {
         Seat seat = seatRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Seat not found"));
-        seat.setCarriageId(seatRequestDto.getCarriageId());
+//        seat.setCarriageId(seatRequestDto.getCarriageId());
         seat.setName(seatRequestDto.getName());
         seat.setPrice(seatRequestDto.getPrice());
         seat.setDescription(seatRequestDto.getDescription()); 

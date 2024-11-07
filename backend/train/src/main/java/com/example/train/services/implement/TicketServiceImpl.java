@@ -86,54 +86,54 @@ public class TicketServiceImpl implements TicketService {
                         Schedule::getId,
                         schedule -> new SimpleEntry<>(schedule.getStartDate(), schedule.getEndDate())
                 ));
-        Map<Integer, Integer> scheduleMapgetRoute = schedules.stream()
-                .collect(Collectors.toMap(Schedule::getId, Schedule::getRouteId));
+//        Map<Integer, Integer> scheduleMapgetRoute = schedules.stream()
+//                .collect(Collectors.toMap(Schedule::getId, Schedule::getRouteId));
 
         Map<Integer, String> promotionMap = promotions.stream()
                 .collect(Collectors.toMap(Promotion::getId, Promotion::getName));
 
-        Map<Integer, Entry<Integer , Integer>> routeMap = routes.stream()
-                .collect(Collectors.toMap(
-                        Route::getId,
-                        route -> new SimpleEntry<>(route.getStartStationId(), route.getEndStationId())
-                ));
+//        Map<Integer, Entry<Integer , Integer>> routeMap = routes.stream()
+//                .collect(Collectors.toMap(
+//                        Route::getId,
+//                        route -> new SimpleEntry<>(route.getStartStationId(), route.getEndStationId())
+//                ));
         // Lấy tên ghế và thông tin lịch trình cho ticket này
-        String seatName = seatMap.get(ticket.getSeat_id());
+//        String seatName = seatMap.get(ticket.getSeat_id());
 
-        String promotionName=promotionMap.get(ticket.getPromotion_id());
+//        String promotionName=promotionMap.get(ticket.getPromotion_id());
 
-        Entry<LocalDateTime, LocalDateTime> scheduleInfo = scheduleMap.get(ticket.getSchedules_id());
-        LocalDateTime startDate = scheduleInfo.getKey();
-        LocalDateTime endDate = scheduleInfo.getValue();
+//        Entry<LocalDateTime, LocalDateTime> scheduleInfo = scheduleMap.get(ticket.getSchedules_id());
+//        LocalDateTime startDate = scheduleInfo.getKey();
+//        LocalDateTime endDate = scheduleInfo.getValue();
 
-        Entry<Integer, Integer> routeInfo = routeMap.get(scheduleMapgetRoute.get(ticket.getSchedules_id()));
-        Integer startStationID = routeInfo.getKey();
-        Integer endStationID = routeInfo.getValue();
+//        Entry<Integer, Integer> routeInfo = routeMap.get(scheduleMapgetRoute.get(ticket.getSchedules_id()));
+//        Integer startStationID = routeInfo.getKey();
+//        Integer endStationID = routeInfo.getValue();
         
-        Station startStation = stationRepository.findById(startStationID)
-            .orElseThrow(() -> new RuntimeException("Start station not found with id: " + startStationID));
-
-        Station endStation = stationRepository.findById(endStationID)
-            .orElseThrow(() -> new RuntimeException("End station not found with id: " + endStationID));
+//        Station startStation = stationRepository.findById(startStationID)
+//            .orElseThrow(() -> new RuntimeException("Start station not found with id: " + startStationID));
+//
+//        Station endStation = stationRepository.findById(endStationID)
+//            .orElseThrow(() -> new RuntimeException("End station not found with id: " + endStationID));
 
         return TicketDetailResponse.builder()
                 .id(ticket.getId())
-                .schedules_id(ticket.getSchedules_id())
-                .seat_id(ticket.getSeat_id())
-                .dateBuy(ticket.getDateBuy())
-                .status(ticket.getStatus())
-                .object(ticket.getObject())
-                .fullname(ticket.getFullname())
-                .can_cuoc(ticket.getCan_cuoc())
-                .promotion_id(ticket.getPromotion_id())
-                .price(ticket.getPrice())
-                .price_reduced(ticket.getPrice_reduced())
-                .seatName(seatName)
-                .promotionName(promotionName)
-                .startDate(startDate)
-                .endDate(endDate)
-                .startStation(startStation.getName())
-                .endStation(endStation.getName())
+//                .schedules_id(ticket.getSchedules_id())
+//                .seat_id(ticket.getSeat_id())
+//                .dateBuy(ticket.getDateBuy())
+//                .status(ticket.getStatus())
+//                .object(ticket.getObject())
+//                .fullname(ticket.getFullname())
+//                .can_cuoc(ticket.getCan_cuoc())
+//                .promotion_id(ticket.getPromotion_id())
+//                .price(ticket.getPrice())
+//                .price_reduced(ticket.getPrice_reduced())
+//                .seatName(seatName)
+//                .promotionName(promotionName)
+//                .startDate(startDate)
+//                .endDate(endDate)
+//                .startStation(startStation.getName())
+//                .endStation(endStation.getName())
                 .build();
     }
 

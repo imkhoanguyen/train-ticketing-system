@@ -61,17 +61,17 @@ public class OrderServiceImpl implements OrderService{
         
         List<OrderDetailResponse> orderDetailResponses = orders.stream()
                 .map(order -> {
-                    Entry<String, String> userInfo = userMap.get(order.getUser_id());
-                    String fullName = userInfo.getKey();
-                    String phone = userInfo.getValue();
+//                    Entry<String, String> userInfo = userMap.get(order.getUser_id());
+//                    String fullName = userInfo.getKey();
+//                    String phone = userInfo.getValue();
                     
                     return OrderDetailResponse.builder()
                             .id(order.getId())      
-                            .user_id(order.getUser_id())
+//                            .user_id(order.getUser_id())
                             .status(order.getStatus())
 
-                            .fullname(fullName)
-                            .phone(phone)
+//                            .fullname(fullName)
+//                            .phone(phone)
                             .build();
                 })
                 .toList();

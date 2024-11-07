@@ -29,24 +29,24 @@ public class CarriageServiceImpl implements CarriageService {
     private final TrainRepository trainRepository;
     @Override
     public void addCarriage(CarriageRequestDto carriageRequestDto) {
-        Carriage carriage = Carriage.builder()
-            .name(carriageRequestDto.getName()) 
-            .trainId(carriageRequestDto.getTrainId())
-            .description(carriageRequestDto.getDescription())     
-            .isDelete(carriageRequestDto.isDelete())
-            .build();
-            carriageRepository.save(carriage);
+//        Carriage carriage = Carriage.builder()
+//            .name(carriageRequestDto.getName())
+//            .trainId(carriageRequestDto.getTrainId())
+//            .description(carriageRequestDto.getDescription())
+//            .isDelete(carriageRequestDto.isDelete())
+//            .build();
+//            carriageRepository.save(carriage);
     }
 
     @Override
     public void updateCarriage(int id, CarriageRequestDto carriageRequestDto) {
-        Carriage carriage = carriageRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Route not found"));
-        carriage.setName(carriageRequestDto.getName());
-        carriage.setTrainId(carriageRequestDto.getTrainId());
-        carriage.setDescription(carriageRequestDto.getDescription()); 
-        carriage.setDelete(carriageRequestDto.isDelete());    
-        carriageRepository.save(carriage);
+//        Carriage carriage = carriageRepository.findById(id)
+//                .orElseThrow(() -> new RuntimeException("Route not found"));
+//        carriage.setName(carriageRequestDto.getName());
+//        carriage.setTrainId(carriageRequestDto.getTrainId());
+//        carriage.setDescription(carriageRequestDto.getDescription());
+//        carriage.setDelete(carriageRequestDto.isDelete());
+//        carriageRepository.save(carriage);
     }
 
     @Override
@@ -83,15 +83,15 @@ public class CarriageServiceImpl implements CarriageService {
 
         List<CarriageDetailResponse> carriageDetailResponses = carriages.stream()
                 .map(carriage -> {
-                    String trainName = trainMap.get(carriage.getTrainId());
+//                    String trainName = trainMap.get(carriage.getTrainId());
 
                     return CarriageDetailResponse.builder()
                             .id(carriage.getId())
                             .name(carriage.getName())
-                            .trainId(carriage.getTrainId()) 
+//                            .trainId(carriage.getTrainId())
                             .description(carriage.getDescription())
                             .is_delete(carriage.isDelete())
-                            .trainName(trainName) 
+//                            .trainName(trainName)
                             .build();
                 })
                 .toList();
@@ -110,15 +110,15 @@ public class CarriageServiceImpl implements CarriageService {
         Map<Integer, String> trainMap = trains.stream()
                 .collect(Collectors.toMap(Train::getId, Train::getName));
         
-        String trainName = trainMap.get(carriage.getTrainId());
+//        String trainName = trainMap.get(carriage.getTrainId());
         
         return CarriageDetailResponse.builder()
                 .id(carriage.getId())
                 .name(carriage.getName())
-                .trainId(carriage.getTrainId())
+//                .trainId(carriage.getTrainId())
                 .description(carriage.getDescription())
                 .is_delete(carriage.isDelete())
-                .trainName(trainName) 
+//                .trainName(trainName)
                 .build();
     }
     

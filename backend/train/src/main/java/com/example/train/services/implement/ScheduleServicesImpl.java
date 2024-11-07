@@ -29,9 +29,9 @@ public class ScheduleServicesImpl implements ScheduleService {
     @Override
     public void addSchedule(ScheduleRequestDto schelduleRequestDto) {
         Schedule schedule = Schedule.builder()
-                .trainId(schelduleRequestDto.getTrainId())
-                .routeId(schelduleRequestDto.getRouteId()) 
-                .startDate(schelduleRequestDto.getStartDate())     
+//                .trainId(schelduleRequestDto.getTrainId())
+//                .routeId(schelduleRequestDto.getRouteId())
+                .startDate(schelduleRequestDto.getStartDate())
                 .endDate(schelduleRequestDto.getEndDate())
                 .build();
                 scheduleRepository.save(schedule);
@@ -42,7 +42,7 @@ public class ScheduleServicesImpl implements ScheduleService {
         Schedule schedule = scheduleRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Route not found"));
 
-        schedule.setTrainId(schelduleRequestDto.getTrainId());
+//        schedule.setTrainId(schelduleRequestDto.getTrainId());
         schedule.setStartDate(schelduleRequestDto.getStartDate()); 
         schedule.setEndDate(schelduleRequestDto.getEndDate());    
         scheduleRepository.save(schedule);
@@ -77,15 +77,15 @@ public class ScheduleServicesImpl implements ScheduleService {
 
         List<ScheduleDetailResponse> scheduleDetailResponses = schedules.stream()
                 .map(schedule -> {
-                    String routeName = routeMap.get(schedule.getRouteId());
-                    String trainName = trainMap.get(schedule.getTrainId());
+//                    String routeName = routeMap.get(schedule.getRouteId());
+//                    String trainName = trainMap.get(schedule.getTrainId());
 
                     return ScheduleDetailResponse.builder()
                             .id(schedule.getId())
-                            .trainId(schedule.getTrainId())
-                            .trainName(trainName)  
-                            .routeId(schedule.getRouteId())
-                            .routeName(routeName)  
+//                            .trainId(schedule.getTrainId())
+//                            .trainName(trainName)
+//                            .routeId(schedule.getRouteId())
+//                            .routeName(routeName)
                             .startDate(schedule.getStartDate())
                             .endDate(schedule.getEndDate())
                             .build();
@@ -110,15 +110,15 @@ public class ScheduleServicesImpl implements ScheduleService {
         Map<Integer, String> trainMap = trains.stream()
                 .collect(Collectors.toMap(Train::getId, Train::getName));
         
-        String routeName = routeMap.get(schedule.getRouteId());
-        String trainName = trainMap.get(schedule.getTrainId());
+//        String routeName = routeMap.get(schedule.getRouteId());
+//        String trainName = trainMap.get(schedule.getTrainId());
         
         return ScheduleDetailResponse.builder()
                 .id(schedule.getId())
-                .trainId(schedule.getTrainId())
-                .trainName(trainName) 
-                .routeId(schedule.getRouteId())
-                .routeName(routeName)  
+//                .trainId(schedule.getTrainId())
+//                .trainName(trainName)
+//                .routeId(schedule.getRouteId())
+//                .routeName(routeName)
                 .startDate(schedule.getStartDate())
                 .endDate(schedule.getEndDate())
                 .build();
