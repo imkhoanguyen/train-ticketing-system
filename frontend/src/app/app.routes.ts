@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 import { HomeComponent } from './component/home/home.component';
-import { RoleComponent } from './component/admin/role/role.component';
 import { StationComponent } from './component/admin/station/station.component';
 import { TrainResultsComponent } from './component/train-results/train-results.component';
 import { BookingStepsComponent } from './component/booking-steps/booking-steps.component';
@@ -15,27 +14,29 @@ import { CarriageComponent } from './component/admin/carriage/carriage.component
 import { SeatComponent } from './component/admin/seat/seat.component';
 import { OrderComponent } from './component/admin/order/order.component';
 import { TicketComponent } from './component/admin/ticket/ticket.component';
+import { PromotionComponent } from './component/admin/promotion/promotion.component';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent,},
-  { path: 'train-results', component: TrainResultsComponent,},
+  { path: '', component: HomeComponent },
+  { path: 'train-results', component: TrainResultsComponent },
   {
-    path: 'booking', component: BookingStepsComponent,
+    path: 'booking',
+    component: BookingStepsComponent,
     children: [
-      { path: 'seat', component: SeatStepComponent},
-      { path: 'personal', component: PersonalStepComponent},
-      { path: 'payment', component: PaymentStepComponent},
-      { path: 'confirmation', component: ConfirmationStepComponent},
-      { path: '', redirectTo: 'seat', pathMatch: 'full' }
-    ]
+      { path: 'seat', component: SeatStepComponent },
+      { path: 'personal', component: PersonalStepComponent },
+      { path: 'payment', component: PaymentStepComponent },
+      { path: 'confirmation', component: ConfirmationStepComponent },
+      { path: '', redirectTo: 'seat', pathMatch: 'full' },
+    ],
   },
-  { path: 'role', component: RoleComponent,},
-  { path: 'admin/station', component: StationComponent,},
-  { path: 'admin/route', component: RouteComponent,},
-  { path: 'admin/route/schedule/:id', component: SchedulesComponent,},
-  { path: 'admin/train', component: TrainComponent,},
-  { path: 'admin/train/carriage/:trainid', component:CarriageComponent ,},
-  { path: 'admin/train/carriage/:trainid/seat/:id', component:SeatComponent ,},
-  { path: 'admin/order', component:OrderComponent ,},
-  { path: 'admin/order/ticket/:id', component: TicketComponent,},
+  { path: 'admin/station', component: StationComponent },
+  { path: 'admin/route', component: RouteComponent },
+  { path: 'admin/route/schedule/:id', component: SchedulesComponent },
+  { path: 'admin/train', component: TrainComponent },
+  { path: 'admin/train/carriage/:trainid', component: CarriageComponent },
+  { path: 'admin/train/carriage/:trainid/seat/:id', component: SeatComponent },
+  { path: 'admin/order', component: OrderComponent },
+  { path: 'admin/order/ticket/:id', component: TicketComponent },
+  { path: 'admin/promotion', component: PromotionComponent },
 ];
