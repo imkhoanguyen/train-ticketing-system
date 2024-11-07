@@ -19,28 +19,25 @@ import lombok.Setter;
 // tạo ra constructor với tất cả tham số
 @AllArgsConstructor
 @Entity
-@Table(name = "seat")
 @Data
 public class Seat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "carriage_id", nullable = false)
-    private int carriageId;
+    @ManyToOne
+    @JoinColumn(name = "carriage_id", nullable = false)
+    private Carriage carriage;
 
     @Column(name = "name")
     private String name;
 
-    @Column(name = "price")
+    @Column(name = "price", precision = 10, scale = 2)
     private BigDecimal price;
 
-    @Column(name = "description")  
-    private String  description;
+    @Column(name = "description")
+    private String description;
 
-    @Column(name = "is_delete")       
+    @Column(name = "is_delete")
     private boolean isDelete;
-
-    @Transient
-    private String nameCarriage;
 }

@@ -2,29 +2,50 @@ package com.example.train.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "`order`")
+@Table(name = "Orders")
 public class Order {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "user_id")
-    private int user_id;
+    @ManyToOne
+    @JoinColumn(name = "UserId", nullable = false)
+    private User user;
 
-    @Column(name = "status")  
+    @Column(nullable = false)
     private String status;
 
-    @Transient
-    private String fullname;
+    @Column(nullable = false)
+    private String fullName;
 
-    @Transient
+    @Column(nullable = false, length = 15)
     private String phone;
 
+    @Column(nullable = false, length = 12)
+    private String cmnd;
+
+    @ManyToOne
+    @JoinColumn(name = "promotionId", nullable = true)
+    private Promotion promotion;
+
+    @Column(precision = 10, scale = 2, nullable = false)
+    private BigDecimal subTotal;
+
+    @Column(nullable = false)
+    private LocalDateTime created = LocalDateTime.now();
+
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<OrderItem> orderItems;
 }
+

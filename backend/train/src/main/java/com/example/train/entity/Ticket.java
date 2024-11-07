@@ -10,58 +10,40 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "ticket")
 public class Ticket {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "schedules_id",nullable = false)
-    private int schedules_id;
+    @ManyToOne
+    @JoinColumn(name = "scheduleId", nullable = false)
+    private Schedule schedule;
 
-    @Column(name = "seat_id", nullable = false)
-    private int seat_id;
 
-    @Column(name = "dateBuy")
-    private LocalDateTime dateBuy;
-
-    @Column(name = "status")  
-    private String status;
-
-    @Column(name = "object") 
-    private String object;
-    
-    @Column(name = "fullname") 
-    private String fullname;
-
-    @Column(name = "can_cuoc") 
-    private String can_cuoc;
-
-    @Column(name = "promotion_id") 
-    private int promotion_id;
-    
-    @Column(name = "price") 
-    private BigDecimal price;
-
-    @Column(name = "price_reduced") 
-    private BigDecimal price_reduced;
-
-    @Transient
+    @ManyToOne
+    @JoinColumn(name = "seatId",  nullable = false)
+    private Seat seat;
     private String seatName;
 
-    @Transient
-    private String promotionName;
+    private LocalDateTime dateBuy;
 
-    @Transient
-    private LocalDateTime startDate;
+    private String status;
 
-    @Transient
-    private LocalDateTime endDate;
+    private String objectDiscount;
+    
+    private String fullName;
 
-    @Transient
-    private String startStation;
+    private String cmnd;
 
-    @Transient
-    private String endStation;
+    private BigDecimal price; // price schedules + price seat
+
+    @ManyToOne
+    @JoinColumn(name = "discountId", nullable = true)
+    private Discount discount;
+
+    private BigDecimal priceDiscount;
+
+    @Builder.Default
+    private Boolean isDelete = false;
+
 }

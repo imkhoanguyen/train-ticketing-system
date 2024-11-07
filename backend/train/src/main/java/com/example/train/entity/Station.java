@@ -11,19 +11,16 @@ import lombok.*;
 // tạo ra constructor với tất cả tham số
 @AllArgsConstructor
 @Entity
-@Table(name = "station")
 @Data
 public class Station {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "is_delete")
-    private boolean is_delete;
+    @Builder.Default
+    private boolean is_delete = false;
 
     
 

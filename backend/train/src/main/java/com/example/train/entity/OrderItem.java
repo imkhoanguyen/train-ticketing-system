@@ -8,17 +8,18 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "order_item")
 public class OrderItem {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "ticket_id",nullable = false)
-    private int ticket_id;
 
-    @Column(name = "order_id",nullable = false)  
-    private int orderId;
+    @ManyToOne
+    @JoinColumn(name = "ticketId", nullable = false)
+    private Ticket ticket;
+
+    @ManyToOne
+    @JoinColumn(name = "orderId", nullable = false)
+    private Order order;
 
 }

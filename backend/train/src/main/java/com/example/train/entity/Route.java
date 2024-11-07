@@ -9,29 +9,24 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "route")
 public class Route {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
     private int id;
 
-    @Column(name = "name")
+    @Column(nullable = false)
     private String name;
 
-    @Column(name = "startStationId")  
-    private int startStationId;
-    @Column(name = "endStationId")    
-    private int endStationId;
+    @ManyToOne
+    @JoinColumn(name = "start_station_id", nullable = false)
+    private Station startStation;
 
-    @Column(name = "is_delete")       
-    private boolean isDelete;
+    @ManyToOne
+    @JoinColumn(name = "end_station_id", nullable = false)
+    private Station endStation;
 
-    @Transient
-    private String startStationName;
-
-    @Transient
-    private String endStationName;
+    @Builder.Default
+    private boolean isDelete = false;
 }
 
 

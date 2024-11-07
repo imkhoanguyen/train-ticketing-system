@@ -17,25 +17,20 @@ import lombok.Setter;
 // tạo ra constructor với tất cả tham số
 @AllArgsConstructor
 @Entity
-@Table(name = "carriage")
 @Data
 public class Carriage {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "train_id", nullable = false)
-    private int trainId;
+    @ManyToOne
+    @JoinColumn(name = "trainId", nullable = false)
+    private Train train;  // Reference to Train entity
 
-    @Column(name = "description")  
-    private String  description;
+    private String description;
 
-    @Column(name = "is_delete")       
-    private boolean isDelete;
-
-    @Transient
-    private String nameTrain;
+    @Builder.Default
+    private boolean isDelete = false;
 }
