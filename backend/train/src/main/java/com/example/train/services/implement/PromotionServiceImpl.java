@@ -1,5 +1,6 @@
 package com.example.train.services.implement;
 
+import com.example.train.dto.request.PromotionRequestDto;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.entity.Promotion;
 import com.example.train.repository.CarriageRepository;
@@ -48,6 +49,42 @@ public class PromotionServiceImpl implements PromotionService {
                 .total(promotionPage.getTotalElements())
                 .items(promotionPage.getContent())  // Get content as List<Promotion>
                 .build();
+    }
+
+    @Override
+    public Promotion createPromotion(PromotionRequestDto promotionRequestDto) {
+        // Chuyển đổi từ PromotionRequestDto sang Promotion
+        Promotion promotion = new Promotion();
+        promotion.setName(promotionRequestDto.getName());
+        promotion.setDescription(promotionRequestDto.getDescription());
+        promotion.setStartDate(promotionRequestDto.getStartDate());
+        promotion.setEndDate(promotionRequestDto.getEndDate());
+        promotion.setPrice(promotionRequestDto.getPrice());
+
+        return promotionRepository.save(promotion);
+    }
+
+    @Override
+    public Promotion updatePromotion(int id, PromotionRequestDto promotionRequestDto) {
+        // Tìm promotion theo ID và cập nhật các giá trị
+        Promotion promotion = promotionRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Promotion not found with id: " + id));
+
+        promotion.setName(promotionRequestDto.getName());
+        promotion.setDescription(promotionRequestDto.getDescription());
+        promotion.setStartDate(promotionRequestDto.getStartDate());
+        promotion.setEndDate(promotionRequestDto.getEndDate());
+        promotion.setPrice(promotionRequestDto.getPrice());
+
+        return promotionRepository.save(promotion);
+    }
+
+    @Override
+    public void deletePromotion(int id) {
+        Promotion promotion = promotionRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Promotion not found"));
+        promotion.setDelete(true);
+        promotionRepository.save(promotion);
     }
 
 }

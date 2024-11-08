@@ -1,26 +1,28 @@
 package com.example.train.controller;
 
+import com.example.train.dto.request.PromotionRequestDto;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.ResponseData;
 import com.example.train.entity.Promotion;
 import com.example.train.services.PromotionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("api/promotion")
-@Validated
 @Slf4j
+@Validated
 @Tag(name = "Promotion Controller")
 @RequiredArgsConstructor
 public class PromotionController {
@@ -36,5 +38,24 @@ public class PromotionController {
         PageResponse<List<Promotion>> response = (PageResponse<List<Promotion>>) promotionService.getAllPromotionsAndSearchWithPagingAndSorting(pageNumber, pageSize, search, sortBy);
 
         return new ResponseData<>(HttpStatus.OK.value(), "get promotions", response);
+    }
+
+    @PostMapping("/create")
+    public ResponseData<?> createPromotion(@Valid @RequestBody PromotionRequestDto promotionRequestDto, BindingResult bindingResult) {
+        Promotion createdPromotion = promotionService.createPromotion(promotionRequestDto);
+        return new ResponseData<>(HttpStatus.OK.value(), "Created successfully", createdPromotion);
+    }
+
+
+    @PutMapping("/update/{id}")
+    public ResponseData<Promotion> updatePromotion(@PathVariable int id, @Valid @RequestBody PromotionRequestDto promotionRequestDto) {
+        Promotion updatedPromotion = promotionService.updatePromotion(id, promotionRequestDto);
+        return new ResponseData<>(HttpStatus.OK.value(), "updated successfully", updatedPromotion);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseData<String> deletePromotion(@PathVariable int id) {
+        promotionService.deletePromotion(id);
+        return new ResponseData<>(HttpStatus.OK.value(), "deleted successfully");
     }
 }

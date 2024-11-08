@@ -10,6 +10,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface PromotionRepository extends JpaRepository<Promotion,Integer>{
     Page<Promotion> findAllByIsDeleteFalse(Pageable pageable);
-
     Page<Promotion> findByNameContainingIgnoreCaseAndIsDeleteFalse(String name, Pageable pageable);
 }
