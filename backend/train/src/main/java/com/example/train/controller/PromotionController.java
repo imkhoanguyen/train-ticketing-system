@@ -37,7 +37,13 @@ public class PromotionController {
 
         PageResponse<List<Promotion>> response = (PageResponse<List<Promotion>>) promotionService.getAllPromotionsAndSearchWithPagingAndSorting(pageNumber, pageSize, search, sortBy);
 
-        return new ResponseData<>(HttpStatus.OK.value(), "get promotions", response);
+        return new ResponseData<>(HttpStatus.OK.value(), "get list promotion", response);
+    }
+
+    @GetMapping("/list-all")
+    public ResponseData<List<Promotion>> getAllPromotionsWithIsDeleteFalse() {
+        List<Promotion> promotions = promotionService.getAllPromotionsWithIsDeleteFalse();
+        return new ResponseData<>(HttpStatus.OK.value(), "get all promotions", promotions);
     }
 
     @PostMapping("/create")

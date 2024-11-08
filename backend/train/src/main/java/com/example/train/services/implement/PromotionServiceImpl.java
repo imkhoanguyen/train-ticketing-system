@@ -87,4 +87,8 @@ public class PromotionServiceImpl implements PromotionService {
         promotionRepository.save(promotion);
     }
 
+    @Override
+    public List<Promotion> getAllPromotionsWithIsDeleteFalse() {
+        return promotionRepository.findAllByIsDeleteFalse();
+    }
 }
