@@ -42,7 +42,6 @@ public class PromotionServiceImpl implements PromotionService {
             promotionPage = promotionRepository.findByNameContainingIgnoreCaseAndIsDeleteFalse(search, pageable);
         }
 
-        // Create and return PageResponse with List<Promotion> as the items
         return PageResponse.<List<Promotion>>builder()
                 .page(pageNo)
                 .size(pageSize)
@@ -53,20 +52,19 @@ public class PromotionServiceImpl implements PromotionService {
 
     @Override
     public Promotion createPromotion(PromotionRequestDto promotionRequestDto) {
-        // Chuyển đổi từ PromotionRequestDto sang Promotion
         Promotion promotion = new Promotion();
         promotion.setName(promotionRequestDto.getName());
         promotion.setDescription(promotionRequestDto.getDescription());
         promotion.setStartDate(promotionRequestDto.getStartDate());
         promotion.setEndDate(promotionRequestDto.getEndDate());
         promotion.setPrice(promotionRequestDto.getPrice());
+        promotion.setCount(promotionRequestDto.getCount());
 
         return promotionRepository.save(promotion);
     }
 
     @Override
     public Promotion updatePromotion(int id, PromotionRequestDto promotionRequestDto) {
-        // Tìm promotion theo ID và cập nhật các giá trị
         Promotion promotion = promotionRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Promotion not found with id: " + id));
 
@@ -75,6 +73,8 @@ public class PromotionServiceImpl implements PromotionService {
         promotion.setStartDate(promotionRequestDto.getStartDate());
         promotion.setEndDate(promotionRequestDto.getEndDate());
         promotion.setPrice(promotionRequestDto.getPrice());
+        promotion.setCount(promotionRequestDto.getCount());
+
 
         return promotionRepository.save(promotion);
     }
