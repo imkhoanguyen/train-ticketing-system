@@ -1,9 +1,6 @@
 package com.example.train.dto.request;
 
-import jakarta.validation.constraints.AssertTrue;
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.*;
 import lombok.Data;
 import org.springframework.validation.annotation.Validated;
 
@@ -20,9 +17,13 @@ public class PromotionRequestDto {
 
     private LocalDateTime startDate;
     private LocalDateTime endDate;
+    @NotNull(message = "Price cannot be null")
+    @Positive(message = "Price must be greater than zero")
     private BigDecimal price;
+
     @NotNull(message = "Count cannot be null")
-    private int count;
+    @Positive(message = "Count must be greater than zero")
+    private Integer count;
 
     // Kiểm tra startDate không trước thời điểm hiện tại
     @AssertTrue(message = "Start date must be today or later")

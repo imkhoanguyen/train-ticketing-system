@@ -55,7 +55,7 @@ public class GlobalExceptionHandler {
         } else if (ex instanceof EntityNotFoundException || ex instanceof NoSuchElementException) {
             status = HttpStatus.NOT_FOUND;
         } else {
-            status = HttpStatus.INTERNAL_SERVER_ERROR; 
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
         ResponseData<String> response = new ResponseData<>(status.value(), "An error occurred", ex.getMessage());
