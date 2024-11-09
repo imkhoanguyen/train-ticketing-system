@@ -28,8 +28,13 @@ public class PromotionServiceImpl implements PromotionService {
             page = pageNo - 1;
         }
 
-        // Set up sorting by the specified field
-        Sort sort = sortBy.endsWith("desc") ? Sort.by(sortBy.replace(",desc", "")).descending() : Sort.by(sortBy).ascending();
+        // Parse sortBy to get field and direction
+        String sortField = sortBy.contains(",") ? sortBy.split(",")[0] : sortBy;
+        String sortDirection = sortBy.endsWith("desc") ? "desc" : "asc";
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
 
         // Create a Pageable object
         Pageable pageable = PageRequest.of(page, pageSize, sort);

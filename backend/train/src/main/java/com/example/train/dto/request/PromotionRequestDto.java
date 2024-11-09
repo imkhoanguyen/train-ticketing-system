@@ -12,11 +12,14 @@ import java.time.LocalDateTime;
 public class PromotionRequestDto {
     @NotBlank(message = "Name cannot be empty")
     private String name;
-    @NotNull(message = "Discount cannot be null")
+    @NotBlank(message = "Discount cannot be null")
     private String description;
 
+    @NotNull(message = "Start date cannot be null")
     private LocalDateTime startDate;
+    @NotNull(message = "End date cannot be null")
     private LocalDateTime endDate;
+
     @NotNull(message = "Price cannot be null")
     @Positive(message = "Price must be greater than zero")
     private BigDecimal price;
