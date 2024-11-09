@@ -1,4 +1,5 @@
 package com.example.train.entity;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
@@ -21,5 +22,6 @@ public class Discount {
     private String  description;
 
     @Builder.Default
+    @JsonProperty("isDelete")
     private boolean isDelete = false;
 }
