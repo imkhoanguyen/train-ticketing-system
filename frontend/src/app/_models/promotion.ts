@@ -6,5 +6,5 @@ export interface Promotion {
   count: number;
   startDate: string;
   endDate: string;
-  isDelete: boolean;
+  code: string;
 }

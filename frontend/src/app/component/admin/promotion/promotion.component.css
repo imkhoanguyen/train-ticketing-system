@@ -1,0 +1,7 @@
+.calendar-container {
+  overflow: visible;
+}
+
+.p-dialog .p-calendar {
+  z-index: 1001; /* Increase the z-index to make sure it's above the dialog */
+}

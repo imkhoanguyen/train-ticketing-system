@@ -3,7 +3,7 @@
   <form (submit)="onSearch()">
     <input
       class="form-control"
-      placeholder="Nhập tên quyền"
+      placeholder="Nhập tiêu đề khuyến mãi"
       [(ngModel)]="search"
       name="search"
     />
@@ -17,33 +17,50 @@
 
 <!-- list role-->
 <p-confirmPopup />
-<p-table [value]="promotions" [tableStyle]="{ 'min-width': '60rem' }">
+<p-table
+  [value]="promotions"
+  [tableStyle]="{ 'min-width': '60rem' }"
+  [customSort]="false"
+>
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="id" style="width: 20%">
-        Id <p-sortIcon field="Id" />
+      <th pSortableColumn="id" style="width: 5%">
+        Id <p-sortIcon field="id" />
       </th>
-      <th pSortableColumn="name" style="width: 20%">
-        Quyền <p-sortIcon field="name" />
+      <th pSortableColumn="name" style="width: 10%">
+        Tiêu đề <p-sortIcon field="name" />
       </th>
-      <th pSortableColumn="created" style="width: 20%">
-        Ngày tạo <p-sortIcon field="created" />
+      <th pSortableColumn="code" style="width: 5%">
+        Code <p-sortIcon field="code" />
       </th>
-      <th pSortableColumn="description" style="width: 20%">
-        Mô tả <p-sortIcon field="description" />
+      <th pSortableColumn="price" style="width: 10%">
+        Giá giảm <p-sortIcon field="name" />
       </th>
-      <th style="width: 15%">Chức năng</th>
-      <th style="width: 5%"></th>
+      <th pSortableColumn="count" style="width: 10%">
+        Số lượng <p-sortIcon field="name" />
+      </th>
+      <th pSortableColumn="startDate" style="width: 15%">
+        Thời gian bắt đầu <p-sortIcon field="created" />
+      </th>
+      <th pSortableColumn="endDate" style="width: 15%">
+        Thời gian kết thúc <p-sortIcon field="description" />
+      </th>
+      <th style="width: 20%">Mô tả</th>
+
+      <th style="width: 10%"></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-promotion>
     <tr>
       <td>{{ promotion.id }}</td>
       <td>{{ promotion.name }}</td>
+      <td>{{ promotion.code }}</td>
+      <td>{{ promotion.price }}</td>
+      <td>{{ promotion.count }}</td>
+      <td>{{ promotion.startDate | date : "dd/MM/yyyy HH:mm:ss" }}</td>
+      <td>{{ promotion.endDate | date : "dd/MM/yyyy HH:mm:ss" }}</td>
+      <td>{{ promotion.description }}</td>
 
-      <td>
-        <button class="btn btn-primary">Chỉnh sửa</button>
-      </td>
       <td class="d-flex gap-1 align-items-center justify-content-center">
         <button class="btn" (click)="showDialog(promotion.id)">
           <i class="pi pi-pen-to-square"></i>
@@ -59,7 +76,7 @@
 @if(pageSize && pageNumber) {
 <div class="card flex justify-content-center mt-3">
   <p-paginator
-    [first]="(pageNumber - 1) * pageSize * pageSize || 0"
+    [first]="(pageNumber - 1) * pageSize || 0"
     [rows]="pageSize"
     [totalRecords]="total || 0"
     [rowsPerPageOptions]="[5, 10, 20]"
@@ -71,20 +88,88 @@
 
 <!-- modal add, edit-->
 <p-dialog
-  header="{{ edit ? 'Cập nhật quyền' : 'Thêm quyền' }}"
+  header="{{ edit ? 'Cập nhật khuyến mãi' : 'Thêm khuyến mãi' }}"
   [modal]="true"
   [(visible)]="visible"
-  [style]="{ width: '25rem' }"
+  [style]="{ width: '40rem', height: 'auto', overflow: 'visible' }"
   (onHide)="closeDialog()"
 >
   <form [formGroup]="frm" (ngSubmit)="onSubmit()">
+    @if(validationErrors && validationErrors.length > 0) {
+    <div class="mx-auto mb-4 bg-danger text-white rounded">
+      <ul class="list-unstyled p-3">
+        @for (error of validationErrors; track $index) {
+        <li class="mb-2">
+          {{ error }}
+        </li>
+        }
+      </ul>
+    </div>
+    }
     <div class="mb-3">
-      <label for="name" class="form-label">Quyền</label>
-      <input id="username" class="form-control" formControlName="name" />
+      <label for="name" class="form-label">Tiêu đề</label>
+      <input id="name" class="form-control" formControlName="name" />
       @if(frm.get('name')?.invalid && frm.get('name')?.touched ) {
-      <span class="text-danger">Vui lòng nhập quyền</span>
+      <span class="text-danger">Vui lòng nhập tiêu đề</span>
       }
     </div>
+
+    <div class="mb-3 row">
+      <div class="col-4">
+        <label for="price" class="form-label">Giá giảm</label>
+        <input
+          id="price"
+          class="form-control"
+          formControlName="price"
+          type="number"
+        />
+        @if(frm.get('price')?.invalid && frm.get('price')?.touched ) {
+        <span class="text-danger">Vui lòng nhập giá giảm</span>
+        }
+      </div>
+      <div class="col-4">
+        <label for="count" class="form-label">Số lượng</label>
+        <input
+          id="count"
+          class="form-control"
+          formControlName="count"
+          type="number"
+        />
+        @if(frm.get('count')?.invalid && frm.get('count')?.touched ) {
+        <span class="text-danger">Vui lòng nhập số lượng phiếu giảm giá</span>
+        }
+      </div>
+      <div class="col-4">
+        <label for="code" class="form-label">Code</label>
+        <input id="code" class="form-control" formControlName="code" />
+        @if(frm.get('code')?.invalid && frm.get('code')?.touched ) {
+        <span class="text-danger">Vui lòng nhập code</span>
+        }
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="rangeDate" class="form-label"
+        >Ngày bắt đầu - Ngày kết thúc</label
+      >
+      <p-calendar
+        [(ngModel)]="rangeDates"
+        selectionMode="range"
+        [readonlyInput]="true"
+        formControlName="rangeDate"
+        class="calendar-container"
+        [showTime]="true"
+        dateFormat="dd/mm/yy"
+        [appendTo]="'body'"
+        [style]="{ width: '100%' }"
+      />
+      @if(frm.get('rangeDate')?.invalid && frm.get('rangeDate')?.touched) {
+      <span class="text-danger"
+        >Vui chọn thời gian bắt đầu và kết thúc khuyến mãi</span
+      >
+      }
+    </div>
+
     <div class="mb-3">
       <label for="description" class="form-label">Mô tả</label>
       <textarea

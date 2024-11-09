@@ -1,6 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpParams } from '@angular/common/http';
+import { Promotion } from '../_models/promotion';
 
 @Injectable({
   providedIn: 'root',
@@ -28,5 +29,20 @@ export class PromotionService {
       observe: 'response',
       params,
     });
+  }
+
+  add(promotion: Promotion) {
+    return this.http.post<any>(this.baseUrl + '/promotion/create', promotion);
+  }
+
+  update(id: number, promotion: Promotion) {
+    return this.http.put<any>(
+      this.baseUrl + `/promotion/update/${id}`,
+      promotion
+    );
+  }
+
+  delete(id: number) {
+    return this.http.delete<any>(this.baseUrl + `/promotion/delete/${id}`);
   }
 }
