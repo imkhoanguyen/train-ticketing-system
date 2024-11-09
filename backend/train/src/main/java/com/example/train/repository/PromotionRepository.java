@@ -14,4 +14,5 @@ public interface PromotionRepository extends JpaRepository<Promotion,Integer>{
     Page<Promotion> findAllByIsDeleteFalse(Pageable pageable);
     Page<Promotion> findByNameContainingIgnoreCaseAndIsDeleteFalse(String name, Pageable pageable);
     List<Promotion> findAllByIsDeleteFalse();
+    Page<Promotion> findByIsDeleteFalseAndNameContainingIgnoreCaseOrIsDeleteFalseAndCodeContainingIgnoreCase(String name, String code, Pageable pageable);
 }

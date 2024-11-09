@@ -44,7 +44,7 @@ public class PromotionServiceImpl implements PromotionService {
         if (search == null || search.isEmpty()) {
             promotionPage = promotionRepository.findAllByIsDeleteFalse(pageable);
         } else {
-            promotionPage = promotionRepository.findByNameContainingIgnoreCaseAndIsDeleteFalse(search, pageable);
+            promotionPage = promotionRepository.findByIsDeleteFalseAndNameContainingIgnoreCaseOrIsDeleteFalseAndCodeContainingIgnoreCase(search, search, pageable);
         }
 
         return PageResponse.<List<Promotion>>builder()
@@ -64,7 +64,7 @@ public class PromotionServiceImpl implements PromotionService {
         promotion.setEndDate(promotionRequestDto.getEndDate());
         promotion.setPrice(promotionRequestDto.getPrice());
         promotion.setCount(promotionRequestDto.getCount());
-
+        promotion.setCode(promotionRequestDto.getCode());
         return promotionRepository.save(promotion);
     }
 
@@ -79,7 +79,9 @@ public class PromotionServiceImpl implements PromotionService {
         promotion.setEndDate(promotionRequestDto.getEndDate());
         promotion.setPrice(promotionRequestDto.getPrice());
         promotion.setCount(promotionRequestDto.getCount());
-
+        promotion.setCode(promotionRequestDto.getCode());
+        System.out.println("Start Date: " + promotion.getStartDate());
+        System.out.println("End Date: " + promotion.getEndDate());
 
         return promotionRepository.save(promotion);
     }
