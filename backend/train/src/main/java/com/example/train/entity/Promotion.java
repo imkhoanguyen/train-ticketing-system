@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Getter
 @Setter
@@ -21,6 +23,7 @@ public class Promotion {
     private String name;
 
     private String  description;
+    private String code;
 
     @Builder.Default
     @JsonProperty("isDelete")
@@ -28,7 +31,7 @@ public class Promotion {
 
     private int count;
 
-    private LocalDateTime startDate;
+    private ZonedDateTime startDate;
 
-    private LocalDateTime endDate;
+    private ZonedDateTime endDate;
 }

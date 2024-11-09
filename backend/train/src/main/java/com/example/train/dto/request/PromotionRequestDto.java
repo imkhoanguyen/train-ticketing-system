@@ -7,6 +7,8 @@ import org.springframework.validation.annotation.Validated;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 
 @Data
 public class PromotionRequestDto {
@@ -16,9 +18,9 @@ public class PromotionRequestDto {
     private String description;
 
     @NotNull(message = "Start date cannot be null")
-    private LocalDateTime startDate;
+    private ZonedDateTime startDate;
     @NotNull(message = "End date cannot be null")
-    private LocalDateTime endDate;
+    private ZonedDateTime endDate;
 
     @NotNull(message = "Price cannot be null")
     @Positive(message = "Price must be greater than zero")
@@ -27,15 +29,17 @@ public class PromotionRequestDto {
     @NotNull(message = "Count cannot be null")
     @Positive(message = "Count must be greater than zero")
     private Integer count;
+    @NotBlank(message = "Code cannot be empty")
+    private String code;
 
     // Kiểm tra startDate không trước thời điểm hiện tại
-    @AssertTrue(message = "Start date must be today or later")
+    @AssertTrue(message = "Start date must be in the future, including hours, minutes, and seconds")
     public boolean isStartDateValid() {
-        return startDate == null || !startDate.isBefore(LocalDateTime.now());
+        return startDate == null || startDate.isAfter(ZonedDateTime.now(ZoneId.systemDefault()));
     }
 
-    // Kiểm tra endDate phải sau startDate
-    @AssertTrue(message = "End date must be after start date")
+    // Kiểm tra endDate phải sau startDate tính cả giờ phút giây
+    @AssertTrue(message = "End date must be after start date, including hours, minutes, and seconds")
     public boolean isEndDateAfterStartDate() {
         return endDate == null || (startDate != null && endDate.isAfter(startDate));
     }
