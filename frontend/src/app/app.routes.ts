@@ -15,6 +15,7 @@ import { SeatComponent } from './component/admin/seat/seat.component';
 import { OrderComponent } from './component/admin/order/order.component';
 import { TicketComponent } from './component/admin/ticket/ticket.component';
 import { PromotionComponent } from './component/admin/promotion/promotion.component';
+import { DiscountComponent } from './component/admin/discount/discount.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -39,4 +40,5 @@ export const routes: Routes = [
   { path: 'admin/order', component: OrderComponent },
   { path: 'admin/order/ticket/:id', component: TicketComponent },
   { path: 'admin/promotion', component: PromotionComponent },
+  { path: 'admin/discount', component: DiscountComponent },
 ];
