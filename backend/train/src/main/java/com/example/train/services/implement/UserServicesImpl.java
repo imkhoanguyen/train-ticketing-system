@@ -56,7 +56,7 @@ public class UserServicesImpl implements UserService {
 
         return users.stream()
                 .map(user -> UserDetailResponse.builder()
-                        .username(user.getUsername())
+                        .userName(user.getUserName())
                         .email(user.getEmail())
                         .fullName(user.getFullName())
                         .phone(user.getPhone())
@@ -71,13 +71,13 @@ public class UserServicesImpl implements UserService {
 
     @Override
     public UserDetailResponse login(LoginRequestDto dto) {
-        User u = userRepository.findByUsername(dto.getUserName())
+        User u = userRepository.findByUserName(dto.getUserName())
                 .orElseThrow(() -> new NotFoundException("User not found"));
 
         if(passwordEncoder.matches(dto.getPassword(), u.getPassword())) {
             return UserDetailResponse.builder()
                     .id(u.getId())
-                    .username(u.getUsername())
+                    .userName(u.getUserName())
                     .email(u.getEmail())
                     .cmnd(u.getCmnd())
                     .phone(u.getPhone())
@@ -90,14 +90,14 @@ public class UserServicesImpl implements UserService {
 
     @Override
     public UserDetailResponse register(RegisterRequestDto dto) {
-        Optional<User> u = userRepository.findByUsername(dto.getUserName());
+        Optional<User> u = userRepository.findByUserName(dto.getUserName());
 
         if(u.isPresent()) {
             throw new BadRequestException("Username is already in use");
         }
 
         User user = new User();
-        user.setUsername(dto.getUserName());
+        user.setUserName(dto.getUserName());
         user.setPassword(passwordEncoder.encode(dto.getPassword()));
         user.setEmail(dto.getEmail());
         user.setFullName(dto.getFullName());
@@ -108,7 +108,7 @@ public class UserServicesImpl implements UserService {
 
         return UserDetailResponse.builder()
                 .id(user.getId())
-                .username(user.getUsername())
+                .userName(user.getUserName())
                 .email(user.getEmail())
                 .cmnd(user.getCmnd())
                 .phone(user.getPhone())

@@ -35,11 +35,11 @@ public class TokenServiceImpl implements TokenService {
         Date now = new Date();
         Date validity = new Date(now.getTime() + 3_600_000);
         return JWT.create()
-                .withIssuer(dto.getUsername())
+                .withIssuer(dto.getUserName())
                 .withIssuedAt(now)
                 .withExpiresAt(validity)
                 .withClaim("fullName", dto.getFullName())
-                .withClaim("userId", dto.getUsername())
+                .withClaim("userId", dto.getUserName())
                 .withClaim("role", dto.getRole())
                 .sign(Algorithm.HMAC256(secretKey));
     }
@@ -52,7 +52,7 @@ public class TokenServiceImpl implements TokenService {
         DecodedJWT decoded = verifier.verify(token);
 
         UserDetailResponse u =  UserDetailResponse.builder()
-                .username(decoded.getIssuer())
+                .userName(decoded.getIssuer())
                 .fullName(decoded.getClaim("fullName").asString())
                 .role(decoded.getClaim("role").asString())
                 .id(decoded.getClaim("userId").asInt())
