@@ -33,7 +33,5 @@ public class User {
     @Builder.Default
     private boolean isDelete = false;
 
-    @ManyToOne
-    @JoinColumn(name = "roleId", nullable = false)
-    private Role role;
+    private String role;
 }
