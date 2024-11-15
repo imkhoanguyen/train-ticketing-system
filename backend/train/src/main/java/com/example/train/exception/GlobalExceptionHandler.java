@@ -43,26 +43,22 @@ public class GlobalExceptionHandler {
     }
 
     // Handle các ngoại lệ chung khác (ví dụ: lỗi cơ sở dữ liệu, lỗi không xác định, v.v.)
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<ResponseData<String>> handleGeneralExceptions(Exception ex) {
+    @ExceptionHandler({BadRequestException.class, NotFoundException.class, Exception.class})
+    public ResponseData<?> handleGeneralExceptions(Exception ex) {
         HttpStatus status;
 
-        // Tùy chỉnh mã trạng thái theo loại ngoại lệ
-        if (ex instanceof IllegalArgumentException) {
+        // Handle BadRequestException
+        if (ex instanceof BadRequestException) {
             status = HttpStatus.BAD_REQUEST;
-        } else if (ex instanceof IllegalStateException) {
-            status = HttpStatus.CONFLICT;
-        } else if (ex instanceof EntityNotFoundException || ex instanceof NoSuchElementException) {
+        }
+        // Handle NotFoundException
+        else if (ex instanceof NotFoundException) {
             status = HttpStatus.NOT_FOUND;
-        } else {
+        }
+        else {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
-        ResponseData<String> response = new ResponseData<>(status.value(), "An error occurred", ex.getMessage());
-        return new ResponseEntity<>(response, status);
+        return new ResponseData<>(status.value(), ex.getMessage());
     }
-
-
-
-
 }
