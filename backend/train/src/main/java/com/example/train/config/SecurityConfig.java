@@ -26,7 +26,8 @@ public class SecurityConfig {
                 .sessionManagement(customizer -> customizer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((request) -> {
                     request.requestMatchers(HttpMethod.POST, "api/auth/login", "api/auth/register").permitAll()
-                    .requestMatchers(HttpMethod.GET).permitAll()
+                            .requestMatchers(HttpMethod.OPTIONS).permitAll() // day len header
+                            .requestMatchers(HttpMethod.GET).permitAll()
                             .anyRequest().authenticated();
                 });
 

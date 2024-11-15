@@ -44,21 +44,20 @@ public class GlobalExceptionHandler {
 
     // Handle các ngoại lệ chung khác (ví dụ: lỗi cơ sở dữ liệu, lỗi không xác định, v.v.)
     @ExceptionHandler({BadRequestException.class, NotFoundException.class, Exception.class})
-    public ResponseData<?> handleGeneralExceptions(Exception ex) {
+    public ResponseEntity<ResponseData<?>> handleGeneralExceptions(Exception ex) {
         HttpStatus status;
 
-        // Handle BadRequestException
+        // Determine HTTP status based on the exception type
         if (ex instanceof BadRequestException) {
             status = HttpStatus.BAD_REQUEST;
-        }
-        // Handle NotFoundException
-        else if (ex instanceof NotFoundException) {
+        } else if (ex instanceof NotFoundException) {
             status = HttpStatus.NOT_FOUND;
-        }
-        else {
+        } else {
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
 
-        return new ResponseData<>(status.value(), ex.getMessage());
+        ResponseData<?> response = new ResponseData<>(status.value(), ex.getMessage());
+
+        return new ResponseEntity<>(response, status);
     }
 }

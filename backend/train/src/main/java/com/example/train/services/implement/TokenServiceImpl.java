@@ -39,7 +39,7 @@ public class TokenServiceImpl implements TokenService {
                 .withIssuedAt(now)
                 .withExpiresAt(validity)
                 .withClaim("fullName", dto.getFullName())
-                .withClaim("userId", dto.getUserName())
+                .withClaim("userId", dto.getId())
                 .withClaim("role", dto.getRole())
                 .sign(Algorithm.HMAC256(secretKey));
     }
