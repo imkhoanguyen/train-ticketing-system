@@ -1,0 +1,35 @@
+.bg {
+  background-image: url("/img/background.jpg");
+  height: 100vh;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.login-box {
+  background: rgba(255, 255, 255, 0.9);
+  padding: 20px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+.login-title {
+  font-size: 24px;
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 20px;
+  color: white;
+}
+
+[nz-button] {
+  width: 100%;
+}
+
+form {
+  min-width: 300px;
+}
+
+.link {
+  font-size: 14px;
+}

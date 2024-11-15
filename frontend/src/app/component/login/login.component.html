@@ -1,0 +1,52 @@
+<div class="bg">
+  <h1 class="login-title text-dark">Đăng nhập / Train</h1>
+  <div class="login-box">
+    <form [formGroup]="frm" (ngSubmit)="onSubmit()">
+      @if(validationErrors && validationErrors.length > 0) {
+      <div class="mx-auto mb-4 bg-danger text-white rounded">
+        <ul class="list-unstyled p-3">
+          @for (error of validationErrors; track $index) {
+          <li class="mb-2">
+            {{ error }}
+          </li>
+          }
+        </ul>
+      </div>
+      }
+      <div class="mb-3">
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Username"
+          formControlName="userName"
+        />
+        @if(frm.get('userName')?.invalid && frm.get('userName')?.touched) {
+        <span class="text-danger">Vui lòng nhập username</span>
+        }
+      </div>
+      <div class="mb-3">
+        <input
+          class="form-control"
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+        />
+        @if(frm.get('password')?.invalid && frm.get('password')?.touched) {
+        <span class="text-danger">Vui lòng nhập password</span>
+        }
+      </div>
+      <a class="mb-3">Quên mật khẩu?</a>
+      <div class="mb-3 d-flex"></div>
+      <div class="d-flex gap-3">
+        <button type="button" class="btn btn-secondary">Đăng ký</button>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="frm.invalid || !frm.dirty"
+        >
+          Đăng nhập
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

@@ -16,6 +16,7 @@ import { OrderComponent } from './component/admin/order/order.component';
 import { TicketComponent } from './component/admin/ticket/ticket.component';
 import { PromotionComponent } from './component/admin/promotion/promotion.component';
 import { DiscountComponent } from './component/admin/discount/discount.component';
+import { LoginComponent } from './component/login/login.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -31,6 +32,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'seat', pathMatch: 'full' },
     ],
   },
+  { path: 'login', component: LoginComponent },
   { path: 'admin/station', component: StationComponent },
   { path: 'admin/route', component: RouteComponent },
   { path: 'admin/route/schedule/:id', component: SchedulesComponent },
