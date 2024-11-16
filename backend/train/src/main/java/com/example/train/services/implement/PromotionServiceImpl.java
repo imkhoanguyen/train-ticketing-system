@@ -3,6 +3,7 @@ package com.example.train.services.implement;
 import com.example.train.dto.request.PromotionRequestDto;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.entity.Promotion;
+import com.example.train.exception.NotFoundException;
 import com.example.train.repository.CarriageRepository;
 import com.example.train.repository.PromotionRepository;
 import com.example.train.services.PromotionService;
@@ -71,7 +72,7 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     public Promotion updatePromotion(int id, PromotionRequestDto promotionRequestDto) {
         Promotion promotion = promotionRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Promotion not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Promotion not found with id: " + id));
 
         promotion.setName(promotionRequestDto.getName());
         promotion.setDescription(promotionRequestDto.getDescription());
@@ -89,7 +90,7 @@ public class PromotionServiceImpl implements PromotionService {
     @Override
     public void deletePromotion(int id) {
         Promotion promotion = promotionRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Promotion not found"));
+                .orElseThrow(() -> new NotFoundException("Promotion not found"));
         promotion.setDelete(true);
         promotionRepository.save(promotion);
     }
