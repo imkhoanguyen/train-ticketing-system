@@ -1,10 +1,13 @@
 package com.example.train.services;
 
 // import com.example.train.dto.request.UserRequestDto;
+import com.example.train.dto.request.LoginRequestDto;
+import com.example.train.dto.request.RegisterRequestDto;
 import com.example.train.dto.response.UserDetailResponse;
 import com.example.train.entity.User;
 
 import java.util.List;
+
 
 public interface UserService {
 
@@ -15,4 +18,7 @@ public interface UserService {
     List<UserDetailResponse> getAll(int pageNumber, int pageSize);
 
     UserDetailResponse getUser(int userId);
+
+    UserDetailResponse login(LoginRequestDto dto);
+    UserDetailResponse register(RegisterRequestDto dto);
 }

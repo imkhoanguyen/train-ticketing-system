@@ -17,6 +17,7 @@ import { TicketComponent } from './component/admin/ticket/ticket.component';
 import { PromotionComponent } from './component/admin/promotion/promotion.component';
 import { DiscountComponent } from './component/admin/discount/discount.component';
 import { AdminComponent } from './component/admin/admin.component';
+import { LoginComponent } from './component/login/login.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -33,8 +34,7 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'admin',
-    component: AdminComponent,
+    path: 'admin', component: AdminComponent,
     children: [
     { path: 'station', component: StationComponent },
     { path: 'route', component: RouteComponent },
@@ -48,4 +48,6 @@ export const routes: Routes = [
     { path: 'discount', component: DiscountComponent },
     ]
   },
+  { path: 'login', component: LoginComponent },
+
 ];

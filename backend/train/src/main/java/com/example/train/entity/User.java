@@ -18,7 +18,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private String username;
+    private String userName;
 
     private String password;
 
@@ -33,7 +33,5 @@ public class User {
     @Builder.Default
     private boolean isDelete = false;
 
-    @ManyToOne
-    @JoinColumn(name = "roleId", nullable = false)
-    private Role role;
+    private String role;
 }
