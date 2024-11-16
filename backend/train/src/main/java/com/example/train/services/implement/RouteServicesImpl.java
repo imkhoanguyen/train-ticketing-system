@@ -1,7 +1,6 @@
 package com.example.train.services.implement;
 
 import java.util.List;
-import java.util.Map;
 import com.example.train.dto.request.RouteRequestDto;
 import com.example.train.dto.response.RouteDetailResponse;
 import com.example.train.entity.Route;
@@ -11,7 +10,6 @@ import com.example.train.repository.StationRepository;
 import com.example.train.services.RouteService;
 
 import lombok.RequiredArgsConstructor;
-import java.util.stream.Collectors;
 
 // import org.hibernate.mapping.Map;
 import org.springframework.stereotype.Service;
@@ -25,10 +23,16 @@ public class RouteServicesImpl implements RouteService {
 
     @Override
     public void addRoute(RouteRequestDto routeRequestDto) {
+        Station startStation = stationRepository.findById(routeRequestDto.getStartStationId())
+        .orElseThrow(() -> new IllegalArgumentException("Start station not found with id: " + routeRequestDto.getStartStationId()));
+
+        Station endStation = stationRepository.findById(routeRequestDto.getEndStationId())
+        .orElseThrow(() -> new IllegalArgumentException("End station not found with id: " + routeRequestDto.getEndStationId()));
+
         Route route = Route.builder()
                 .name(routeRequestDto.getName())
-//                .startStationId(routeRequestDto.getStartStationId()) // Sử dụng đúng tên
-//                .endStationId(routeRequestDto.getEndStationId())     // Sử dụng đúng tên
+                .startStation(startStation) 
+                .endStation(endStation)     
                 .isDelete(routeRequestDto.isDelete())
                 .build();
         routeRepository.save(route);
@@ -36,12 +40,19 @@ public class RouteServicesImpl implements RouteService {
 
     @Override
     public void updateRoute(int id, RouteRequestDto routeRequestDto) {
+        Station startStation = stationRepository.findById(routeRequestDto.getStartStationId())
+        .orElseThrow(() -> new IllegalArgumentException("Start station not found with id: " + routeRequestDto.getStartStationId()));
+
+        Station endStation = stationRepository.findById(routeRequestDto.getEndStationId())
+        .orElseThrow(() -> new IllegalArgumentException("End station not found with id: " + routeRequestDto.getEndStationId()));
+
+
         Route route = routeRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Route not found"));
 
         route.setName(routeRequestDto.getName());
-//        route.setStartStationId(routeRequestDto.getStartStationId()); // Sử dụng đúng tên
-//        route.setEndStationId(routeRequestDto.getEndStationId());     // Sử dụng đúng tên
+        route.setStartStation(startStation); 
+        route.setEndStation(endStation);     
         route.setDelete(routeRequestDto.isDelete());
         routeRepository.save(route);
     }
@@ -67,26 +78,15 @@ public class RouteServicesImpl implements RouteService {
     @Override
     public List<RouteDetailResponse> getAllRoute() {
         List<Route> routes = routeRepository.findAll();
-
-        // Lấy danh sách tất cả các station
-        List<Station> stations = stationRepository.findAll();
-        Map<Integer, String> stationMap = stations.stream()
-                .collect(Collectors.toMap(Station::getId, Station::getName));
-
         List<RouteDetailResponse> routeDetailResponses = routes.stream()
                 .map(route -> {
-                    // Lấy tên station tương ứng
-//                    String startStationName = stationMap.get(route.getStartStationId());
-//                    String endStationName = stationMap.get(route.getEndStationId());
 
                     return RouteDetailResponse.builder()
-                            .id(route.getId())
-                            .name(route.getName())
-//                            .startStationId(route.getStartStationId())
-//                            .endStationId(route.getEndStationId())
-//                            .isDelete(route.isDelete())
-//                            .startStationName(startStationName) // Thêm tên station khởi đầu
-//                            .endStationName(endStationName)     // Thêm tên station kết thúc
+                                .id(route.getId())
+                                .name(route.getName())
+                                .startStation(route.getStartStation())
+                                .endStation(route.getEndStation())
+                                .isDelete(route.isDelete())
                             .build();
                 })
                 .toList();
@@ -103,8 +103,8 @@ public class RouteServicesImpl implements RouteService {
         return RouteDetailResponse.builder()
                 .id(route.getId())
                 .name(route.getName())
-//                .startStationId(route.getStartStationId())
-//                .endStationId(route.getEndStationId())
+                .startStation(route.getStartStation())
+                .endStation(route.getEndStation())
                 .isDelete(route.isDelete())
                 .build();
     }

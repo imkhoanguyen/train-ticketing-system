@@ -24,8 +24,8 @@
           <tr [ngClass]="{'even-row': i % 2 === 0, 'odd-row': i % 2 !== 0}">
               <td>{{ route.id }}</td>
               <td>{{ route.name }}</td>
-              <td>{{ route.startStationName }}</td>
-              <td>{{ route.endStationName }}</td>
+              <td>{{ route.startStation.name }}</td>
+              <td>{{ route.endStation.name }}</td>
               <td>
                   <p-inputSwitch [style]="{width: '50px'}" (onChange)="onStatusChange(route)" [ngModel]="route.is_delete"></p-inputSwitch>
               </td>

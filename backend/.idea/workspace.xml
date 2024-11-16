@@ -5,33 +5,13 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="442f1894-f357-4ba9-a5cd-42b3981e20e2" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/StationController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/request/StationRequestDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/response/StationDetailResponse.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/repository/StationRepository.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/StationService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/StationServicesImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/src/app/_services/station.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/src/app/component/admin/station/station.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/src/app/component/admin/station/station.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/src/app/component/admin/station/station.component.spec.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/../frontend/src/app/component/admin/station/station.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/train/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/request/UserRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/request/UserRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/response/UserDetailResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/response/UserDetailResponse.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/entity/Station.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/entity/Station.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/UserServicesImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/UserServicesImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_models/station.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_models/station.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.component.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/booking/booking.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/booking/booking.component.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/booking/booking.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/booking/booking.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,9 +24,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 1
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 1
+}</component>
   <component name="ProjectId" id="2nMcjYcaxblKFxS2v5ygnqKTQhq" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
@@ -60,7 +40,8 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.TrainApplication.executor": "Run",
-    "git-widget-placeholder": "Merging tudeptrai",
+    "git-widget-placeholder": "master",
+    "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/train/train-ticketing-system/backend",
     "node.js.detected.package.eslint": "true",
@@ -84,8 +65,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-jdk-9823dce3aa75-b114ca120d71-intellij.indexing.shared.core-IU-242.21829.142" />
-        <option value="bundled-js-predefined-d6986cc7102b-7c0b70fcd90d-JavaScript-IU-242.21829.142" />
+        <option value="bundled-jdk-9823dce3aa75-28b599e66164-intellij.indexing.shared.core-IU-242.23726.103" />
+        <option value="bundled-js-predefined-d6986cc7102b-5c90d61e3bab-JavaScript-IU-242.23726.103" />
       </set>
     </attachedChunks>
   </component>
@@ -98,6 +79,8 @@
       <option name="presentableId" value="Default" />
       <updated>1728786520932</updated>
       <workItem from="1728786522205" duration="3686000" />
+      <workItem from="1731139514750" duration="976000" />
+      <workItem from="1731575439393" duration="3886000" />
     </task>
     <servers />
   </component>

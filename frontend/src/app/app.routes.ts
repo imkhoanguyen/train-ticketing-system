@@ -16,6 +16,7 @@ import { OrderComponent } from './component/admin/order/order.component';
 import { TicketComponent } from './component/admin/ticket/ticket.component';
 import { PromotionComponent } from './component/admin/promotion/promotion.component';
 import { DiscountComponent } from './component/admin/discount/discount.component';
+import { AdminComponent } from './component/admin/admin.component';
 import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 
@@ -33,16 +34,22 @@ export const routes: Routes = [
       { path: '', redirectTo: 'seat', pathMatch: 'full' },
     ],
   },
-  { path: 'register', component: RegisterComponent },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    children: [
+      { path: 'station', component: StationComponent },
+      { path: 'route', component: RouteComponent },
+      { path: 'route/schedule/:id', component: SchedulesComponent },
+      { path: 'train', component: TrainComponent },
+      { path: 'train/carriage/:trainid', component: CarriageComponent },
+      { path: 'train/carriage/:trainid/seat/:id', component: SeatComponent },
+      { path: 'order', component: OrderComponent },
+      { path: 'order/ticket/:id', component: TicketComponent },
+      { path: 'promotion', component: PromotionComponent },
+      { path: 'discount', component: DiscountComponent },
+    ],
+  },
   { path: 'login', component: LoginComponent },
-  { path: 'admin/station', component: StationComponent },
-  { path: 'admin/route', component: RouteComponent },
-  { path: 'admin/route/schedule/:id', component: SchedulesComponent },
-  { path: 'admin/train', component: TrainComponent },
-  { path: 'admin/train/carriage/:trainid', component: CarriageComponent },
-  { path: 'admin/train/carriage/:trainid/seat/:id', component: SeatComponent },
-  { path: 'admin/order', component: OrderComponent },
-  { path: 'admin/order/ticket/:id', component: TicketComponent },
-  { path: 'admin/promotion', component: PromotionComponent },
-  { path: 'admin/discount', component: DiscountComponent },
+  { path: 'register', component: RegisterComponent },
 ];
