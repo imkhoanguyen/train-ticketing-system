@@ -1,24 +1,36 @@
 <div class="container">
-    <div class="header-container">
-        <button pButton 
-          label="Quay lại" 
-          icon="pi pi-arrow-left" 
-          class="p-button-success mb-2 back-button" 
-          [routerLink]="['/admin/route']" 
-          routerLinkActive="active">
-        </button>
-        <h2 class="schedule-title">Lịch trình</h2>
+  <div class="header-container">
+    <button
+      pButton
+      label="Quay lại"
+      icon="pi pi-arrow-left"
+      class="p-button-success mb-2 back-button"
+      [routerLink]="['/admin/route']"
+      routerLinkActive="active"
+    ></button>
+    <h2 class="schedule-title">Lịch trình</h2>
+  </div>
+
+  <div class="button-container">
+    <button
+      pButton
+      label="Thêm mới"
+      icon="pi pi-plus"
+      class="p-button-success mb-2"
+      (click)="newSchedule()"
+    ></button>
+    <div class="search-container">
+      <i class="pi pi-search search-icon"></i>
+      <input
+        type="text"
+        pInputText
+        [(ngModel)]="searchQuery"
+        placeholder="Tìm kiếm theo tên tàu"
+      />
     </div>
-  
-    <div class="button-container">
-      <button pButton label="Thêm mới" icon="pi pi-plus" class="p-button-success mb-2" (click)="newSchedule()"></button>
-      <div class="search-container">
-        <i class="pi pi-search search-icon"></i>
-        <input type="text" pInputText [(ngModel)]="searchQuery" placeholder="Tìm kiếm theo tên tàu" />
-      </div>
-    </div>
-  
-    <p-table [value]="filteredSchedules" [paginator]="true" [rows]="5" responsiveLayout="scroll" class="custom-table">
+  </div>
+
+  <!-- <p-table [value]="filteredSchedules" [paginator]="true" [rows]="5" responsiveLayout="scroll" class="custom-table">
       <ng-template pTemplate="header">
         <tr>
           <th pSortableColumn="id">ID <p-sortIcon field="id"></p-sortIcon></th>
@@ -44,75 +56,98 @@
           </td>
         </tr>
       </ng-template>
-    </p-table>
+    </p-table> -->
 
-    <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true" header="Thông tin chuyến tàu">
-      <div class="container">
-        <h2 *ngIf="!currentState; else editTemplate">Thêm chuyến tàu</h2>
-        <ng-template #editTemplate>
-          <h2>Chỉnh sửa chuyến tàu</h2>
-        </ng-template>
-  
-        <form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
-          <div class="p-field">
-            <label for="routeType">Tên chuyến tàu:</label>
-            <input id="routeSelect" formControlName="routeSelect" pInputText  placeholder="Nhập tên chuyến tàu" />
-          </div>
-  
-          <div class="p-field">
-            <label for="trainType">Tên tàu:</label>
-            <p-dropdown 
-              [options]="trainsOptions"  
-              formControlName="trainSelect"
-              optionLabel="trainName"             
-              optionValue="trainId"                
-              placeholder="Chọn tàu"
-              [showClear]="false"
-            ></p-dropdown>
-          </div>
+  <p-dialog
+    [(visible)]="displayDialog"
+    modal="modal"
+    [closable]="true"
+    [responsive]="true"
+    header="Thông tin chuyến tàu"
+  >
+    <div class="container">
+      <h2 *ngIf="!currentState; else editTemplate">Thêm chuyến tàu</h2>
+      <ng-template #editTemplate>
+        <h2>Chỉnh sửa chuyến tàu</h2>
+      </ng-template>
 
-          <div class="p-field">
-            <label for="startDate">Ngày và giờ bắt đầu:</label>
-            <p-calendar 
-              id="startDate" 
-              formControlName="startDate" 
-              [showTime]="true" 
-              [hourFormat]="'24'"
-              [showIcon]="true"
-              dateFormat="dd/mm/yy"
-              placeholder="Chọn ngày và giờ bắt đầu"
-              [appendTo]="'body'"
-            ></p-calendar>
-          </div>
-        
-          <div class="p-field">
-            <label for="endDate">Ngày và giờ kết thúc:</label>
-            <p-calendar 
-              id="endDate" 
-              formControlName="endDate" 
-              [showTime]="true" 
-              [hourFormat]="'24'"
-              [showIcon]="true"
-              dateFormat="dd/mm/yy"
-              placeholder="Chọn ngày và giờ kết thúc"
-              [appendTo]="'body'"
-            ></p-calendar>
-          </div>
+      <form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
+        <div class="p-field">
+          <label for="routeType">Tên chuyến tàu:</label>
+          <input
+            id="routeSelect"
+            formControlName="routeSelect"
+            pInputText
+            placeholder="Nhập tên chuyến tàu"
+          />
+        </div>
 
-          <button pButton type="submit" class="p-button-success-1">
-            <b>{{ currentState ? 'Chỉnh sửa chuyến tàu' : 'Thêm chuyến tàu' }}</b>
-          </button>
-        </form>
-      </div>
-    </p-dialog>
+        <div class="p-field">
+          <label for="trainType">Tên tàu:</label>
+          <p-dropdown
+            [options]="trainsOptions"
+            formControlName="trainSelect"
+            optionLabel="trainName"
+            optionValue="trainId"
+            placeholder="Chọn tàu"
+            [showClear]="false"
+          ></p-dropdown>
+        </div>
 
-    <p-dialog 
-      modal="modal" [closable]="false" 
-      [responsive]="true"
-      [(visible)]="confirmDialogVisible" 
-      header="Xác nhận" >
-      <p>Bạn có chắc chắn muốn xóa lịch trình này ?</p>
-      <button pButton label="Có" (click)="deleteSchedule()" class="p-button-rounded p-button-info mr-2"></button>
-      <button pButton label="Không" (click)="hideConfirmDialog()" class="p-button-rounded p-button-danger"></button>
-    </p-dialog>
+        <div class="p-field">
+          <label for="startDate">Ngày và giờ bắt đầu:</label>
+          <p-calendar
+            id="startDate"
+            formControlName="startDate"
+            [showTime]="true"
+            [hourFormat]="'24'"
+            [showIcon]="true"
+            dateFormat="dd/mm/yy"
+            placeholder="Chọn ngày và giờ bắt đầu"
+            [appendTo]="'body'"
+          ></p-calendar>
+        </div>
+
+        <div class="p-field">
+          <label for="endDate">Ngày và giờ kết thúc:</label>
+          <p-calendar
+            id="endDate"
+            formControlName="endDate"
+            [showTime]="true"
+            [hourFormat]="'24'"
+            [showIcon]="true"
+            dateFormat="dd/mm/yy"
+            placeholder="Chọn ngày và giờ kết thúc"
+            [appendTo]="'body'"
+          ></p-calendar>
+        </div>
+
+        <button pButton type="submit" class="p-button-success-1">
+          <b>{{ currentState ? "Chỉnh sửa chuyến tàu" : "Thêm chuyến tàu" }}</b>
+        </button>
+      </form>
+    </div>
+  </p-dialog>
+
+  <p-dialog
+    modal="modal"
+    [closable]="false"
+    [responsive]="true"
+    [(visible)]="confirmDialogVisible"
+    header="Xác nhận"
+  >
+    <p>Bạn có chắc chắn muốn xóa lịch trình này ?</p>
+    <button
+      pButton
+      label="Có"
+      (click)="deleteSchedule()"
+      class="p-button-rounded p-button-info mr-2"
+    ></button>
+    <button
+      pButton
+      label="Không"
+      (click)="hideConfirmDialog()"
+      class="p-button-rounded p-button-danger"
+    ></button>
+  </p-dialog>
 </div>
