@@ -13,3 +13,12 @@ export interface LoginRequest {
   userName: string;
   password: string;
 }
+
+export interface RegisterRequest {
+  userName: string;
+  fullName: string;
+  password: string;
+  email: string;
+  phone: string;
+  cmnd: string;
+}

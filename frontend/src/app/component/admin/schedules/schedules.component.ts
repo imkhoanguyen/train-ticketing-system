@@ -4,14 +4,20 @@ import { ScheduleService } from '../../../_services/schedule.service';
 import { schedule } from '../../../_models/schedule.module';
 import { Train } from '../../../_models/train.module';
 import { TableModule } from 'primeng/table';
-import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import {
+  FormBuilder,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { ButtonModule } from 'primeng/button';
 import { CommonModule } from '@angular/common';
 import { InputTextModule } from 'primeng/inputtext';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
-import { TrainService } from '../../../_services/train.service'
+import { TrainService } from '../../../_services/train.service';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { RouteService } from '../../../_services/route.service';
 import { SortEvent } from 'primeng/api';
@@ -25,7 +31,7 @@ import { CheckboxModule } from 'primeng/checkbox';
   standalone: true,
   imports: [
     TableModule,
-    FormsModule,  
+    FormsModule,
     ReactiveFormsModule,
     ButtonModule,
     RouterModule,
@@ -40,19 +46,19 @@ import { CheckboxModule } from 'primeng/checkbox';
     CheckboxModule
   ],
   templateUrl: './schedules.component.html',
-  styleUrl: './schedules.component.css'
+  styleUrl: './schedules.component.css',
 })
 export class SchedulesComponent implements OnInit {
   routeId!: number;
-  schedules: schedule[]=[];
-  trains: Train[]=[];
+  schedules: schedule[] = [];
+  trains: Train[] = [];
   selectedRoute: any;
-  id!:number;
+  id!: number;
   searchQuery: string = '';
 
   scheduleForm!: FormGroup;
   displayDialog: boolean = false;
-  currentState: boolean=false;
+  currentState: boolean = false;
 
   trainsOptions: any[] = [];
   routesOptions: any[] = [];
@@ -72,16 +78,16 @@ export class SchedulesComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
-    private scheduleService:ScheduleService,
-    private trainService:TrainService,
-    private routeService:RouteService
+    private scheduleService: ScheduleService,
+    private trainService: TrainService,
+    private routeService: RouteService
   ) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       const id = params.get('id');
       if (id) {
-        this.routeId = +id; 
+        this.routeId = +id;
       }
     });
     this.loadRouteName();
@@ -146,15 +152,13 @@ export class SchedulesComponent implements OnInit {
   loadTrains() {
     this.trainService.getAllTrains().subscribe(
       (response: any) => {
-        this.trains = response.data; 
+        this.trains = response.data;
         // console.log(this.trains)
 
-        this.trainsOptions = this.trains.map(train => ({
+        this.trainsOptions = this.trains.map((train) => ({
           trainId: train.id,
-          trainName: train.name
+          trainName: train.name,
         }));
-        
-        
       },
       (error) => {
         console.log('error load routes', error);
@@ -162,13 +166,11 @@ export class SchedulesComponent implements OnInit {
     );
   }
 
-  loadRouteName(){
-    this.routeService.getRouteById(this.routeId).subscribe(
-      (response: any)=>{
-        this.selectedRoute=response.data;
-        // console.log(this.selectedRoute)            
-      }
-    )
+  loadRouteName() {
+    this.routeService.getRouteById(this.routeId).subscribe((response: any) => {
+      this.selectedRoute = response.data;
+      // console.log(this.selectedRoute)
+    });
   }
 
   checkDeleteValidity() {
@@ -200,25 +202,24 @@ export class SchedulesComponent implements OnInit {
   }
   showDialog() {
     this.displayDialog = true;
-    this.scheduleForm.reset(); 
+    this.scheduleForm.reset();
   }
 
-  newSchedule(){
-    this.currentState=false;
-    this.showDialog()
+  newSchedule() {
+    this.currentState = false;
+    this.showDialog();
     // console.log(this.selectedRoute.name)
-    this.scheduleForm.get('routeSelect')?.setValue(this.selectedRoute.name); 
+    this.scheduleForm.get('routeSelect')?.setValue(this.selectedRoute.name);
   }
   
   editSchedule(id: number) {
-    this.currentState=true;
-    this.showDialog()
-    this.id=id
+    this.currentState = true;
+    this.showDialog();
+    this.id = id;
     this.scheduleService.getScheduleById(this.id).subscribe(
-      (response: any) =>{
-        
-        const scheduleArray=response.data;
-        console.log(scheduleArray)
+      (response: any) => {
+        const scheduleArray = response.data;
+        console.log(scheduleArray);
         this.scheduleForm.patchValue({
           routeSelect: scheduleArray.route.name,
           trainSelect: scheduleArray.train.id, 
@@ -232,10 +233,7 @@ export class SchedulesComponent implements OnInit {
         console.log('error load routes', error);
       }
     );
-    
-    
   }
-
 
   onSubmit(): void {
     if (this.scheduleForm.valid) {
@@ -257,42 +255,42 @@ export class SchedulesComponent implements OnInit {
       const newEndDate = new Date(scheduleData.endDate);
 
       if (this.checkScheduleOverlap(newStartDate, newEndDate)) {
-        alert('Lịch trình bị trùng với một lịch trình khác. Vui lòng chọn thời gian khác.');
+        alert(
+          'Lịch trình bị trùng với một lịch trình khác. Vui lòng chọn thời gian khác.'
+        );
         return;
       }
 
       if (!this.currentState) {
-        
-        
         this.scheduleService.AddSchedule(scheduleData).subscribe({
           next: (response) => {
             console.log('Schedule added successfully', response);
-            this.loadSchedules()
+            this.loadSchedules();
           },
           error: (err) => {
             console.log('Failed to add station', err);
-          }
+          },
         });
       } else {
-        console.log(scheduleData)
-        this.scheduleService.UpdateSchedule(this.id,scheduleData).subscribe({
+        console.log(scheduleData);
+        this.scheduleService.UpdateSchedule(this.id, scheduleData).subscribe({
           next: (response) => {
             console.log('Schedule updated successfully', response);
-            this.loadSchedules()
+            this.loadSchedules();
           },
           error: (err) => {
             console.log('Failed to update station', err);
-          }
+          },
         });
       }
-      this.displayDialog = false; 
-      
+      this.displayDialog = false;
     }
   }
 
   checkScheduleOverlap(newStartDate: Date, newEndDate: Date): boolean {
-    return this.existingSchedules.some(schedule => 
-      (newStartDate < schedule.endDate && newEndDate > schedule.startDate)
+    return this.existingSchedules.some(
+      (schedule) =>
+        newStartDate < schedule.endDate && newEndDate > schedule.startDate
     );
   }
 

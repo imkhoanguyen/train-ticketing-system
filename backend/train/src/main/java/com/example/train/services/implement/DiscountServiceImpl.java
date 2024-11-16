@@ -4,6 +4,7 @@ import com.example.train.dto.request.DiscountRequestDto;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.entity.Discount;
 import com.example.train.entity.Promotion;
+import com.example.train.exception.NotFoundException;
 import com.example.train.repository.DiscountRepository;
 import com.example.train.services.DiscountService;
 import lombok.RequiredArgsConstructor;
@@ -65,7 +66,7 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     public Discount updateDiscount(int id, DiscountRequestDto dto) {
         Discount discount = discountRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Discount not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Discount not found with id: " + id));
 
         discount.setObject(dto.getObject());
         discount.setPrice(dto.getPrice());
@@ -76,7 +77,7 @@ public class DiscountServiceImpl implements DiscountService {
     @Override
     public void deleteDiscount(int id) {
         Discount discount = discountRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Discount not found with id: " + id));
+                .orElseThrow(() -> new NotFoundException("Discount not found with id: " + id));
 
         discount.setDelete(true);
         discountRepository.save(discount);

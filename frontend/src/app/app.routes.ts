@@ -18,6 +18,7 @@ import { PromotionComponent } from './component/admin/promotion/promotion.compon
 import { DiscountComponent } from './component/admin/discount/discount.component';
 import { AdminComponent } from './component/admin/admin.component';
 import { LoginComponent } from './component/login/login.component';
+import { RegisterComponent } from './component/register/register.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -34,20 +35,21 @@ export const routes: Routes = [
     ],
   },
   {
-    path: 'admin', component: AdminComponent,
+    path: 'admin',
+    component: AdminComponent,
     children: [
-    { path: 'station', component: StationComponent },
-    { path: 'route', component: RouteComponent },
-    { path: 'route/schedule/:id', component: SchedulesComponent },
-    { path: 'train', component: TrainComponent },
-    { path: 'train/carriage/:trainid', component: CarriageComponent },
-    { path: 'train/carriage/:trainid/seat/:id', component: SeatComponent },
-    { path: 'order', component: OrderComponent },
-    { path: 'order/ticket/:id', component: TicketComponent },
-    { path: 'promotion', component: PromotionComponent },
-    { path: 'discount', component: DiscountComponent },
-    ]
+      { path: 'station', component: StationComponent },
+      { path: 'route', component: RouteComponent },
+      { path: 'route/schedule/:id', component: SchedulesComponent },
+      { path: 'train', component: TrainComponent },
+      { path: 'train/carriage/:trainid', component: CarriageComponent },
+      { path: 'train/carriage/:trainid/seat/:id', component: SeatComponent },
+      { path: 'order', component: OrderComponent },
+      { path: 'order/ticket/:id', component: TicketComponent },
+      { path: 'promotion', component: PromotionComponent },
+      { path: 'discount', component: DiscountComponent },
+    ],
   },
   { path: 'login', component: LoginComponent },
-
+  { path: 'register', component: RegisterComponent },
 ];
