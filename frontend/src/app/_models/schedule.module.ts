@@ -5,7 +5,5 @@ export interface schedule {
     startDate:Date;
     endDate: Date;
 
-    routeName?: string; 
-    trainName?: string; 
   }
   

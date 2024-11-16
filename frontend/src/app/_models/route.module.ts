@@ -1,11 +1,12 @@
+import { Station } from "./station.module";
 export interface RouteModule {
     id: number;
     name: string;
-    startStationId:number;
-    endStationId:number;
+    startStation:Station;
+    endStation:Station;
     is_delete:boolean;
 
-    startStationName?: string; // Nếu cần thiết
-    endStationName?: string; 
+    // startStationName?: string; // Nếu cần thiết
+    // endStationName?: string; 
   }
   

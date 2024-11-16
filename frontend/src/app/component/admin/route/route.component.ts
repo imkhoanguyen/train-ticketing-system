@@ -84,7 +84,7 @@ export class RouteComponent implements OnInit{
           startStationId: id,
           startStationName: name,
         }));
-        console.log(this.stationStartOptions)
+        // console.log(this.stationStartOptions)
         this.stationEndOptions = Array.from(uniqueEndStations.entries()).map(([id, name]) => ({
           endStationId: id,
           endStationName: name,
@@ -100,7 +100,7 @@ export class RouteComponent implements OnInit{
     this.routeservice.getAllRoutes().subscribe(
       (response: any) => {
         this.routes = response.data; 
-        // console.log(this.routes)
+        console.log(this.routes[0])
        
 
         this.checkDeleteValidity()
@@ -119,27 +119,29 @@ export class RouteComponent implements OnInit{
   }
 
   onStatusChange(route: RouteModule) {
-    
     if (!route.is_delete){
       this.routeservice.RestoreRoute(route.id).subscribe({
         next:(response)=>{
-          console.log('active',response)
+          // console.log('active',response)
+          this.loadRoutes()
         },
         error: (err) => {
           console.log('Failed to change to active station', err);
         }
       })
     }
-    else{
-      this.routeservice. DeleteRoute(route.id).subscribe({
+    if(route.is_delete){
+      this.routeservice.DeleteRoute(route.id).subscribe({
         next:(response)=>{
-          console.log('cook',response)
+          // console.log('cook',response)
+          this.loadRoutes()
         },
         error: (err) => {
           console.log('Failed to change to inactive station', err);
         }
       })
     }
+    
   }
 
   get filteredRoutes() {
@@ -147,9 +149,9 @@ export class RouteComponent implements OnInit{
       return this.routes; // If no search query, return all stations
     }
     return this.routes.filter(route =>
-      route.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-      route.startStationName?.toLowerCase().includes(this.searchQuery.toLowerCase()) 
-      || route.endStationName?.toLowerCase().includes(this.searchQuery.toLowerCase()) 
+      route.name.toLowerCase().includes(this.searchQuery.toLowerCase()) 
+      // route.startStationName?.toLowerCase().includes(this.searchQuery.toLowerCase()) 
+      // || route.endStationName?.toLowerCase().includes(this.searchQuery.toLowerCase()) 
     );
   }
 
@@ -171,8 +173,8 @@ export class RouteComponent implements OnInit{
         const routeArray=response.data;
         this.routeForm.patchValue({
           name: routeArray.name,
-          stationStart: routeArray.startStationId, // Use the correct ID for matching
-          stationEnd: routeArray.endStationId, 
+          stationStart: routeArray.startStation.id, // Use the correct ID for matching
+          stationEnd: routeArray.endStation.id, 
           is_active: !routeArray.is_delete 
         });
       }
