@@ -17,6 +17,7 @@ import { TicketComponent } from './component/admin/ticket/ticket.component';
 import { PromotionComponent } from './component/admin/promotion/promotion.component';
 import { DiscountComponent } from './component/admin/discount/discount.component';
 import { LoginComponent } from './component/login/login.component';
+import { RegisterComponent } from './component/register/register.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -32,6 +33,7 @@ export const routes: Routes = [
       { path: '', redirectTo: 'seat', pathMatch: 'full' },
     ],
   },
+  { path: 'register', component: RegisterComponent },
   { path: 'login', component: LoginComponent },
   { path: 'admin/station', component: StationComponent },
   { path: 'admin/route', component: RouteComponent },

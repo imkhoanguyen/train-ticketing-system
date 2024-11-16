@@ -1,7 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { LoginRequest, UserDetail } from '../_models/user-detail';
+import {
+  LoginRequest,
+  RegisterRequest,
+  UserDetail,
+} from '../_models/user-detail';
 import { map } from 'rxjs';
 
 @Injectable({
@@ -20,6 +24,10 @@ export class AuthService {
         return response;
       })
     );
+  }
+
+  register(register: RegisterRequest) {
+    return this.http.post<any>(this.baseUrl + '/auth/register', register);
   }
 
   logout() {

@@ -1,0 +1,133 @@
+<div class="bg">
+  <h1 class="login-title text-dark">Đăng ký / Train</h1>
+  <div class="login-box">
+    <form [formGroup]="frm" (ngSubmit)="onSubmit()">
+      @if(validationErrors && validationErrors.length > 0) {
+      <div class="mx-auto mb-4 bg-danger text-white rounded">
+        <ul class="list-unstyled p-3">
+          @for (error of validationErrors; track $index) {
+          <li class="mb-2">
+            {{ error }}
+          </li>
+          }
+        </ul>
+      </div>
+      }
+      <div class="mb-3">
+        <label for="userName" class="form-label">Username</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Username"
+          formControlName="userName"
+          id="userName"
+        />
+        @if(frm.get('userName')?.invalid && frm.get('userName')?.touched) {
+        <span class="text-danger">Vui lòng nhập username</span>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password</label>
+        <input
+          class="form-control"
+          type="password"
+          placeholder="Password"
+          formControlName="password"
+          id="password"
+        />
+        @if(frm.get('password')?.invalid && frm.get('password')?.touched) {
+        <span class="text-danger">Vui lòng nhập password</span>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <input
+          class="form-control"
+          type="password"
+          placeholder="Confirm Password"
+          formControlName="confirmPassword"
+          id="confirmPassword"
+        />
+        <span class="text-danger" *ngIf="frm.get('confirmPassword')?.touched">
+          <!-- Check if the confirmPassword field is invalid and display appropriate error -->
+          <ng-container
+            *ngIf="frm.get('confirmPassword')?.hasError('required')"
+          >
+            Vui lòng nhập password
+          </ng-container>
+          <ng-container
+            *ngIf="frm.get('confirmPassword')?.hasError('notMatching')"
+          >
+            Mật khẩu xác nhận không khớp
+          </ng-container>
+        </span>
+      </div>
+      <div class="mb-3">
+        <label for="email" class="form-label">Email</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Email"
+          formControlName="email"
+          id="email"
+        />
+        @if(frm.get('email')?.invalid && frm.get('email')?.touched) {
+        <span class="text-danger">Vui lòng nhập email</span>
+        }
+      </div>
+      <div class="mb-3">
+        <label for="fullName" class="form-label">Full Name</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Full Name"
+          formControlName="fullName"
+          id="fullName"
+        />
+        @if(frm.get('fullName')?.invalid && frm.get('fullName')?.touched) {
+        <span class="text-danger">Vui lòng nhập Full Name</span>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label for="phone" class="form-label">Phone</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="Phone Number"
+          formControlName="phone"
+          id="phone"
+        />
+        @if(frm.get('phone')?.invalid && frm.get('phone')?.touched) {
+        <span class="text-danger">Vui lòng nhập phone number</span>
+        }
+      </div>
+
+      <div class="mb-3">
+        <label for="cmnd" class="form-label">CMND</label>
+        <input
+          class="form-control"
+          type="text"
+          placeholder="CMND"
+          formControlName="cmnd"
+          id="cmnd"
+        />
+        @if(frm.get('cmnd')?.invalid && frm.get('cmnd')?.touched) {
+        <span class="text-danger">Vui lòng nhập cmnd</span>
+        }
+      </div>
+      <div class="d-flex gap-3">
+        <button type="button" class="btn btn-secondary" routerLink="/login">
+          Đăng nhập
+        </button>
+        <button
+          class="btn btn-primary"
+          type="submit"
+          [disabled]="frm.invalid || !frm.dirty"
+        >
+          Đăng ký
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
