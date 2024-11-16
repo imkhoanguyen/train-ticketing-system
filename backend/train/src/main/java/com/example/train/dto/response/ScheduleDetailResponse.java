@@ -1,6 +1,7 @@
 package com.example.train.dto.response;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.example.train.entity.Route;
@@ -15,13 +16,11 @@ import lombok.Setter;
 @Builder
 public class ScheduleDetailResponse implements Serializable{
     private int id;
-    private int trainId;
-    private int routeId;
+    private boolean isDeleted;
+    private BigDecimal price;
+    private Route route;
+    private Train train;
     private LocalDateTime startDate;
     private LocalDateTime endDate;
 
-    private Route route;
-    private Train train;
-    // private String trainName; // Tên station khởi đầu
-    // private String routeName;
 }

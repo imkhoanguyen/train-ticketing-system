@@ -14,6 +14,10 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TrainService } from '../../../_services/train.service'
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { RouteService } from '../../../_services/route.service';
+import { SortEvent } from 'primeng/api';
+import { PaginatorModule } from 'primeng/paginator';
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { CheckboxModule } from 'primeng/checkbox';
 
 
 @Component({
@@ -30,7 +34,10 @@ import { RouteService } from '../../../_services/route.service';
     CalendarModule,
     DialogModule,
     DropdownModule,
-    ConfirmDialogModule
+    ConfirmDialogModule,
+    PaginatorModule,
+    InputSwitchModule,
+    CheckboxModule
   ],
   templateUrl: './schedules.component.html',
   styleUrl: './schedules.component.css'
@@ -50,10 +57,18 @@ export class SchedulesComponent implements OnInit {
   trainsOptions: any[] = [];
   routesOptions: any[] = [];
  
-  existingSchedules: { startDate: Date, endDate: Date }[] = [];
+  existingSchedules: any[] = [];
 
   confirmDialogVisible: boolean = false;
   scheduleToDelete!: number;
+
+  pageNumber = 1;
+  pageSize = 5;
+  total = 0;
+  search: string = '';
+  sortBy = 'id';
+  sortOrder = 'asc';
+  
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -74,31 +89,59 @@ export class SchedulesComponent implements OnInit {
     this.scheduleForm = this.formBuilder.group({
       routeSelect: [{ value: null, disabled: true }, Validators.required],
       trainSelect: [null, Validators.required],
+      priceSelect: [null, Validators.required],
       startDate: [null, Validators.required],
-      endDate: [null, Validators.required]
+      endDate: [null, Validators.required],
+      is_active: [false]
     });
     
     }
+  //
+  onPageChange(event: any) {
+    this.pageNumber = event.page + 1;
+    this.pageSize = event.rows;
+    this.loadSchedules();
+  }
 
+  onSearch() {
+    this.pageNumber = 1;
+    this.loadSchedules();
+  }
+
+  customSort(event: SortEvent) {
+    this.sortBy = event.field as string;
+    this.sortOrder = event.order === 1 ? 'asc' : 'desc';
+
+    this.loadSchedules();
+  }
+  
   loadSchedules() {
     this.loadTrains()
-    this.scheduleService.getAllSchedulesByRouteId(this.routeId).subscribe(
-      (response: any) => {
-        this.schedules = response.data; 
-
-        this.existingSchedules = this.schedules.map(schedule => ({
-          startDate: new Date(new Date(schedule.startDate).getTime() + 7 * 60 * 60 * 1000), 
-          endDate: new Date(new Date(schedule.endDate).getTime() + 7 * 60 * 60 * 1000)
-        }));
-        console.log(this.existingSchedules)
-        
-
-      },
-      (error) => {
-        console.log('error load routes', error);
-      }
-    );
+    
+    const orderBy = `${this.sortBy},${this.sortOrder}`;
+    this.scheduleService
+      .getWithLimit(this.pageNumber, this.pageSize, this.search, orderBy,this.routeId)
+      .subscribe({
+        next: (response) => {
+          const data = response.body?.data;
+          if (data) {
+            this.schedules = data.items;
+            this.total = data.total;
+            this.pageSize = data.size;
+            this.pageNumber = data.page;
+          }
+          // this.toasrt.success(
+          //   `${response.body?.status} - ${response.body?.message}`
+          // );
+          this.checkDeleteValidity()
+          console.log(this.schedules);
+        },
+        error: (er) => {
+          console.log(er);
+        },
+      });
   }
+
 
   loadTrains() {
     this.trainService.getAllTrains().subscribe(
@@ -127,18 +170,34 @@ export class SchedulesComponent implements OnInit {
       }
     )
   }
-  get filteredSchedules() {
-    if (!this.searchQuery) {
-      return this.schedules; 
-    }
-    return this.schedules.filter(schedule =>
-      // schedule.routeName?.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-      schedule.trainName?.toLowerCase().includes(this.searchQuery.toLowerCase()) 
-      
-    );
+
+  checkDeleteValidity() {
+    this.schedules.forEach((schedule) => {
+      schedule.isDeleted=!schedule.isDeleted
+    });
   }
-
-
+  onDelete(schedule: schedule){
+    this.scheduleService.DeleteSchedule(schedule.id).subscribe({
+      next:(response)=>{
+        console.log('cook',response)
+        // this.loadSchedules()
+      },
+      error: (err) => {
+        console.log('Failed to change to inactive station', err);
+      }
+    })
+  }
+  onRestore(schedule: schedule){
+    this.scheduleService.RestoreSchedule(schedule.id).subscribe({
+      next:(response)=>{
+        console.log('active',response)
+        // this.loadSchedules()
+      },
+      error: (err) => {
+        console.log('Failed to change to active station', err);
+      }
+    })
+  }
   showDialog() {
     this.displayDialog = true;
     this.scheduleForm.reset(); 
@@ -150,7 +209,7 @@ export class SchedulesComponent implements OnInit {
     // console.log(this.selectedRoute.name)
     this.scheduleForm.get('routeSelect')?.setValue(this.selectedRoute.name); 
   }
-
+  
   editSchedule(id: number) {
     this.currentState=true;
     this.showDialog()
@@ -161,11 +220,12 @@ export class SchedulesComponent implements OnInit {
         const scheduleArray=response.data;
         console.log(scheduleArray)
         this.scheduleForm.patchValue({
-          routeSelect: scheduleArray.routeName,
-          trainSelect: scheduleArray.trainId, 
+          routeSelect: scheduleArray.route.name,
+          trainSelect: scheduleArray.train.id, 
           startDate: new Date(new Date(scheduleArray.startDate).getTime() + 7 * 60 * 60 * 1000), 
-          endDate: new Date(new Date(scheduleArray.endDate).getTime() + 7 * 60 * 60 * 1000)  
-          
+          endDate: new Date(new Date(scheduleArray.endDate).getTime() + 7 * 60 * 60 * 1000),
+          priceSelect: scheduleArray.price,
+          is_active: scheduleArray.deleted
         });
       },
       (error) => {
@@ -182,8 +242,10 @@ export class SchedulesComponent implements OnInit {
       const scheduleData = {
         routeId: this.routeId,
         trainId: this.scheduleForm.get('trainSelect')?.value,
+        price:this.scheduleForm.get('priceSelect')?.value,
         startDate:new Date(this.scheduleForm.get('startDate')?.value).toISOString(),
-        endDate:new Date(this.scheduleForm.get('endDate')?.value).toISOString()
+        endDate:new Date(this.scheduleForm.get('endDate')?.value).toISOString(),
+        isDeleted:this.scheduleForm.get('is_active')?.value ? 'true' : 'false'
       };
 
       if (scheduleData.startDate > scheduleData.endDate) {
@@ -234,24 +296,4 @@ export class SchedulesComponent implements OnInit {
     );
   }
 
-  confirmDelete(id: number) {
-    this.scheduleToDelete = id;
-    this.confirmDialogVisible = true;
-  }
-
-  deleteSchedule(){
-    this.scheduleService.DeleteSchedule(this.scheduleToDelete).subscribe({
-      next: () => {
-        console.log('Schedule deleted successfully');
-        this.loadSchedules(); 
-        this.hideConfirmDialog(); 
-      },
-      error: (err) => {
-        console.log('Failed to delete schedule', err);
-      }
-    });
-  }
-  hideConfirmDialog = () => {
-    this.confirmDialogVisible = false;
-  };
 }

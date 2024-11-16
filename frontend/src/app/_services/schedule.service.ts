@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { schedule } from '../_models/schedule.module';
@@ -13,6 +13,29 @@ export class ScheduleService {
   getAllSchedulesByRouteId(id:number) {
     return this.http.get<schedule[]>(`${this.baseUrl}/schedule/list/${id}`);
   }
+
+  getWithLimit(
+    page: number = 1,
+    size: number = 10,
+    search: string = '',
+    sortBy: string = 'id,desc',
+    id:number
+  ) {
+    let params = new HttpParams();
+    params = params.set('pageNumber', page.toString());
+    params = params.set('pageSize', size.toString());
+    params = params.set('sortBy', sortBy);
+
+    if (search) {
+      params = params.set('search', search);
+    }
+
+    return this.http.get<any>(`${this.baseUrl}/schedule/list/${id}`, {
+      observe: 'response',
+      params,
+    });
+  }
+
   getScheduleById(id: number) {
     return this.http.get<{ status: number; message: string; data: schedule }>(`${this.baseUrl}/schedule/${id}`);
   }
@@ -31,6 +54,11 @@ export class ScheduleService {
 
   DeleteSchedule(id: number) {
     return this.http.delete(`${this.baseUrl}/schedule/delete/${id}`, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+  RestoreSchedule(id: number) {
+    return this.http.put(`${this.baseUrl}/schedule/restore/${id}`, {
       headers: { 'Content-Type': 'application/json' }
     });
   }

@@ -35,6 +35,5 @@ public class Schedule {
 
     @Builder.Default
     private boolean isDeleted = false;
-    private String routeName;
-    private String trainName;
+
 }

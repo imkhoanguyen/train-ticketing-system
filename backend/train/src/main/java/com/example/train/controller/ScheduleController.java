@@ -1,5 +1,7 @@
 package com.example.train.controller;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -10,14 +12,17 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
 import com.example.train.dto.request.ScheduleRequestDto;
+import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.ResponseData;
 
 import com.example.train.dto.response.ScheduleDetailResponse;
+import com.example.train.entity.Discount;
+import com.example.train.entity.Schedule;
 import com.example.train.services.ScheduleService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,12 +40,17 @@ import lombok.extern.slf4j.Slf4j;
 
 public class ScheduleController {
     private final ScheduleService ScheduleService;
-    @Operation(summary = "Get list of schedules", description = "Send a request via this API to get schedule list by pageNo and pageSize")
     @GetMapping("/list/{id}")
-    public ResponseData<?> getAllSchedulesByRouteId(@PathVariable int id) {
-        log.info("Request get all stations");
-        return new ResponseData<>(HttpStatus.OK.value(), "schedules", ScheduleService.getAllSchedulesByRouteId(id));
-        
+    public ResponseData<PageResponse<List<Schedule>>> GetAllWithLimit(
+            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "1") int pageSize,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "sortBy", defaultValue = "id,desc") String sortBy,
+            @PathVariable int id) {
+            
+        PageResponse<List<Schedule>> response = (PageResponse<List<Schedule>>) ScheduleService.getAllScheduleAndSearchWithPagingAndSorting(pageNumber, pageSize, search, sortBy,id);
+
+        return new ResponseData<>(HttpStatus.OK.value(), "get list discount with limit", response);
     }
 
     @Operation(summary = "Get route by ID", description = "Send a request to retrieve a route by its ID")
@@ -76,6 +86,15 @@ public class ScheduleController {
         ScheduleService.deleteSchedule(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseData<>(HttpStatus.OK.value(), "Route deleted successfully", null));
+    }
+
+    @Operation(summary = "Restore a deleted Schedule", description = "Send a request to restore a deleted Schedule by ID")
+    @PutMapping("/restore/{id}")
+    public ResponseEntity<ResponseData<?>> restoreSchedule(@PathVariable int id) {
+        log.info("Request to restore Schedule with ID: {}", id);
+        ScheduleService.restoreSchedule(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseData<>(HttpStatus.OK.value(), "Schedule restored successfully", null));
     }
 
 }

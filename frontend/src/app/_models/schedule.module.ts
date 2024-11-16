@@ -1,7 +1,12 @@
+import { RouteModule } from "./route.module";
+import { Train } from "./train.module";
+
 export interface schedule {
     id: number;
-    train_id: number;
-    route_id: number;
+    isDeleted:boolean;
+    price:number;
+    train: Train;
+    route: RouteModule;
     startDate:Date;
     endDate: Date;
 

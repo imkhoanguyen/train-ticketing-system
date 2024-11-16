@@ -26,11 +26,28 @@
 }
 
 /* Button and search input spacing */
+/* .button-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+} */
 .button-container {
     display: flex;
     justify-content: space-between;
     align-items: center;
     margin-bottom: 16px;
+    width: 100%;
+}
+input.form-control {
+    width: 200px;  /* Adjusted width for the search input */
+    padding: 8px;  /* Reduced padding for smaller input */
+    margin-right: 16px;  /* Space between search input and button */
+    order: 1;  /* Position it to the left */
+}
+button.p-button-success {
+    padding: 6px 12px;  /* Reduced padding to make the button smaller */
+    order: 2;  /* Position it to the right */
 }
 
 .search-container {
@@ -139,11 +156,24 @@ p-dialog[header="Xác nhận"] button {
         width: 100%;
     }
 
+    /* .button-container {
+        flex-direction: column;
+        align-items: flex-start;
+    } */
     .button-container {
         flex-direction: column;
         align-items: flex-start;
     }
+    input.form-control {
+        width: 100%; /* Ensure the input takes full width on smaller screens */
+        margin-right: 0;  /* Remove right margin on small screens */
+    }
 
+    button.p-button-success {
+        width: 100%;  /* Make button full width on small screens */
+        margin-top: 8px;  /* Space between button and input */
+    }
+    
     p-dialog .container {
         padding: 8px;
     }
