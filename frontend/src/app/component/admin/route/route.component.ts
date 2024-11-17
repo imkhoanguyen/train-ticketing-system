@@ -12,7 +12,8 @@ import {RouteModule} from '../../../_models/route.module'
 import { DialogModule } from 'primeng/dialog';
 import { DropdownModule } from 'primeng/dropdown';
 import { StationService } from '../../../_services/station.service';
-import * as XLSX from 'xlsx';
+import { SortEvent } from 'primeng/api';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-route',
@@ -28,7 +29,8 @@ import * as XLSX from 'xlsx';
     CheckboxModule,
     InputTextModule,
     DialogModule,
-    DropdownModule 
+    DropdownModule ,
+    PaginatorModule
   ],
   templateUrl: './route.component.html',
   styleUrl: './route.component.css'
@@ -45,8 +47,15 @@ export class RouteComponent implements OnInit{
   stationStartOptions: any[] = [];
   stationEndOptions: any[] = [];
 
-  uploadDialog: boolean = false;
-  fileData: any[] = [];
+  // uploadDialog: boolean = false;
+  // fileData: any[] = [];
+
+  pageNumber = 1;
+  pageSize = 5;
+  total = 0;
+  search: string = '';
+  sortBy = 'id';
+  sortOrder = 'asc';
 
   constructor(
     private formBuilder: FormBuilder,
@@ -65,6 +74,7 @@ export class RouteComponent implements OnInit{
       is_active: [false]
     });
   }
+
   loadStations(){
     this.stationService.getAllStations().subscribe(
       (response: any) => {
@@ -95,64 +105,78 @@ export class RouteComponent implements OnInit{
       }
     );
   }
-  loadRoutes() {
-    
-    this.routeservice.getAllRoutes().subscribe(
-      (response: any) => {
-        this.routes = response.data; 
-        console.log(this.routes[0])
-       
 
-        this.checkDeleteValidity()
-      },
-      (error) => {
-        console.log('error load routes', error);
-      }
-    );
+  onPageChange(event: any) {
+    this.pageNumber = event.page + 1;
+    this.pageSize = event.rows;
+    this.loadRoutes();
   }
 
+  onSearch() {
+    this.pageNumber = 1;
+    this.loadRoutes();
+  }
+
+  customSort(event: SortEvent) {
+    this.sortBy = event.field as string;
+    this.sortOrder = event.order === 1 ? 'asc' : 'desc';
+
+    this.loadRoutes();
+  }
   
+  loadRoutes() {
+    const orderBy = `${this.sortBy},${this.sortOrder}`;
+    this.routeservice
+      .getWithLimit(this.pageNumber, this.pageSize, this.search, orderBy)
+      .subscribe({
+        next: (response) => {
+          const data = response.body?.data;
+          if (data) {
+            this.routes = data.items;
+            this.total = data.total;
+            this.pageSize = data.size;
+            this.pageNumber = data.page;
+          }
+          this.checkDeleteValidity()
+          console.log(this.routes);
+        },
+        error: (er) => {
+          console.log(er);
+        },
+      });
+  }
+
   checkDeleteValidity() {
+    console.log('Before update:', this.stations);
     this.routes.forEach((route) => {
-      route.is_delete=!route.is_delete
+      if (route.hasOwnProperty('delete')) {
+        route.delete = !route.delete;
+      } else {
+        console.error('isDeleted property missing in schedule:', route);
+      }
     });
+    console.log('After update:', this.routes);
   }
 
-  onStatusChange(route: RouteModule) {
-    if (!route.is_delete){
-      this.routeservice.RestoreRoute(route.id).subscribe({
-        next:(response)=>{
-          // console.log('active',response)
-          this.loadRoutes()
-        },
-        error: (err) => {
-          console.log('Failed to change to active station', err);
-        }
-      })
-    }
-    if(route.is_delete){
-      this.routeservice.DeleteRoute(route.id).subscribe({
-        next:(response)=>{
-          // console.log('cook',response)
-          this.loadRoutes()
-        },
-        error: (err) => {
-          console.log('Failed to change to inactive station', err);
-        }
-      })
-    }
-    
+  onDelete(route: RouteModule){
+    this.routeservice.DeleteRoute(route.id).subscribe({
+      next:(response)=>{
+        console.log('cook',response)
+      },
+      error: (err) => {
+        console.log('Failed to change to inactive station', err);
+      }
+    })
   }
-
-  get filteredRoutes() {
-    if (!this.searchQuery) {
-      return this.routes; // If no search query, return all stations
-    }
-    return this.routes.filter(route =>
-      route.name.toLowerCase().includes(this.searchQuery.toLowerCase()) 
-      // route.startStationName?.toLowerCase().includes(this.searchQuery.toLowerCase()) 
-      // || route.endStationName?.toLowerCase().includes(this.searchQuery.toLowerCase()) 
-    );
+  onRestore(route: RouteModule){
+    this.routeservice.RestoreRoute(route.id).subscribe({
+      next:(response)=>{
+        console.log('active',response)
+      },
+      error: (err) => {
+        console.log('Failed to change to active route', err);
+      }
+    })
   }
 
   showDialog() {
@@ -171,11 +195,12 @@ export class RouteComponent implements OnInit{
     this.routeservice.getRouteById(this.id).subscribe({
       next:(response)=>{
         const routeArray=response.data;
+        console.log(routeArray)
         this.routeForm.patchValue({
           name: routeArray.name,
           stationStart: routeArray.startStation.id, // Use the correct ID for matching
           stationEnd: routeArray.endStation.id, 
-          is_active: !routeArray.is_delete 
+          is_active: !routeArray.delete 
         });
       }
     })
@@ -222,51 +247,6 @@ export class RouteComponent implements OnInit{
       }
       this.displayDialog = false; 
       
-    }
-  }
-
-  showUploadDialog() {
-    this.uploadDialog = true; // Open the upload dialog
-  }
-
-  onFileChange(event: any): void {
-    const file = event.target.files[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: any) => {
-        const data = e.target.result;
-        const workbook = XLSX.read(data, { type: 'binary' });
-        const worksheet = workbook.Sheets[workbook.SheetNames[0]];
-        this.fileData = XLSX.utils.sheet_to_json(worksheet, { header: 1 });
-
-        console.log('Raw data from Excel:', this.fileData);
-        // You may want to map the data into the required format
-        this.fileData = this.fileData.map(row => ({
-          name: row[0],
-          startStationId: row[1],
-          endStationId: row[2],
-          isDelete: row[3] 
-          
-        }));
-        console.log('Parsed file data:', this.fileData);
-      };
-      // reader.readAsBinaryString(file);
-    }
-  }
-
-  uploadStations(): void {
-    if (this.fileData.length > 0) {
-      this.stationService.AddMultipleStations(this.fileData).subscribe({
-        next: (response) => {
-          console.log('Stations added successfully', response);
-          this.loadStations(); // Reload the stations list
-        },
-        error: (err) => {
-          console.log('Failed to add stations', err);
-        }
-      });
-    } else {
-      console.log('No data to upload');
     }
   }
 }

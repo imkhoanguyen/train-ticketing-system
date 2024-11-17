@@ -21,7 +21,6 @@ import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.ResponseData;
 
 import com.example.train.dto.response.ScheduleDetailResponse;
-import com.example.train.entity.Discount;
 import com.example.train.entity.Schedule;
 import com.example.train.services.ScheduleService;
 

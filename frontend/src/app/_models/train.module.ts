@@ -3,7 +3,7 @@ export interface Train {
     name: string;
     description: string;
     pictureUrl:string;
-    _delete: boolean;
+    delete: boolean;
 
 }
   

@@ -10,9 +10,9 @@ export class ScheduleService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
 
-  getAllSchedulesByRouteId(id:number) {
-    return this.http.get<schedule[]>(`${this.baseUrl}/schedule/list/${id}`);
-  }
+  // getAllSchedulesByRouteId(id:number) {
+  //   return this.http.get<schedule[]>(`${this.baseUrl}/schedule/list/${id}`);
+  // }
 
   getWithLimit(
     page: number = 1,

@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
     } else {
       this.isLogin = false;
     }
-    this.loadStations();
+    // this.loadStations();
   }
   load() {
     this.loading = true;

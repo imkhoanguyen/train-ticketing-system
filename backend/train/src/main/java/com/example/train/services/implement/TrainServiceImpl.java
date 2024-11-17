@@ -2,11 +2,17 @@ package com.example.train.services.implement;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 
 import com.example.train.dto.request.TrainRequestDto;
+import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.TrainDetailResponse;
+import com.example.train.entity.Station;
 import com.example.train.entity.Train;
 import com.example.train.repository.TrainRepository;
 import com.example.train.services.TrainService;
@@ -29,7 +35,7 @@ public class TrainServiceImpl implements TrainService{
                         .name(train.getName())
                         .description(train.getDescription())
                         .pictureUrl(train.getPictureUrl())
-                        .is_delete(train.isDelete())
+                        .isDelete(train.isDelete())
                         .build())
                 .toList();
 
@@ -59,7 +65,7 @@ public class TrainServiceImpl implements TrainService{
                 .name(train.getName())
                 .description(train.getDescription())
                 .pictureUrl(train.getPictureUrl())
-                .is_delete(train.isDelete())
+                .isDelete(train.isDelete())
                 .build();
     }
 
@@ -108,6 +114,37 @@ public class TrainServiceImpl implements TrainService{
 
         trainRepository.saveAll(trains);
         log.info("Trains added successfully: {}", trains);
+    }
+    @Override
+    public PageResponse<?> getAllTrainAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search,
+            String sortBy) {
+        int page = 0;
+        if(pageNo > 0){
+            page = pageNo - 1;
+        }
+
+        String sortField = sortBy.contains(",") ? sortBy.split(",")[0] : sortBy;
+        String sortDirection = sortBy.endsWith("desc") ? "desc" : "asc";
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
+
+        Page<Train> trainPage;
+        if(search == null || search.isEmpty()){
+            trainPage = trainRepository.findAll(pageable);
+        } else {
+            trainPage = trainRepository.findByNameContainingIgnoreCase(search, pageable);
+        }
+
+        return PageResponse.<List<Train>>builder()
+                .page(pageNo)
+                .size(pageSize)
+                .total(trainPage.getTotalElements())
+                .items(trainPage.getContent())
+                .build();
     }
     
     

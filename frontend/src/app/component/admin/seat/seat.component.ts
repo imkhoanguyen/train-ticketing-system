@@ -83,7 +83,7 @@ export class SeatComponent implements OnInit {
     
     }
 
-    loadSeats() {
+  loadSeats() {
     // this.loadTrains()
     this.seatService.getAllSeatsByCarriageId(this.carriageId).subscribe(
       (response: any) => {

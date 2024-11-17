@@ -1,12 +1,18 @@
 package com.example.train.services.implement;
 import com.example.train.dto.request.StationRequestDto;
+import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.StationDetailResponse;
+import com.example.train.entity.Schedule;
 import com.example.train.entity.Station;
 import com.example.train.repository.StationRepository;
 import com.example.train.services.StationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 // import org.springframework.data.domain.Page;
 // import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -60,7 +66,7 @@ public class StationServicesImpl implements StationService {
                 .map(station -> StationDetailResponse.builder()
                         .id(station.getId())
                         .name(station.getName())
-                        .isDelete(station.is_delete())
+                        .is_delete(station.is_delete())
                         .build())
                 .toList();
 
@@ -77,7 +83,7 @@ public class StationServicesImpl implements StationService {
         return StationDetailResponse.builder()
                 .id(station.getId())
                 .name(station.getName())
-                .isDelete(station.is_delete())
+                .is_delete(station.is_delete())
                 .build();
     }
 
@@ -118,6 +124,38 @@ public class StationServicesImpl implements StationService {
 
         stationRepository.saveAll(stations);
         log.info("Stations added successfully: {}", stations);
+    }
+
+    @Override
+    public PageResponse<?> getAllStationAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search,
+            String sortBy) {
+        int page = 0;
+        if(pageNo > 0){
+            page = pageNo - 1;
+        }
+
+        String sortField = sortBy.contains(",") ? sortBy.split(",")[0] : sortBy;
+        String sortDirection = sortBy.endsWith("desc") ? "desc" : "asc";
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
+
+        Page<Station> stationPage;
+        if(search == null || search.isEmpty()){
+            stationPage = stationRepository.findAll(pageable);
+        } else {
+            stationPage = stationRepository.findByNameContainingIgnoreCase(search, pageable);
+        }
+
+        return PageResponse.<List<Station>>builder()
+                .page(pageNo)
+                .size(pageSize)
+                .total(stationPage.getTotalElements())
+                .items(stationPage.getContent())
+                .build();
     }
     
 }

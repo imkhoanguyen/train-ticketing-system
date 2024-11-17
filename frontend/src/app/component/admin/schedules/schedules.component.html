@@ -60,7 +60,7 @@
           <td>
             <p-inputSwitch 
               [style]="{width: '50px'}" 
-              (onChange)="schedule.deleted ? onDelete(schedule) : onRestore(schedule)" 
+              (onChange)="schedule.deleted ? onRestore(schedule) : onDelete(schedule)" 
               [(ngModel)]="schedule.deleted">
             </p-inputSwitch>
           </td>

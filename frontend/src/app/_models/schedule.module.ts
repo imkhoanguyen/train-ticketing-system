@@ -3,7 +3,7 @@ import { Train } from "./train.module";
 
 export interface schedule {
     id: number;
-    isDeleted:boolean;
+    deleted:boolean;
     price:number;
     train: Train;
     route: RouteModule;
