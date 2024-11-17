@@ -2,7 +2,9 @@ package com.example.train.services.implement;
 
 import com.example.train.dto.request.LoginRequestDto;
 import com.example.train.dto.request.RegisterRequestDto;
+import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.UserDetailResponse;
+import com.example.train.dto.response.UserResponse;
 import com.example.train.entity.User;
 import com.example.train.exception.BadRequestException;
 import com.example.train.exception.NotFoundException;
@@ -30,11 +32,6 @@ public class UserServicesImpl implements UserService {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public int addUser(User user) {
-        return 0;
-    }
-
-    @Override
     public void updateUser(int userId, User user) {
 
     }
@@ -45,24 +42,11 @@ public class UserServicesImpl implements UserService {
     }
 
     @Override
-    public List<UserDetailResponse> getAll(int pageNumber, int pageSize) {
-        int p = 0;
-        if(pageNumber > 0) {
-            p = pageNumber - 1;
-        }
-
-        Page<User> users = userRepository.findAll(PageRequest.of(p, pageSize));
-
-
-        return users.stream()
-                .map(user -> UserDetailResponse.builder()
-                        .userName(user.getUserName())
-                        .email(user.getEmail())
-                        .fullName(user.getFullName())
-                        .phone(user.getPhone())
-                        .build()
-                ).toList();
+    public PageResponse<List<UserResponse>> getAllWithLimit(int pageNo, int pageSize, String search, String sortBy) {
+        return userRepository.findAllWithCustomQuery(pageNo, pageSize, search, sortBy);
     }
+
+
 
     @Override
     public UserDetailResponse getUser(int userId) {

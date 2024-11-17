@@ -1,5 +1,6 @@
 package com.example.train.entity;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,6 +32,7 @@ public class User {
     private String cmnd;
 
     @Builder.Default
+    @JsonProperty("isDelete")
     private boolean isDelete = false;
 
     private String role;
