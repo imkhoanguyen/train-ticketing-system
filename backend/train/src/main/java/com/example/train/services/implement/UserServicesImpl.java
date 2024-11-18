@@ -2,9 +2,11 @@ package com.example.train.services.implement;
 
 import com.example.train.dto.request.LoginRequestDto;
 import com.example.train.dto.request.RegisterRequestDto;
+import com.example.train.dto.request.UserRequestDto;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.UserDetailResponse;
 import com.example.train.dto.response.UserResponse;
+import com.example.train.entity.Promotion;
 import com.example.train.entity.User;
 import com.example.train.exception.BadRequestException;
 import com.example.train.exception.NotFoundException;
@@ -31,14 +33,48 @@ public class UserServicesImpl implements UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    @Override
-    public void updateUser(int userId, User user) {
 
+    @Override
+    public UserResponse updateUser(int id, UserRequestDto dto) {
+        User u = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
+
+        u.setUserName(dto.getUserName());
+        u.setCmnd(dto.getCmnd());
+        u.setEmail(dto.getEmail());
+        u.setPhone(dto.getPhone());
+        u.setFullName(dto.getFullName());
+
+        userRepository.save(u);
+
+
+        return UserResponse.builder()
+                .id(u.getId())
+                .userName(u.getUserName())
+                .fullName(u.getFullName())
+                .email(u.getEmail())
+                .phone(u.getPhone())
+                .role(u.getRole())
+                .cmnd(u.getCmnd())
+                .build();
     }
 
     @Override
-    public void deleteUser(int userId) {
+    public void deleteUser(int id) {
+        User u = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
 
+        u.setDelete(true);
+        userRepository.save(u);
+    }
+
+    @Override
+    public void resetPassword(int id) {
+        User u = userRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("User not found with id: " + id));
+
+        u.setPassword(passwordEncoder.encode(u.getCmnd()));
+        userRepository.save(u);
     }
 
     @Override
@@ -46,12 +82,6 @@ public class UserServicesImpl implements UserService {
         return userRepository.findAllWithCustomQuery(pageNo, pageSize, search, sortBy);
     }
 
-
-
-    @Override
-    public UserDetailResponse getUser(int userId) {
-        return null;
-    }
 
     @Override
     public UserDetailResponse login(LoginRequestDto dto) {
