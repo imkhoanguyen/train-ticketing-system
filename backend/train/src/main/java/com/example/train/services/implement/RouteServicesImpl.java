@@ -143,4 +143,22 @@ public class RouteServicesImpl implements RouteService {
                 .items(routePage.getContent())
                 .build();
     }
+    @Override
+    public List<RouteDetailResponse> getRoutesByStations(int startStationId, int endStationId) {
+        Station startStation = stationRepository.findById(startStationId)
+                .orElseThrow(() -> new IllegalArgumentException("Start station not found with id: " + startStationId));
+        Station endStation = stationRepository.findById(endStationId)
+                .orElseThrow(() -> new IllegalArgumentException("End station not found with id: " + endStationId));
+        List<Route> routes = routeRepository.findByStartStationAndEndStation(startStation, endStation);
+        return routes.stream()
+                .map(route -> RouteDetailResponse.builder()
+                        .id(route.getId())
+                        .name(route.getName())
+                        .startStation(route.getStartStation())
+                        .endStation(route.getEndStation())
+                        .isDelete(route.isDelete())
+                        .build())
+                .toList();
+    }
+
 }

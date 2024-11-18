@@ -34,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 public class CarriageController {
     private final CarriageService carriageService;
+    @Operation(summary = "Get list of carriages", description = "Send a request via this API to get carriage list by pageNo and pageSize")
     @GetMapping("/list/{id}")
     public ResponseData<PageResponse<List<Carriage>>> GetAllWithLimit(
             @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
@@ -41,7 +42,7 @@ public class CarriageController {
             @RequestParam(value = "search", required = false) String search,
             @RequestParam(value = "sortBy", defaultValue = "id,desc") String sortBy,
             @PathVariable int id) {
-            
+
         PageResponse<List<Carriage>> response = (PageResponse<List<Carriage>>) carriageService.getAllCarriageAndSearchWithPagingAndSorting(pageNumber, pageSize, search, sortBy,id);
 
         return new ResponseData<>(HttpStatus.OK.value(), "get list discount with limit", response);

@@ -1,6 +1,10 @@
 package com.example.train.services.implement;
 
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.example.train.dto.response.ScheduleDetailResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -61,22 +65,18 @@ public class SeatServiceImpl implements SeatService{
 
     @Override
     public List<SeatDetailResponse> getAllSeatsByCarriageId(int id) {
-        List<Seat> seats = seatRepository.findByCarriage_Id(id);
+        List<Seat> seats = seatRepository.findByCarriageId(id);
 
-        List<SeatDetailResponse> seatDetailResponses = seats.stream()
-                .map(seat -> {
-                    return SeatDetailResponse.builder()
+        return seats.stream()
+                .map(seat -> SeatDetailResponse.builder()
                             .id(seat.getId())
-                           .carriage(seat.getCarriage())
-                           .name(seat.getName())
-                           .price(seat.getPrice())
-                           .description(seat.getDescription())
-                           .isDelete(seat.isDelete())
-                            .build();
-                })
-                .toList();
+                            .name(seat.getName())
+                            .price(seat.getPrice())
+                            .description(seat.getDescription())
+                            .is_delete(seat.isDelete())
+                            .build()
+                ).toList();
 
-        return seatDetailResponses;
     }
 
     @Override

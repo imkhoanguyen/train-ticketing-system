@@ -1,46 +1,43 @@
-<div class="container result-container">
-  <img class="background-img"
-    src="https://storage.googleapis.com/a1aa/image/5Md8ezettmmfRpTWyOjCFPP9sGeefiqEQCHNrMf8Bfzon2hmTA.jpg" alt="" />
+<div class="bg">
+  <div class="container py-5">
+    <div class="row">
+      <!-- Main Content -->
+      <div class="col-lg-8">
+        <div class="row gx-4 gy-4">
+          <div class="col-md-4" *ngFor="let train of trains" (click)="trainDetail(train.id)">
+            <div class="card h-100">
+              <img [src]="train.pictureUrl" alt="{{ train }}" class="card-img-top" />
+              <div class="card-body">
+                <h5 class="card-title">{{ train.name }}</h5>
+                <p class="card-text">Mô tả: {{ train.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
-  <div class="row">
-    <div class="col-12">
-      <h2 class="section-title">Kết quả</h2>
-    </div>
-    <div class="col-md-4 mb-4" (click)="trainDetail()">
-      <div class="card">
-        <img alt="Train on a track with mountains in the background" class="card-img-top" height="200"
-          src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg"
-          width="300" />
-        <div class="card-body">
-          <h5 class="card-title">SE1</h5>
-          <p class="card-text">Chỗ trống: 103</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-4" (click)="trainDetail()">
-      <div class="card">
-        <img alt="Train on a track with mountains in the background" class="card-img-top" height="200"
-          src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg"
-          width="300" />
-        <div class="card-body">
-          <h5 class="card-title">SE2</h5>
-          <p class="card-text">Chỗ trống: 103</p>
-        </div>
-      </div>
-    </div>
-    <div class="col-md-4 mb-4" (click)="trainDetail()">
-      <div class="card">
-        <img alt="Train on a track with mountains in the background" class="card-img-top" height="200"
-          src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg"
-          width="300" />
-        <div class="card-body">
-          <h5 class="card-title">SE3</h5>
-          <p class="card-text">Chỗ trống: 103</p>
+      <!-- Sidebar -->
+      <div class="col-lg-4">
+        <div class="cart-container shadow-sm p-4">
+          <h5 class="cart-title mb-3">Giỏ vé</h5>
+          <div class="cart-content">
+            @if(selectedSeatIds.length <= 0){
+              <p>Chưa có vé được chọn</p>
+            }
+            @else{
+              <li *ngFor="let seatIndex of selectedSeatIds">
+                Ghế:  {{seatIndex }} {{ countdownTimes[seatIndex] }}
+                <i class="pi pi-trash" (click)="removeSeat(seatIndex)"></i>
+              </li>
+              <button class="btn btn-primary btn-block" (click)="onSubmit()">Đặt vé</button>
+            }
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
+
 
 <p-dialog header="Chi tiết tàu" [modal]="true" [(visible)]="isVisible" [style]="{ width: '70rem' }"
   [breakpoints]="{ '1199px': '75vw', '575px': '90vw' }">
@@ -53,15 +50,14 @@
               <p><i class="pi pi-tag"></i> Tên: <strong>SE1</strong></p>
               <p><i class="pi pi-info-circle"></i> Mô tả: <strong>Xe lửa chất lượng cao</strong></p>
             </div>
-            <img
-              alt="Train image"
+            <img alt="Train image"
               src="https://storage.googleapis.com/a1aa/image/mPsqmRo2FjbYHhskIedyRYEVNs1QA1ikZfhyJCNic2MTlhmTA.jpg"
               class="train-image" />
           </div>
         </div>
         <div class="col-8">
           <div class="row">
-            <div class="col-6 booking-card">
+            <div class="col-12 booking-card">
               <p>
                 <i class="pi pi-clock"></i><strong>Thời gian đi:</strong> 14/10 7:00
               </p>
@@ -75,53 +71,47 @@
                 <i class="pi pi-ticket"></i><strong>Số lượng chỗ trống:</strong> 103
               </p>
             </div>
-            <div class="col-6 ticket">
-              <h4>Giỏ vé</h4>
-              <li *ngFor="let seatIndex of selectedSeats">
-                Ghế:  {{seatIndex +1}} {{ countdownTimes[seatIndex] }}
-                <i class="pi pi-trash" (click)="removeSeat(seatIndex)"></i>
-              </li>
-            </div>
+
           </div>
         </div>
       </div>
     </div>
     <div class="carriage">
       <div class="col-sm-12 et-no-margin row">
-        <div class="et-car-block col" *ngFor="let toa of trainCars"
-          [ngClass]="{ 'et-car-block-wide': toa.IsChonChoTuDong }" [pTooltip]="
-            'Giường nằm khoang ' +
-            (toa.IsChonChoTuDong ? '4 điều hòa (An28LV)' : '6 điều hòa (Bn42L)')
-          " tooltipPosition="top">
-          <div analytics-on="click" analytics-event="SelectCar" class="et-car-icon" [ngClass]="{
-              'et-car-icon-avaiable': toa.ToaXeStatus === 1 && !toa.IsSelected,
-              'et-car-icon-full': toa.ToaXeStatus === 0 && !toa.IsSelected,
-              'et-car-icon-selected': toa.IsSelected,
-              'et-car-icon-sold-out': toa.ToaXeStatus === 2 && !toa.IsSelected,
-              'et-car-icon-khac': toa.IsChonChoTuDong && !toa.IsSelected
-            }" (click)="doiToaMoi(toa, false)">
-            <img src="https://dsvn.vn/images/trainCar2.png" *ngIf="!toa.IsChonChoTuDong" />
-            <img src="https://dsvn.vn/images/trainCarAuto.png" *ngIf="toa.IsChonChoTuDong" />
+        <div class="et-car-block col" *ngFor="let carriage of carriages.slice().reverse()"
+          [pTooltip]="carriage.description" tooltipPosition="top" (click)="selectCarriage(carriage.id)">
+          <div class="et-carriage">
+            <div class="et-car-icon" [ngClass]="{
+
+              'et-car-icon-selected': carriage.id === selectedCarriageId
+
+            }" >
+            <img src="https://dsvn.vn/images/trainCar2.png" />
+
+            </div>
           </div>
-          <div class="text-center text-info et-car-label">{{ toa.number }}</div>
-        </div>
-        <div class="col">
-          <img src="https://dsvn.vn/images/train2.png" height="50px" />
+          <div class="et-carriage-header">
+            <span>{{ carriage.name }}</span>
+          </div>
+
         </div>
       </div>
-    </div>
-    <div class="seats-card">
-      <div *ngFor="let seat of seats; let i = index" class="seat" [ngClass]="{
-          'seat-selected': seat.isSelected,
-          'seat-available': seat.isAvailable && !seat.isSelected,
-          'seat-unavailable': !seat.isAvailable,
-        }" (click)="toggleSeatSelection(i)">
-        {{ i + 1 }}
+      <div class="col">
+        <img src="https://dsvn.vn/images/train2.png" height="50px" />
       </div>
-    </div>
-    <div class="action-buttons mt-3">
-      <button class="cancel-btn" (click)="removeSeatAll()">Hủy chọn</button>
-      <button class="submit-btn" (click)="onSubmit()">Mua vé</button>
     </div>
   </div>
+  <div class="seats-card">
+    <div *ngFor="let seat of seats; let i = index" class="seat" [pTooltip]="seat.price.toString()" tooltipPosition="top" (click)="toggleSeatSelection(seat.id)"
+      [ngClass]="{
+        'seat-selected': selectedSeatIds.includes(seat.id)
+      }" >
+      {{ i + 1 }}
+    </div>
+  </div>
+  <div class="action-buttons mt-3">
+    <button class="cancel-btn" (click)="removeSeatAll()">Hủy chọn</button>
+    <button class="submit-btn" (click)="closeDialog()">Đóng</button>
+  </div>
+
 </p-dialog>

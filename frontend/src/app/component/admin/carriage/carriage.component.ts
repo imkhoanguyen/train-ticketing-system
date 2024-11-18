@@ -23,7 +23,7 @@ import { PaginatorModule } from 'primeng/paginator';
   standalone: true,
   imports: [
     TableModule,
-    FormsModule,  
+    FormsModule,
     ReactiveFormsModule,
     ButtonModule,
     RouterModule,
@@ -53,7 +53,7 @@ export class CarriageComponent implements OnInit {
   currentState: boolean=false;
 
   trainsOptions: any[] = [];
- 
+
   pageNumber = 1;
   pageSize = 5;
   total = 0;
@@ -72,7 +72,7 @@ export class CarriageComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       const id = params.get('trainid');
       if (id) {
-        this.trainId = +id; 
+        this.trainId = +id;
       }
     });
     // console.log(this.trainId)
@@ -84,14 +84,14 @@ export class CarriageComponent implements OnInit {
       description: ['', Validators.required],
       is_active: [true]
     });
-    
+
     }
 
   // loadCarriages() {
   //   // this.loadTrains()
   //   this.carriageService.getAllCarriagesByTrainId(this.trainId).subscribe(
   //     (response: any) => {
-  //       this.carriages = response.data;   
+  //       this.carriages = response.data;
   //       this.checkVoucherValidity();
   //     },
   //     (error) => {
@@ -116,7 +116,7 @@ export class CarriageComponent implements OnInit {
 
     this.loadCarriages();
   }
-  
+
   loadCarriages() {
     const orderBy = `${this.sortBy},${this.sortOrder}`;
     this.carriageService
@@ -146,11 +146,11 @@ export class CarriageComponent implements OnInit {
     this.trainService.getTrainById(this.trainId).subscribe(
       (response: any)=>{
         this.selectedTrain=response.data;
-        // console.log(this.selectedRoute)            
+        // console.log(this.selectedRoute)
       }
     )
   }
-  
+
   checkDeleteValidity() {
     this.carriages.forEach((carriage) => {
       carriage.delete=!carriage.delete
@@ -183,14 +183,14 @@ export class CarriageComponent implements OnInit {
 
   showDialog() {
     this.displayDialog = true;
-    this.carriageForm.reset(); 
+    this.carriageForm.reset();
   }
 
   newCarriage(){
     this.currentState=false;
     this.showDialog()
     // console.log(this.selectedRoute.name)
-    this.carriageForm.get('trainSelect')?.setValue(this.selectedTrain.name); 
+    this.carriageForm.get('trainSelect')?.setValue(this.selectedTrain.name);
   }
 
   editCarriage(id: number) {
@@ -199,23 +199,23 @@ export class CarriageComponent implements OnInit {
     this.id=id
     this.carriageService.getCarriageById(this.id).subscribe(
       (response: any) =>{
-        
+
         const carriageArray=response.data;
         console.log(carriageArray)
         this.carriageForm.patchValue({
-          trainSelect: carriageArray.train.name, 
+          trainSelect: carriageArray.train.name,
           name: carriageArray.name,
           description: carriageArray.description,
           is_active:!carriageArray.delete
-          
+
         });
       },
       (error) => {
         console.log('error load routes', error);
       }
     );
-    
-    
+
+
   }
 
   onSubmit(): void {
@@ -227,11 +227,11 @@ export class CarriageComponent implements OnInit {
         isDelete: !this.carriageForm.get('is_active')?.value ? 'true' : 'false'
       };
       // console.log(carriageData)
-      
+
       if (!this.currentState) {
-        
+
         // console.log(carriageData)
-      
+
         this.carriageService.AddCarriage(carriageData).subscribe({
           next: (response) => {
             console.log('carriage added successfully', response);
@@ -253,11 +253,11 @@ export class CarriageComponent implements OnInit {
           }
         });
       }
-      this.displayDialog = false; 
-      
+      this.displayDialog = false;
+
     }
   }
 
 
- 
+
 }

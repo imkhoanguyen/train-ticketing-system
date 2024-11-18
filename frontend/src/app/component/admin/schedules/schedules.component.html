@@ -1,15 +1,15 @@
 <div class="container">
     <div class="header-container">
-        <button pButton 
-          label="Quay lại" 
-          icon="pi pi-arrow-left" 
-          class="p-button-success mb-2 back-button" 
-          [routerLink]="['/admin/route']" 
+        <button pButton
+          label="Quay lại"
+          icon="pi pi-arrow-left"
+          class="p-button-success mb-2 back-button"
+          [routerLink]="['/admin/route']"
           routerLinkActive="active">
         </button>
         <h2 class="schedule-title">Lịch trình</h2>
     </div>
-  
+
     <div class="button-container">
       <button pButton label="Thêm mới" icon="pi pi-plus" class="p-button-success mb-2" (click)="newSchedule()"></button>
       <input
@@ -20,7 +20,7 @@
         (keyup)="onSearch()"
       />
     </div>
-  
+
 
     <p-table
       [value]="schedules"
@@ -50,9 +50,9 @@
           <td>{{ schedule.startDate | date: 'dd/MM/yyyy HH:mm' }}</td>
           <td>{{ schedule.endDate | date: 'dd/MM/yyyy HH:mm'}}</td>
           <td>
-            <p-inputSwitch 
-              [style]="{width: '50px'}" 
-              (onChange)="schedule.deleted ? onRestore(schedule) : onDelete(schedule)" 
+            <p-inputSwitch
+              [style]="{width: '50px'}"
+              (onChange)="schedule.deleted ? onRestore(schedule) : onDelete(schedule)"
               [(ngModel)]="schedule.deleted">
             </p-inputSwitch>
           </td>
@@ -83,20 +83,20 @@
         <ng-template #editTemplate>
           <h2>Chỉnh sửa chuyến tàu</h2>
         </ng-template>
-  
+
         <form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
           <div class="p-field">
             <label for="routeType">Tên chuyến tàu:</label>
             <input id="routeSelect" formControlName="routeSelect" pInputText  placeholder="Nhập tên chuyến tàu" />
           </div>
-  
+
           <div class="p-field">
             <label for="trainType">Tên tàu:</label>
-            <p-dropdown 
-              [options]="trainsOptions"  
+            <p-dropdown
+              [options]="trainsOptions"
               formControlName="trainSelect"
-              optionLabel="trainName"             
-              optionValue="trainId"                
+              optionLabel="trainName"
+              optionValue="trainId"
               placeholder="Chọn tàu"
               [showClear]="false"
             ></p-dropdown>
@@ -109,10 +109,10 @@
 
           <div class="p-field">
             <label for="startDate">Ngày và giờ bắt đầu:</label>
-            <p-calendar 
-              id="startDate" 
-              formControlName="startDate" 
-              [showTime]="true" 
+            <p-calendar
+              id="startDate"
+              formControlName="startDate"
+              [showTime]="true"
               [hourFormat]="'24'"
               [showIcon]="true"
               dateFormat="dd/mm/yy"
@@ -120,13 +120,13 @@
               [appendTo]="'body'"
             ></p-calendar>
           </div>
-        
+
           <div class="p-field">
             <label for="endDate">Ngày và giờ kết thúc:</label>
-            <p-calendar 
-              id="endDate" 
-              formControlName="endDate" 
-              [showTime]="true" 
+            <p-calendar
+              id="endDate"
+              formControlName="endDate"
+              [showTime]="true"
               [hourFormat]="'24'"
               [showIcon]="true"
               dateFormat="dd/mm/yy"
@@ -139,7 +139,7 @@
               <p-checkbox inputId="is_active" formControlName="is_active" [binary]="true"></p-checkbox>
               <label for="is_active">Kích hoạt</label>
           </div>
-          
+
           <button pButton type="submit" class="p-button-success-1">
             <b>{{ currentState ? 'Chỉnh sửa chuyến tàu' : 'Thêm chuyến tàu' }}</b>
           </button>

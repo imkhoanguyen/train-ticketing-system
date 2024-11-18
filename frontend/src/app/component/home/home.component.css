@@ -6,26 +6,6 @@
   box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
 }
 
-.navbar {
-  border-radius: 20px;
-}
-
-.navbar-nav .nav-item .nav-link {
-  padding: 10px 15px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.navbar-nav .nav-item .nav-link:hover {
-  background-color: #1daafc;
-  color: #ffffff;
-  border-radius: 5px;
-}
-
-.navbar-brand {
-  font-size: 24px;
-  font-weight: bold;
-  color: #1daafc;
-}
 
 .pdropdown {
   margin-bottom: 15px;

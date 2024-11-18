@@ -34,7 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("api/schedule")
 @Validated
 @Slf4j
-@Tag(name = "Schedule Controller")                           
+@Tag(name = "Schedule Controller")
 @RequiredArgsConstructor
 
 public class ScheduleController {
@@ -46,7 +46,7 @@ public class ScheduleController {
             @RequestParam(value = "search", required = false) String search,
             @RequestParam(value = "sortBy", defaultValue = "id,desc") String sortBy,
             @PathVariable int id) {
-            
+
         PageResponse<List<Schedule>> response = (PageResponse<List<Schedule>>) ScheduleService.getAllScheduleAndSearchWithPagingAndSorting(pageNumber, pageSize, search, sortBy,id);
 
         return new ResponseData<>(HttpStatus.OK.value(), "get list discount with limit", response);
@@ -71,8 +71,8 @@ public class ScheduleController {
 
     @Operation(summary = "Update existing schedule", description = "Send a request to update an existing route")
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseData<?>> updateSchedule(@PathVariable int id, 
-                                                        @Validated @RequestBody ScheduleRequestDto scheduleRequestDto) {
+    public ResponseEntity<ResponseData<?>> updateSchedule(@PathVariable int id,
+                                                          @Validated @RequestBody ScheduleRequestDto scheduleRequestDto) {
         log.info("Request to update route with ID: {}", id);
         ScheduleService.updateSchedule(id, scheduleRequestDto);
         return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Route updated successfully", null));

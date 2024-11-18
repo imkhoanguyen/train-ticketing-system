@@ -45,7 +45,7 @@ export class RouteService {
       headers: { 'Content-Type': 'application/json' }
     });
   }
- 
+
 
   UpdateRoute(id: number,data: any) {
     return this.http.put(`${this.baseUrl}/route/update/${id}`, data, {
@@ -62,5 +62,9 @@ export class RouteService {
     return this.http.put(`${this.baseUrl}/route/restore/${id}`, {
       headers: { 'Content-Type': 'application/json' }
     });
+  }
+
+  getRoutesByStationId(startStationId: number, endStationId: number) {
+    return this.http.get<RouteModule[]>(`${this.baseUrl}/route/by-stations?startStationId=${startStationId}&endStationId=${endStationId}`);
   }
 }

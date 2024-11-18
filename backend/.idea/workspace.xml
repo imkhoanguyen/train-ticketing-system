@@ -5,13 +5,48 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="442f1894-f357-4ba9-a5cd-42b3981e20e2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/.vscode/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/public/img/background1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/_models/api-response.module.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/.vscode/settings.json" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/public/img/background1.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/../frontend/src/app/_models/api-response.module.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/train/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/CarriageController.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/CarriageController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/RouteController.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/RouteController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/response/CarriageDetailResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/response/CarriageDetailResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/response/SeatDetailResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/response/SeatDetailResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/repository/RouteRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/repository/RouteRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/repository/ScheduleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/repository/ScheduleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/RouteService.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/RouteService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/ScheduleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/CarriageServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/CarriageServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/RouteServicesImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/RouteServicesImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/ScheduleServicesImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/ScheduleServicesImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/SeatServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/SeatServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_models/carriage.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_models/carriage.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_models/schedule.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_models/schedule.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_models/seat.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_models/seat.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_services/carriage.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_services/carriage.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_services/route.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_services/route.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_services/schedule.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_services/schedule.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_services/seat.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_services/seat.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.component.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/admin/carriage/carriage.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/admin/carriage/carriage.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/admin/carriage/carriage.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/admin/carriage/carriage.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/admin/schedules/schedules.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/admin/schedules/schedules.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/admin/schedules/schedules.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/admin/schedules/schedules.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/layout/header/header.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/layout/header/header.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/layout/header/header.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/layout/header/header.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/layout/header/header.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/layout/header/header.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +75,7 @@
     "RequestMappingsPanelWidth1": "75",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "Spring Boot.TrainApplication.executor": "Run",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "Rebasing master",
     "ignore.virus.scanning.warn.message": "true",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "D:/train/train-ticketing-system/backend",
@@ -81,6 +116,12 @@
       <workItem from="1728786522205" duration="3686000" />
       <workItem from="1731139514750" duration="976000" />
       <workItem from="1731575439393" duration="3886000" />
+      <workItem from="1731757256929" duration="299000" />
+      <workItem from="1731759949322" duration="10324000" />
+      <workItem from="1731807420648" duration="3804000" />
+      <workItem from="1731836249167" duration="6621000" />
+      <workItem from="1731845591007" duration="803000" />
+      <workItem from="1731847437545" duration="2322000" />
     </task>
     <servers />
   </component>

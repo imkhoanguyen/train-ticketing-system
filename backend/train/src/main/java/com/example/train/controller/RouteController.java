@@ -33,13 +33,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 
 public class RouteController {
     private final RouteService routeService;
+
+    @Operation(summary = "Get list of Routes per pageNo", description = "Send a request via this API to get route list by pageNo and pageSize")
     @GetMapping("/list")
     public ResponseData<PageResponse<List<Route>>> GetAllWithLimit(
             @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
             @RequestParam(value = "pageSize", defaultValue = "1") int pageSize,
             @RequestParam(value = "search", required = false) String search,
             @RequestParam(value = "sortBy", defaultValue = "id,desc") String sortBy) {
-            
+
         PageResponse<List<Route>> response = (PageResponse<List<Route>>) routeService.getAllRouteAndSearchWithPagingAndSorting(pageNumber, pageSize, search, sortBy);
 
         return new ResponseData<>(HttpStatus.OK.value(), "get list discount with limit", response);
@@ -89,5 +91,11 @@ public class RouteController {
                 .body(new ResponseData<>(HttpStatus.OK.value(), "route restored successfully", null));
     }
 
-    
+    @GetMapping("/by-stations")
+    public List<RouteDetailResponse> getRoutesByStations(
+            @RequestParam(name = "startStationId") int startStationId,
+            @RequestParam(name = "endStationId") int endStationId) {
+        return routeService.getRoutesByStations(startStationId, endStationId);
+    }
+
 }

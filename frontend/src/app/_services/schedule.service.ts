@@ -2,6 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { schedule } from '../_models/schedule.module';
+import { Observable, of } from 'rxjs';
+import { ApiResponse } from '../_models/api-response.module';
 
 @Injectable({
   providedIn: 'root',
@@ -9,10 +11,25 @@ import { schedule } from '../_models/schedule.module';
 export class ScheduleService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
+  private schedules: any[] = [];
 
-  // getAllSchedulesByRouteId(id:number) {
-  //   return this.http.get<schedule[]>(`${this.baseUrl}/schedule/list/${id}`);
-  // }
+  setSchedules(data: schedule[]) {
+    this.schedules = data;
+    localStorage.setItem('schedules', JSON.stringify(data));
+  }
+  getSchedules(): Observable<schedule[]> {
+    const storedSchedules = localStorage.getItem('schedules');
+    if (storedSchedules) {
+      return of(JSON.parse(storedSchedules));
+    } else {
+      return of([]);
+    }
+  }
+
+
+  getAllSchedulesByRouteId(id:number) {
+    return this.http.get<ApiResponse<schedule[]>>(`${this.baseUrl}/schedule/list/${id}`);
+  }
 
   getWithLimit(
     page: number = 1,
@@ -35,7 +52,6 @@ export class ScheduleService {
       params,
     });
   }
-
   getScheduleById(id: number) {
     return this.http.get<{ status: number; message: string; data: schedule }>(`${this.baseUrl}/schedule/${id}`);
   }
@@ -63,3 +79,4 @@ export class ScheduleService {
     });
   }
 }
+

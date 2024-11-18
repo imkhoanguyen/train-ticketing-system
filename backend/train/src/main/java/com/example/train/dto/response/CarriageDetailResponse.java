@@ -16,5 +16,5 @@ public class CarriageDetailResponse implements Serializable{
     private Train train;
     private String description;
     private boolean isDelete;
-    
+
 }

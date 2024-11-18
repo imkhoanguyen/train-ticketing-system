@@ -1,47 +1,59 @@
-body {
-  background: url('https://placehold.co/800x600') no-repeat center center fixed;
+.bg {
+  background: url('/img/background1.jpg') no-repeat center center fixed;
   background-size: cover;
   font-family: 'Roboto', sans-serif;
+  min-height: 90vh;
+  padding-top: 70px; /* Để tránh nội dung bị che bởi header */
 }
-.result-container {
-  background: rgba(255, 255, 255, 0.5);
-  border-radius: 15px;
-  padding: 20px;
-  margin: 50px auto;
-  max-width: 900px;
+.container{
+  background-color: rgba(188, 207, 226, 0.8); /* Độ trong suốt 80% */
+  border-radius: 15px; /* Thêm bo góc nếu cần */
+  padding: 20px; /* Thêm khoảng cách bên trong */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
 }
-
 .card {
+  margin-top: 20px;
+  background-color: rgba(255, 255, 255, 0.7);
   border: none;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.card img {
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+  height: 150px;
+  object-fit: cover;
   border-radius: 15px 15px 0 0;
 }
+
 .card-body {
-  padding: 10px;
+  padding: 5px;
+  text-align: center;
 }
+
 .card-title {
-  font-size: 1rem;
-  margin-bottom: 5px;
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #333;
 }
+
 .card-text {
   font-size: 0.875rem;
-  color: #666;
+  color: #555;
 }
-.background-img {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: -1;
-  background-size: cover;
-  image-rendering: crisp-edges;
+
+
+.cart-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
-/* detail */
 
 .train-stats {
   background-color: white;
@@ -110,6 +122,11 @@ body {
   line-height: 30px;
   font-size: 16px;
 
+}
+.seats-card .seat:not(.seat-unavailable):hover {
+  background-color: #377be2;
+  color: white;
+  cursor: pointer;
 }
 .seats-card .seat-selected {
   background-color: #377be2 !important;
@@ -185,5 +202,6 @@ body {
 .et-car-icon-avaiable {
   background-color: #80b5d6;
 }
+
 
 

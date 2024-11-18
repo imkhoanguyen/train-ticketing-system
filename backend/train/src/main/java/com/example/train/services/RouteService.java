@@ -16,4 +16,5 @@ public interface RouteService {
     List<RouteDetailResponse> getAllRoute();
     RouteDetailResponse getRoute(int id);
     PageResponse<?> getAllRouteAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search, String sortBy);
-} 
+    List<RouteDetailResponse> getRoutesByStations(int startStationId, int endStationId);
+}
