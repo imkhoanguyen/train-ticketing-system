@@ -12,7 +12,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr>
+      <tr *ngFor="let seat of selectSeats">
         <td class="text-center align-middle">
           <div class="mb-3">
             <div class="input-group">
@@ -38,8 +38,8 @@
             </div>
           </div>
         </td>
-        <td class="text-center align-middle">Ghế 1</td>
-        <td class="text-center align-middle">250.000đ</td>
+        <td class="text-center align-middle">{{seat.name}}</td>
+        <td class="text-center align-middle">{{seat.price}}</td>
         <td class="text-center align-middle">100.000đ</td>
         <td class="text-center align-middle">0đ</td>
         <td class="text-center align-middle">150.000đ</td>
@@ -47,7 +47,6 @@
           <button class="btn btn-danger"><i class="bi bi-trash"></i> Xóa vé</button>
         </td>
       </tr>
-      <tr>
 
       <tr>
         <td class="align-middle">

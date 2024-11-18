@@ -140,21 +140,23 @@ export class TrainResultsComponent implements OnInit {
   toggleSeatSelection(seatId: number): void {
     const dateNow = new Date().getTime();
 
-
     if (this.selectedSeatIds.includes(seatId)) {
-      // Nếu ghế đã được chọn, bỏ chọn và xóa khỏi localStorage
       this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
       localStorage.removeItem('seat' + seatId);
     } else {
-      // Nếu ghế chưa được chọn, thêm vào danh sách và lưu vào localStorage
       this.selectedSeatIds.push(seatId);
       const seatData = { time: dateNow };
       localStorage.setItem('seat' + seatId, JSON.stringify(seatData));
-      this.startCountdown(seatId); // Nếu có logic đếm ngược
+      this.startCountdown(seatId);
     }
-    console.log('Selected seats:', this.selectedSeatIds);
 
+    this.seatService.setSeats(
+      this.seats.filter((seat) => this.selectedSeatIds.includes(seat.id))
+    );
+
+    console.log('Selected seats:', this.selectedSeatIds);
   }
+
 
 
   removeSeat(seatId: number): void {

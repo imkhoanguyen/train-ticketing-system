@@ -3,6 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { Seat } from '../_models/seat.module';
 import { ApiResponse } from '../_models/api-response.module';
+import { Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,6 +11,20 @@ import { ApiResponse } from '../_models/api-response.module';
 export class SeatService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
+  private seats: any[] = [];
+
+  setSeats(data: Seat[]) {
+    this.seats = data;
+    localStorage.setItem('seats', JSON.stringify(data));
+  }
+  getSeats(): Observable<Seat[]> {
+    const storedSeats = localStorage.getItem('seats');
+    if (storedSeats) {
+      return of(JSON.parse(storedSeats));
+    } else {
+      return of([]);
+    }
+  }
 
   // getAllSeatsByCarriageId(id:number) {
   //   return this.http.get<Seat[]>(`${this.baseUrl}/seat/list/${id}`);
