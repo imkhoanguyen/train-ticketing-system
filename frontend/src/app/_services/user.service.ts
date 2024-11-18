@@ -3,10 +3,9 @@ import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpParams } from '@angular/common/http';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class UserService {
-
   baseUrl = environment.apiUrl;
   private http = inject(HttpClient);
 
@@ -31,4 +30,7 @@ export class UserService {
     });
   }
 
+  delete(id: number) {
+    return this.http.delete<any>(this.baseUrl + `/user/delete/${id}`);
+  }
 }

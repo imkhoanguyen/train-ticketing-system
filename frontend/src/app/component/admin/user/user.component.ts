@@ -34,8 +34,6 @@ import { ToastrService } from '../../../_services/toastr.service';
 export class UserComponent {
   private userService = inject(UserService);
   users: User[] = [];
-  private fb = inject(FormBuilder);
-  frm: FormGroup = new FormGroup({});
   visible: boolean = false;
   pageNumber = 1;
   pageSize = 5;
@@ -43,23 +41,11 @@ export class UserComponent {
   search: string = '';
   sortBy = 'id';
   sortOrder = 'desc';
-  private userId: number = 0;
   private toasrt = inject(ToastrService);
 
   constructor(private confirmationService: ConfirmationService) {}
-  validationErrors: string[] = [];
-
   ngOnInit(): void {
     this.loadUsers();
-    this.initForm();
-  }
-
-  initForm() {
-    this.frm = this.fb.group({
-      price: new FormControl<number>(1, [Validators.required]),
-      object: new FormControl<string>('', [Validators.required]),
-      description: new FormControl<string>('', [Validators.required]),
-    });
   }
 
   onPageChange(event: any) {
@@ -107,91 +93,31 @@ export class UserComponent {
       });
   }
 
-  onSubmit() {
-    const user: User = {
-      id: this.userId,
-      userName: this.frm.value.userName,
-      fullName: this.frm.value.fullName,
-      email: this.frm.value.email,
-      phone: this.frm.value.phone,
-      cmnd: this.frm.value.cmnd,
-      role: 'Customer',
-    };
-    if (this.userId) {
-      // this.discountService.update(this.discountId, discount).subscribe({
-      //   next: (response) => {
-      //     const { status, message, data } = response;
-      //     const index: number = this.discounts.findIndex(
-      //       (d) => d.id === this.discountId
-      //     );
-      //     this.discounts[index] = data;
-      //     this.toasrt.success(`${status} - ${message}`);
-      //     this.closeDialog();
-      //   },
-      //   error: (er) => {
-      //     console.log('day la error update', er);
-      //     const { status, message, data } = er.error;
-      //     this.validationErrors = data;
-      //   },
-      // });
-    }
-  }
-
-  deleteConfirmPopup(event: Event, discountId: number) {
+  deleteConfirmPopup(event: Event, id: number) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
       message: 'Bạn muốn xóa dòng này?',
       icon: 'pi pi-info-circle',
       acceptButtonStyleClass: 'p-button-danger p-button-sm',
       accept: () => {
-        if (!discountId) {
+        if (!id) {
           this.toasrt.error('Không tìm thấy userId');
           return;
         }
 
-        // this.discountService.delete(discountId).subscribe({
-        //   next: (response) => {
-        //     const index: number = this.discounts.findIndex(
-        //       (p) => p.id === discountId
-        //     );
-        //     this.discounts.splice(index, 1);
-        //     const { status, message, data } = response;
-        //     this.toasrt.success(`${status} - ${message}`);
-        //   },
-        //   error: (error) => console.log(error),
-        // });
+        this.userService.delete(id).subscribe({
+          next: (response) => {
+            const index: number = this.users.findIndex((p) => p.id === id);
+            this.users.splice(index, 1);
+            const { status, message, data } = response;
+            this.toasrt.success(`${status} - ${message}`);
+          },
+          error: (error) => console.log(error),
+        });
       },
       reject: () => {
         this.toasrt.info('Bạn đã hủy xóa');
       },
     });
-  }
-
-  showDialog(userId: number = 0) {
-    // edit
-    if (userId != 0) {
-      this.userId = userId;
-      const userEdit = this.users.find((u) => u.id === userId);
-      if (userEdit == null) {
-        this.toasrt.error('Không path được value');
-        return;
-      }
-      this.frm.patchValue({
-        userName: userEdit.userName,
-        fullName: userEdit.fullName,
-        email: userEdit.email,
-        phone: userEdit.phone,
-        cmnd: userEdit.cmnd,
-        role: userEdit.role,
-      });
-      this.visible = true;
-    }
-  }
-
-  closeDialog() {
-    this.frm.reset();
-    this.visible = false;
-    this.userId = 0;
-    this.validationErrors = [];
   }
 }
