@@ -14,5 +14,5 @@ public class TrainDetailResponse implements Serializable{
     private String name;
     private String description;
     private String pictureUrl;
-    private boolean is_delete;
+    private boolean isDelete;
 }

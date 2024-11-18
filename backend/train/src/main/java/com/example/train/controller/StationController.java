@@ -11,12 +11,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 // import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.train.dto.request.StationRequestDto;
+import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.ResponseData;
 import com.example.train.dto.response.StationDetailResponse;
+import com.example.train.entity.Station;
 import com.example.train.services.StationService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,13 +39,25 @@ public class StationController {
     private final StationService stationService;
 
     @Operation(summary = "Get list of stations per pageNo", description = "Send a request via this API to get station list by pageNo and pageSize")
-    @GetMapping("/list")
+    @GetMapping("/list/nopage")
     public ResponseData<?> getAllStations() {
         log.info("Request get all stations");
         return new ResponseData<>(HttpStatus.OK.value(), "stations", stationService.getAllStation());
         
     }
 
+
+    @GetMapping("/list")
+    public ResponseData<PageResponse<List<Station>>> GetAllWithLimit(
+            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "1") int pageSize,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "sortBy", defaultValue = "id,desc") String sortBy) {
+            
+        PageResponse<List<Station>> response = (PageResponse<List<Station>>) stationService.getAllStationAndSearchWithPagingAndSorting(pageNumber, pageSize, search, sortBy);
+
+        return new ResponseData<>(HttpStatus.OK.value(), "get list discount with limit", response);
+    }
 
     @Operation(summary = "Get station by ID", description = "Send a request to retrieve a station by its ID")
     @GetMapping("/{id}")

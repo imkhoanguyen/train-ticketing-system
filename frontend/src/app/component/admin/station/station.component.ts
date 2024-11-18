@@ -11,6 +11,8 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { InputTextModule } from 'primeng/inputtext';
 import { DialogModule } from 'primeng/dialog';
 import * as XLSX from 'xlsx';
+import { SortEvent } from 'primeng/api';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-station',
@@ -25,7 +27,8 @@ import * as XLSX from 'xlsx';
     CommonModule,
     CheckboxModule,
     InputTextModule,
-    DialogModule 
+    DialogModule,
+    PaginatorModule
   ],
   templateUrl: './station.component.html',
   styleUrl: './station.component.css',
@@ -43,7 +46,12 @@ export class StationComponent implements OnInit{
 
   fileData: any[] = [];
 
-
+  pageNumber = 1;
+  pageSize = 5;
+  total = 0;
+  search: string = '';
+  sortBy = 'id';
+  sortOrder = 'asc';
   
   constructor(
     private formBuilder: FormBuilder,
@@ -59,55 +67,79 @@ export class StationComponent implements OnInit{
     this.loadStations();
   }
 
-  loadStations(){
-    this.stationService.getAllStations().subscribe(
-      (response: any) => {
-        this.stations = response.data;  
-        this.checkVoucherValidity();
-      },
-      (error) => {
-        console.log('error load stations', error);
-      }
-    );
+  onPageChange(event: any) {
+    this.pageNumber = event.page + 1;
+    this.pageSize = event.rows;
+    this.loadStations();
+  }
+
+  onSearch() {
+    this.pageNumber = 1;
+    this.loadStations();
+  }
+
+  customSort(event: SortEvent) {
+    this.sortBy = event.field as string;
+    this.sortOrder = event.order === 1 ? 'asc' : 'desc';
+
+    this.loadStations();
+  }
+  
+  loadStations() {
+    const orderBy = `${this.sortBy},${this.sortOrder}`;
+    this.stationService
+      .getWithLimit(this.pageNumber, this.pageSize, this.search, orderBy)
+      .subscribe({
+        next: (response) => {
+          const data = response.body?.data;
+          if (data) {
+            this.stations = data.items;
+            this.total = data.total;
+            this.pageSize = data.size;
+            this.pageNumber = data.page;
+          }
+          this.checkDeleteValidity()
+          console.log(this.stations);
+        },
+        error: (er) => {
+          console.log(er);
+        },
+      });
   }
 
 
-  checkVoucherValidity() {
+
+  checkDeleteValidity() {
+    console.log('Before update:', this.stations);
     this.stations.forEach((station) => {
-      station.is_delete=!station.is_delete
+      if (station.hasOwnProperty('_delete')) {
+        station._delete = !station._delete;
+      } else {
+        console.error('isDeleted property missing in schedule:', station);
+      }
     });
+    console.log('After update:', this.stations);
   }
 
-  onStatusChange(station: Station) {
-    
-    if (station.is_delete){
-      this.stationService.RestoreStation(station.id).subscribe({
-        next:(response)=>{
-          console.log('active',response)
-        },
-        error: (err) => {
-          console.log('Failed to change to active station', err);
-        }
-      })
-    }
-    else{
-      this.stationService.DeleteStation(station.id).subscribe({
-        next:(response)=>{
-          console.log('cook',response)
-        },
-        error: (err) => {
-          console.log('Failed to change to inactive station', err);
-        }
-      })
-    }
+  onDelete(station: Station){
+    this.stationService.DeleteStation(station.id).subscribe({
+      next:(response)=>{
+        console.log('cook',response)
+      },
+      error: (err) => {
+        console.log('Failed to change to inactive station', err);
+      }
+    })
   }
-  get filteredStations() {
-    if (!this.searchQuery) {
-      return this.stations; // If no search query, return all stations
-    }
-    return this.stations.filter(station =>
-      station.name.toLowerCase().includes(this.searchQuery.toLowerCase()) 
-    );
+  onRestore(station: Station){
+    this.stationService.RestoreStation(station.id).subscribe({
+      next:(response)=>{
+        console.log('active',response)
+      },
+      error: (err) => {
+        console.log('Failed to change to active station', err);
+      }
+    })
   }
 
 
@@ -127,11 +159,12 @@ export class StationComponent implements OnInit{
     this.stationService.getStationById(this.id).subscribe({
       next:(response)=>{
         const station=response.data;
+        console.log(station)
         console.log(station.name)
-        console.log(station.is_delete)
+        console.log(station._delete)
         this.stationForm.patchValue({
           name: station.name,
-          is_active: !station.is_delete 
+          is_active: !station._delete 
         });
       }
     })

@@ -4,7 +4,7 @@ export interface RouteModule {
     name: string;
     startStation:Station;
     endStation:Station;
-    is_delete:boolean;
+    delete:boolean;
 
     // startStationName?: string; // Nếu cần thiết
     // endStationName?: string; 

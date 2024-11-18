@@ -11,12 +11,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.train.dto.request.TrainRequestDto;
+import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.ResponseData;
 import com.example.train.dto.response.TrainDetailResponse;
+import com.example.train.entity.Station;
 import com.example.train.services.TrainService;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -36,11 +38,23 @@ public class TrainController {
     private final TrainService trainService;
 
     @Operation(summary = "Get list of trains per pageNo", description = "Send a request via this API to get route list by pageNo and pageSize")
-    @GetMapping("/list")
+    @GetMapping("/list/nopage")
     public ResponseData<?> getAllTrains() {
         log.info("Request get all trains");
         return new ResponseData<>(HttpStatus.OK.value(), "routes", trainService.getAllTrains());
         
+    }
+
+    @GetMapping("/list")
+    public ResponseData<PageResponse<List<Station>>> GetAllWithLimit(
+            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "1") int pageSize,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "sortBy", defaultValue = "id,desc") String sortBy) {
+            
+        PageResponse<List<Station>> response = (PageResponse<List<Station>>) trainService.getAllTrainAndSearchWithPagingAndSorting(pageNumber, pageSize, search, sortBy);
+
+        return new ResponseData<>(HttpStatus.OK.value(), "get list discount with limit", response);
     }
 
     @Operation(summary = "Get train by ID", description = "Send a request to retrieve a train by its ID")

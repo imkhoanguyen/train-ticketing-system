@@ -1,10 +1,7 @@
 package com.example.train.dto.response;
 
 import java.io.Serializable;
-
 import com.example.train.entity.Station;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,7 +16,6 @@ public class RouteDetailResponse implements Serializable {
     private Station startStation;
     private Station endStation;
 
-    @JsonProperty("is_delete")
     private boolean isDelete;
 
 }

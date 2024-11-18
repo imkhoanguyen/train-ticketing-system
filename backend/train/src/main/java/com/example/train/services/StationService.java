@@ -2,6 +2,7 @@ package com.example.train.services;
 import java.util.List;
 
 import com.example.train.dto.request.StationRequestDto;
+import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.StationDetailResponse;
 
 public interface  StationService {
@@ -14,5 +15,5 @@ public interface  StationService {
     
     List<StationDetailResponse> getAllStation();
     StationDetailResponse getStation(int id);
-
+    PageResponse<?> getAllStationAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search, String sortBy);
 }

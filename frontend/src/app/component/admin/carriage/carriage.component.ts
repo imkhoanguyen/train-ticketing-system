@@ -15,6 +15,8 @@ import { Carriage } from '../../../_models/carriage.module';
 import { Train } from '../../../_models/train.module';
 import { CheckboxModule } from 'primeng/checkbox';
 import { InputSwitchModule } from 'primeng/inputswitch';
+import { SortEvent } from 'primeng/api';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-carriage',
@@ -33,6 +35,7 @@ import { InputSwitchModule } from 'primeng/inputswitch';
     ConfirmDialogModule,
     CheckboxModule,
     InputSwitchModule,
+    PaginatorModule
   ],
   templateUrl: './carriage.component.html',
   styleUrl: './carriage.component.css'
@@ -51,6 +54,13 @@ export class CarriageComponent implements OnInit {
 
   trainsOptions: any[] = [];
  
+  pageNumber = 1;
+  pageSize = 5;
+  total = 0;
+  search: string = '';
+  sortBy = 'id';
+  sortOrder = 'asc';
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -77,17 +87,59 @@ export class CarriageComponent implements OnInit {
     
     }
 
+  // loadCarriages() {
+  //   // this.loadTrains()
+  //   this.carriageService.getAllCarriagesByTrainId(this.trainId).subscribe(
+  //     (response: any) => {
+  //       this.carriages = response.data;   
+  //       this.checkVoucherValidity();
+  //     },
+  //     (error) => {
+  //       console.log('error load carriages', error);
+  //     }
+  //   );
+  // }
+  onPageChange(event: any) {
+    this.pageNumber = event.page + 1;
+    this.pageSize = event.rows;
+    this.loadCarriages();
+  }
+
+  onSearch() {
+    this.pageNumber = 1;
+    this.loadCarriages();
+  }
+
+  customSort(event: SortEvent) {
+    this.sortBy = event.field as string;
+    this.sortOrder = event.order === 1 ? 'asc' : 'desc';
+
+    this.loadCarriages();
+  }
+  
   loadCarriages() {
-    // this.loadTrains()
-    this.carriageService.getAllCarriagesByTrainId(this.trainId).subscribe(
-      (response: any) => {
-        this.carriages = response.data;   
-        this.checkVoucherValidity();
-      },
-      (error) => {
-        console.log('error load carriages', error);
-      }
-    );
+    const orderBy = `${this.sortBy},${this.sortOrder}`;
+    this.carriageService
+      .getWithLimit(this.pageNumber, this.pageSize, this.search, orderBy,this.trainId)
+      .subscribe({
+        next: (response) => {
+          const data = response.body?.data;
+          if (data) {
+            this.carriages = data.items;
+            this.total = data.total;
+            this.pageSize = data.size;
+            this.pageNumber = data.page;
+          }
+          // this.toasrt.success(
+          //   `${response.body?.status} - ${response.body?.message}`
+          // );
+          this.checkDeleteValidity()
+          console.log(this.carriages);
+        },
+        error: (er) => {
+          console.log(er);
+        },
+      });
   }
 
   loadTrainName(){
@@ -98,47 +150,34 @@ export class CarriageComponent implements OnInit {
       }
     )
   }
-
-  checkVoucherValidity() {
+  
+  checkDeleteValidity() {
     this.carriages.forEach((carriage) => {
-      // console.log(train._delete)
-      carriage._delete=!carriage._delete
+      carriage.delete=!carriage.delete
     });
   }
 
-  onStatusChange(carriage: Carriage) {  
-    if (carriage._delete){
-      this.carriageService.RestoreCarriage(carriage.id).subscribe({
-        next:(response)=>{
-          console.log('active',response)
-        },
-        error: (err) => {
-          console.log('Failed to change to active train', err);
-        }
-      })
-    }
-    else{
-
-      this.carriageService.DeleteCarriage(carriage.id).subscribe({
-        next:(response)=>{
-          console.log('cook',response)
-        },
-        error: (err) => {
-          console.log('Failed to change to inactive train', err);
-        }
-      })
-    }
+  onDelete(carriage: Carriage){
+    this.carriageService.DeleteCarriage(carriage.id).subscribe({
+      next:(response)=>{
+        console.log('cook',response)
+        // this.loadSchedules()
+      },
+      error: (err) => {
+        console.log('Failed to change to inactive station', err);
+      }
+    })
   }
-  
-  get filteredCarriages() {
-    if (!this.searchQuery) {
-      return this.carriages; 
-    }
-    return this.carriages.filter(carriage =>
-      // carriage.routeName?.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-      carriage.trainName?.toLowerCase().includes(this.searchQuery.toLowerCase()) 
-      
-    );
+  onRestore(carriage: Carriage){
+    this.carriageService.RestoreCarriage(carriage.id).subscribe({
+      next:(response)=>{
+        console.log('active',response)
+        // this.loadSchedules()
+      },
+      error: (err) => {
+        console.log('Failed to change to active station', err);
+      }
+    })
   }
 
 
@@ -164,10 +203,10 @@ export class CarriageComponent implements OnInit {
         const carriageArray=response.data;
         console.log(carriageArray)
         this.carriageForm.patchValue({
-          trainSelect: carriageArray.trainName, 
+          trainSelect: carriageArray.train.name, 
           name: carriageArray.name,
           description: carriageArray.description,
-          is_active:!carriageArray.is_delete
+          is_active:!carriageArray.delete
           
         });
       },

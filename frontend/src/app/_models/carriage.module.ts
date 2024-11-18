@@ -1,9 +1,10 @@
+import { Train } from "./train.module";
+
 export interface Carriage {
     id: number;
     name: string;
-    train_id: number;
+    train: Train;
     description:string;
-    _delete: boolean;
+    delete: boolean;
 
-    trainName?: string; 
 }

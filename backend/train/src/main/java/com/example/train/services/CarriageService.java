@@ -4,6 +4,7 @@ package com.example.train.services;
 import java.util.List;
 import com.example.train.dto.request.CarriageRequestDto;
 import com.example.train.dto.response.CarriageDetailResponse;
+import com.example.train.dto.response.PageResponse;
 
 public interface CarriageService {
     void addCarriage(CarriageRequestDto carriageRequestDto);
@@ -14,5 +15,5 @@ public interface CarriageService {
     
     List<CarriageDetailResponse> getAllCarriagesByTrainId(int id);
     CarriageDetailResponse getCarriage(int id);
-    
+    PageResponse<?> getAllCarriageAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search, String sortBy,int id);
 } 

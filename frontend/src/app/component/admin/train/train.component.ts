@@ -11,6 +11,8 @@ import { TableModule } from 'primeng/table';
 import * as XLSX from 'xlsx';
 import { Train } from '../../../_models/train.module';
 import { TrainService } from '../../../_services/train.service';
+import { SortEvent } from 'primeng/api';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-train',
@@ -25,7 +27,8 @@ import { TrainService } from '../../../_services/train.service';
     CommonModule,
     CheckboxModule,
     InputTextModule,
-    DialogModule 
+    DialogModule,
+    PaginatorModule
   ],
   templateUrl: './train.component.html',
   styleUrl: './train.component.css'
@@ -44,6 +47,15 @@ export class TrainComponent implements OnInit{
   imagePreviewUrl: string | null = null;
   imageName: string = '';
 
+
+  pageNumber = 1;
+  pageSize = 5;
+  total = 0;
+  search: string = '';
+  sortBy = 'id';
+  sortOrder = 'asc';
+
+
   constructor(
     private formBuilder: FormBuilder,
     private trainService:TrainService,
@@ -60,59 +72,81 @@ export class TrainComponent implements OnInit{
     this.loadTrains();
   }
 
-  loadTrains(){
-    this.trainService.getAllTrains().subscribe(
-      (response: any) => {
-        this.trains = response.data; 
-        // console.log(this.trains) 
-        this.checkVoucherValidity();
-      },
-      (error) => {
-        console.log('error load trains', error);
-      }
-    );
+  onPageChange(event: any) {
+    this.pageNumber = event.page + 1;
+    this.pageSize = event.rows;
+    this.loadTrains();
+  }
+
+  onSearch() {
+    this.pageNumber = 1;
+    this.loadTrains();
+  }
+
+  customSort(event: SortEvent) {
+    this.sortBy = event.field as string;
+    this.sortOrder = event.order === 1 ? 'asc' : 'desc';
+
+    this.loadTrains();
+  }
+  
+  loadTrains() {
+    const orderBy = `${this.sortBy},${this.sortOrder}`;
+    this.trainService
+      .getWithLimit(this.pageNumber, this.pageSize, this.search, orderBy)
+      .subscribe({
+        next: (response) => {
+          const data = response.body?.data;
+          if (data) {
+            this.trains = data.items;
+            this.total = data.total;
+            this.pageSize = data.size;
+            this.pageNumber = data.page;
+          }
+          this.checkDeleteValidity()
+          console.log(this.trains);
+        },
+        error: (er) => {
+          console.log(er);
+        },
+      });
   }
 
 
-  checkVoucherValidity() {
+
+  checkDeleteValidity() {
+    console.log('Before update:', this.trains);
     this.trains.forEach((train) => {
-      // console.log(train._delete)
-      train._delete=!train._delete
+      if (train.hasOwnProperty('delete')) {
+        train.delete = !train.delete;
+      } else {
+        console.error('isDeleted property missing in schedule:', train);
+      }
     });
+    console.log('After update:', this.trains);
   }
 
-  onStatusChange(train: Train) {  
-    if (train._delete){
-      this.trainService.RestoreTrain(train.id).subscribe({
-        next:(response)=>{
-          console.log('active',response)
-        },
-        error: (err) => {
-          console.log('Failed to change to active train', err);
-        }
-      })
-    }
-    else{
+  onDelete(train: Train){
+    this.trainService.DeleteTrain(train.id).subscribe({
+      next:(response)=>{
+        console.log('cook',response)
+      },
+      error: (err) => {
+        console.log('Failed to change to inactive station', err);
+      }
+    })
+  }
+  onRestore(train: Train){
+    this.trainService.RestoreTrain(train.id).subscribe({
+      next:(response)=>{
+        console.log('active',response)
+      },
+      error: (err) => {
+        console.log('Failed to change to active station', err);
+      }
+    })
+  }
 
-      this.trainService.DeleteTrain(train.id).subscribe({
-        next:(response)=>{
-          console.log('cook',response)
-        },
-        error: (err) => {
-          console.log('Failed to change to inactive train', err);
-        }
-      })
-    }
-  }
-  get filteredTrains() {
-    if (!this.searchQuery) {
-      return this.trains; // If no search query, return all stations
-    }
-   
-    return this.trains.filter(train =>
-      train.name.toLowerCase().includes(this.searchQuery.toLowerCase()) 
-    );
-  }
 
   
 
@@ -137,7 +171,7 @@ export class TrainComponent implements OnInit{
       next:(response)=>{
         const train=response.data;
         
-        console.log(train.pictureUrl)
+        console.log(train)
         // console.log(this.imagePreviewUrl)
         // console.log(train.name)
         // console.log(train.is_delete)
@@ -145,9 +179,9 @@ export class TrainComponent implements OnInit{
           name: train.name,
           description: train.description,
           pictureUrl: train.pictureUrl,
-          is_active: !train._delete 
+          is_active: !train.delete 
         });
-        this.imagePreviewUrl = train.pictureUrl;
+        // this.imagePreviewUrl = train.pictureUrl;
       }
     })
     

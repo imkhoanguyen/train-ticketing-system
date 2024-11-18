@@ -1,6 +1,8 @@
 package com.example.train.controller;
 // import java.util.List;
 
+import java.util.List;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -10,11 +12,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import com.example.train.dto.request.RouteRequestDto;
+import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.ResponseData;
 import com.example.train.dto.response.RouteDetailResponse;
+import com.example.train.entity.Route;
 import com.example.train.services.RouteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -32,12 +36,24 @@ import org.springframework.web.bind.annotation.RequestBody;
 public class RouteController {
     private final RouteService routeService;
 
-    @Operation(summary = "Get list of Routes per pageNo", description = "Send a request via this API to get route list by pageNo and pageSize")
-    @GetMapping("/list")
-    public ResponseData<?> getAllRoutes() {
-        log.info("Request get all stations");
-        return new ResponseData<>(HttpStatus.OK.value(), "routes", routeService.getAllRoute());
+    // @Operation(summary = "Get list of Routes per pageNo", description = "Send a request via this API to get route list by pageNo and pageSize")
+    // @GetMapping("/list")
+    // public ResponseData<?> getAllRoutes() {
+    //     log.info("Request get all stations");
+    //     return new ResponseData<>(HttpStatus.OK.value(), "routes", routeService.getAllRoute());
         
+    // }
+
+    @GetMapping("/list")
+    public ResponseData<PageResponse<List<Route>>> GetAllWithLimit(
+            @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
+            @RequestParam(value = "pageSize", defaultValue = "1") int pageSize,
+            @RequestParam(value = "search", required = false) String search,
+            @RequestParam(value = "sortBy", defaultValue = "id,desc") String sortBy) {
+            
+        PageResponse<List<Route>> response = (PageResponse<List<Route>>) routeService.getAllRouteAndSearchWithPagingAndSorting(pageNumber, pageSize, search, sortBy);
+
+        return new ResponseData<>(HttpStatus.OK.value(), "get list discount with limit", response);
     }
 
     @Operation(summary = "Get route by ID", description = "Send a request to retrieve a route by its ID")

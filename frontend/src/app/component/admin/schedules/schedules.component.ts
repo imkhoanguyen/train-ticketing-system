@@ -175,9 +175,10 @@ export class SchedulesComponent implements OnInit {
 
   checkDeleteValidity() {
     this.schedules.forEach((schedule) => {
-      schedule.isDeleted=!schedule.isDeleted
+      schedule.deleted=!schedule.deleted
     });
   }
+
   onDelete(schedule: schedule){
     this.scheduleService.DeleteSchedule(schedule.id).subscribe({
       next:(response)=>{
