@@ -9,6 +9,16 @@ export interface UserDetail {
   token: string;
 }
 
+export interface User {
+  id: number;
+  userName: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  cmnd: string;
+  role: string;
+}
+
 export interface LoginRequest {
   userName: string;
   password: string;

@@ -19,6 +19,7 @@ import { DiscountComponent } from './component/admin/discount/discount.component
 import { AdminComponent } from './component/admin/admin.component';
 import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
+import { UserComponent } from './component/admin/user/user.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -48,6 +49,7 @@ export const routes: Routes = [
       { path: 'order/ticket/:id', component: TicketComponent },
       { path: 'promotion', component: PromotionComponent },
       { path: 'discount', component: DiscountComponent },
+      { path: 'user', component: UserComponent },
     ],
   },
   { path: 'login', component: LoginComponent },
