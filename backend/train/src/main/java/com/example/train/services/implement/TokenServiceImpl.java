@@ -33,7 +33,8 @@ public class TokenServiceImpl implements TokenService {
     @Override
     public String CreateToken(UserDetailResponse dto) {
         Date now = new Date();
-        Date validity = new Date(now.getTime() + 3_600_000);
+        // 30 ngay
+        Date validity = new Date(now.getTime() + 30L * 24 * 60 * 60 * 1000);
         return JWT.create()
                 .withIssuer(dto.getUserName())
                 .withIssuedAt(now)
