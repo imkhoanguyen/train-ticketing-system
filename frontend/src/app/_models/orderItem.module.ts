@@ -1,5 +1,8 @@
+import { Order } from "./order.module";
+import { Ticket } from "./ticket.module";
+
 export interface OrderItem {
     id: number;
-    ticket_id: number;
-    order_id: number;
+    ticket: Ticket;
+    order: Order;
 }

@@ -1,4 +1,6 @@
 package com.example.train.entity;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -20,6 +22,7 @@ public class OrderItem {
 
     @ManyToOne
     @JoinColumn(name = "orderId", nullable = false)
+    @JsonBackReference // Ngăn vòng lặp từ OrderItem -> Order -> OrderItem
     private Order order;
 
 }

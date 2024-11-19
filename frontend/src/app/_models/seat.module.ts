@@ -4,7 +4,7 @@ export interface Seat {
     carriage_id: number;
     price:number;
     description:string;
-    _delete: boolean;
+    delete: boolean;
 
     carriageName?: string; 
 }

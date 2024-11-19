@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 import com.example.train.dto.request.TrainRequestDto;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.TrainDetailResponse;
-import com.example.train.entity.Station;
 import com.example.train.entity.Train;
 import com.example.train.repository.TrainRepository;
 import com.example.train.services.TrainService;

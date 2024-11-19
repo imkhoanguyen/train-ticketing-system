@@ -1,12 +1,14 @@
 package com.example.train.services.implement;
 
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.train.dto.request.SeatRequestDto;
+import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.SeatDetailResponse;
 import com.example.train.entity.Carriage;
 import com.example.train.entity.Seat;
@@ -24,28 +26,52 @@ import lombok.extern.slf4j.Slf4j;
 public class SeatServiceImpl implements SeatService{
     private final CarriageRepository carriageRepository;
     private final SeatRepository seatRepository;
+
+    @Override
+    public PageResponse<?> getAllSeatAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search,
+            String sortBy,int id) {
+        int page = 0;
+        if(pageNo > 0){
+            page = pageNo - 1;
+        }
+
+        String sortField = sortBy.contains(",") ? sortBy.split(",")[0] : sortBy;
+        String sortDirection = sortBy.endsWith("desc") ? "desc" : "asc";
+
+        Sort sort = "desc".equalsIgnoreCase(sortDirection)
+                ? Sort.by(sortField).descending()
+                : Sort.by(sortField).ascending();
+
+        Pageable pageable = PageRequest.of(page, pageSize, sort);
+
+        Page<Seat> seatPage;
+        if(search == null || search.isEmpty()){
+            seatPage = seatRepository.findAllByCarriage_Id(id,pageable);
+        } else {
+            seatPage = seatRepository.findByNameContainingIgnoreCaseAndCarriage_Id(search, pageable,id);
+        }
+
+        return PageResponse.<List<Seat>>builder()
+                .page(pageNo)
+                .size(pageSize)
+                .total(seatPage.getTotalElements())
+                .items(seatPage.getContent())
+                .build();
+    }
+
     @Override
     public List<SeatDetailResponse> getAllSeatsByCarriageId(int id) {
-        List<Seat> seats = seatRepository.findByCarriageId(id);
-
-        List<Carriage> carriages = carriageRepository.findAll();
-
-
-        Map<Integer, String> carriageMap = carriages.stream()
-                .collect(Collectors.toMap(Carriage::getId, Carriage::getName));
+        List<Seat> seats = seatRepository.findByCarriage_Id(id);
 
         List<SeatDetailResponse> seatDetailResponses = seats.stream()
                 .map(seat -> {
-//                    String carriageName = carriageMap.get(seat.getCarriageId());
-
                     return SeatDetailResponse.builder()
                             .id(seat.getId())
-//                            .carriageId(seat.getCarriageId())
-//                            .name(seat.getName())
-//                            .price(seat.getPrice())
-//                            .description(seat.getDescription())
-//                            .is_delete(seat.isDelete())
-//                            .carriageName(carriageName)
+                           .carriage(seat.getCarriage())
+                           .name(seat.getName())
+                           .price(seat.getPrice())
+                           .description(seat.getDescription())
+                           .isDelete(seat.isDelete())
                             .build();
                 })
                 .toList();
@@ -57,30 +83,22 @@ public class SeatServiceImpl implements SeatService{
     public SeatDetailResponse getSeat(int id) {
         Seat seat = seatRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Seat not found"));
-        
-        List<Carriage> carriages = carriageRepository.findAll();
-        
-        
-        Map<Integer, String> carriageMap = carriages.stream()
-                .collect(Collectors.toMap(Carriage::getId, Carriage::getName));
-        
-//        String carriageName = carriageMap.get(seat.getCarriageId());
-        
         return SeatDetailResponse.builder()
                 .id(seat.getId())
-//                .carriageId(seat.getCarriageId())
+               .carriage(seat.getCarriage())
                 .name(seat.getName())
                 .price(seat.getPrice())
                 .description(seat.getDescription())
-                .is_delete(seat.isDelete())
-//                .carriageName(carriageName)
+                .isDelete(seat.isDelete())
                 .build();
     }
 
     @Override
     public void addSeat(SeatRequestDto seatRequestDto) {
+        Carriage carriage = carriageRepository.findById(seatRequestDto.getCarriageId())
+        .orElseThrow(() -> new IllegalArgumentException("End station not found with id: " + seatRequestDto.getCarriageId()));
         Seat seat = Seat.builder()
-//            .carriageId(seatRequestDto.getCarriageId())
+           .carriage(carriage)
             .name(seatRequestDto.getName()) 
             .price(seatRequestDto.getPrice())
             .description(seatRequestDto.getDescription())     
@@ -92,9 +110,11 @@ public class SeatServiceImpl implements SeatService{
 
     @Override
     public void updateSeat(int id, SeatRequestDto seatRequestDto) {
+        Carriage carriage = carriageRepository.findById(seatRequestDto.getCarriageId())
+        .orElseThrow(() -> new IllegalArgumentException("End station not found with id: " + seatRequestDto.getCarriageId()));
         Seat seat = seatRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Seat not found"));
-//        seat.setCarriageId(seatRequestDto.getCarriageId());
+       seat.setCarriage(carriage);
         seat.setName(seatRequestDto.getName());
         seat.setPrice(seatRequestDto.getPrice());
         seat.setDescription(seatRequestDto.getDescription()); 

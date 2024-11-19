@@ -1,50 +1,103 @@
 .container {
-    padding: 20px;
-  }
-  
-  .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
-  }
-  
-  .ticket-title {
-    margin: 0 auto; /* Center the title horizontally */
-    text-align: center;
-  }
-  
-  .button-search-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
-  }
-  
-  .search-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    width: 50%; /* Adjust width as needed */
-  }
-  
-  .search-icon {
-    margin-right: 8px;
-  }
-  
-  .export-button {
-    margin-left: auto; /* Push the button to the far right */
-  }
-  
-  .custom-table {
-    width: 100%;
-  }
-  
-  .even-row {
-    background-color: #f9f9f9;
-  }
-  
-  .odd-row {
-    background-color: #fff;
-  }
-  
+  padding: 20px;
+}
+
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.ticket-title {
+  margin: 0 auto;
+  text-align: center;
+}
+
+.button-search-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 50%;
+}
+
+.search-icon {
+  margin-right: 8px;
+}
+
+.custom-table {
+  width: 100%;
+}
+
+.even-row {
+  background-color: #f9f9f9;
+}
+
+.odd-row {
+  background-color: #fff;
+}
+
+/* Styling for combined columns */
+td {
+  vertical-align: middle;
+}
+
+td strong {
+  display: block;
+}
+
+td {
+  padding: 8px 12px;
+}
+
+/* Additional styles for combined cells */
+td:first-child {
+  text-align: center;
+}
+
+td:nth-child(2),
+td:nth-child(3),
+td:nth-child(4),
+td:nth-child(5) {
+  padding-left: 15px;
+}
+
+td:nth-child(2) {
+  width: 20%;
+}
+
+td:nth-child(3) {
+  width: 20%;
+}
+
+td:nth-child(4) {
+  width: 25%;
+}
+
+td:nth-child(5) {
+  width: 15%;
+}
+
+td:nth-child(6) {
+  width: 10%;
+}
+
+td:nth-child(7) {
+  width: 10%;
+}
+
+td:nth-child(8) {
+  text-align: center;
+  width: 10%;
+}
+
+button.p-button-rounded {
+  font-size: 1.2rem;
+}

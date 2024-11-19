@@ -15,6 +15,8 @@ import { Seat } from '../../../_models/seat.module';
 import { SeatService } from '../../../_services/seat.service';
 import { CarriageService } from '../../../_services/carriage.service';
 import { Carriage } from '../../../_models/carriage.module';
+import { SortEvent } from 'primeng/api';
+import { PaginatorModule } from 'primeng/paginator';
 
 @Component({
   selector: 'app-seat',
@@ -33,6 +35,7 @@ import { Carriage } from '../../../_models/carriage.module';
     ConfirmDialogModule,
     CheckboxModule,
     InputSwitchModule,
+    PaginatorModule
   ],
   templateUrl: './seat.component.html',
   styleUrl: './seat.component.css'
@@ -51,6 +54,14 @@ export class SeatComponent implements OnInit {
 
   // trainsOptions: any[] = [];
   number!:number;
+
+  pageNumber = 1;
+  pageSize = 5;
+  total = 0;
+  search: string = '';
+  sortBy = 'id';
+  sortOrder = 'asc';
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -83,18 +94,49 @@ export class SeatComponent implements OnInit {
     
     }
 
-  loadSeats() {
-    // this.loadTrains()
-    this.seatService.getAllSeatsByCarriageId(this.carriageId).subscribe(
-      (response: any) => {
-        this.seats = response.data;   
-        this.checkVoucherValidity();
-      },
-      (error) => {
-        console.log('error load seats', error);
-      }
-    );
+  onPageChange(event: any) {
+    this.pageNumber = event.page + 1;
+    this.pageSize = event.rows;
+    this.loadSeats();
   }
+
+  onSearch() {
+    this.pageNumber = 1;
+    this.loadSeats();
+  }
+
+  customSort(event: SortEvent) {
+    this.sortBy = event.field as string;
+    this.sortOrder = event.order === 1 ? 'asc' : 'desc';
+
+    this.loadSeats();
+  }
+  
+  loadSeats() {
+    const orderBy = `${this.sortBy},${this.sortOrder}`;
+    this.seatService
+      .getWithLimit(this.pageNumber, this.pageSize, this.search, orderBy,this.carriageId)
+      .subscribe({
+        next: (response) => {
+          const data = response.body?.data;
+          if (data) {
+            this.seats = data.items;
+            this.total = data.total;
+            this.pageSize = data.size;
+            this.pageNumber = data.page;
+          }
+          // this.toasrt.success(
+          //   `${response.body?.status} - ${response.body?.message}`
+          // );
+          this.checkDeleteValidity()
+          console.log(this.seats);
+        },
+        error: (er) => {
+          console.log(er);
+        },
+      });
+  }
+
 
   loadCarriageName(){
     this.carriageService.getCarriageById(this.carriageId).subscribe(
@@ -105,46 +147,34 @@ export class SeatComponent implements OnInit {
     )
   }
 
-  checkVoucherValidity() {
+  
+  checkDeleteValidity() {
     this.seats.forEach((seat) => {
-      // console.log(train._delete)
-      seat._delete=!seat._delete
+      seat.delete=!seat.delete
     });
   }
 
-  onStatusChange(seat: Seat) {  
-    if (seat._delete){
-      this.seatService.RestoreSeat(seat.id).subscribe({
-        next:(response)=>{
-          console.log('active',response)
-        },
-        error: (err) => {
-          console.log('Failed to change to active train', err);
-        }
-      })
-    }
-    else{
-
-      this.seatService.DeleteSeat(seat.id).subscribe({
-        next:(response)=>{
-          console.log('cook',response)
-        },
-        error: (err) => {
-          console.log('Failed to change to inactive train', err);
-        }
-      })
-    }
+  onDelete(seat: Seat){
+    this.seatService.DeleteSeat(seat.id).subscribe({
+      next:(response)=>{
+        console.log('cook',response)
+        // this.loadSchedules()
+      },
+      error: (err) => {
+        console.log('Failed to change to inactive station', err);
+      }
+    })
   }
-  
-  get filteredSeats() {
-    if (!this.searchQuery) {
-      return this.seats; 
-    }
-    return this.seats.filter(seat =>
-      // carriage.routeName?.toLowerCase().includes(this.searchQuery.toLowerCase()) || 
-      seat.name?.toLowerCase().includes(this.searchQuery.toLowerCase()) 
-      
-    );
+  onRestore(seat: Seat){
+    this.seatService.RestoreSeat(seat.id).subscribe({
+      next:(response)=>{
+        console.log('active',response)
+        // this.loadSchedules()
+      },
+      error: (err) => {
+        console.log('Failed to change to active station', err);
+      }
+    })
   }
 
 
@@ -179,7 +209,7 @@ export class SeatComponent implements OnInit {
           name: seat.name,
           price: seat.price,
           description: seat.description,
-          is_active:!seat._delete
+          is_active:!seat.delete
         });
       }
     })

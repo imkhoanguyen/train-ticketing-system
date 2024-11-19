@@ -1,4 +1,5 @@
 package com.example.train.dto.response;
+
 import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.math.BigDecimal;

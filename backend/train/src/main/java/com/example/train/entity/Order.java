@@ -6,6 +6,9 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
 @Getter
 @Setter
 @Builder
@@ -21,6 +24,7 @@ public class Order {
 
     @ManyToOne
     @JoinColumn(name = "UserId", nullable = false)
+    @JsonBackReference // Ngăn vòng lặp tuần tự hóa từ Order -> User -> Order
     private User user;
 
     @Column(nullable = false)
@@ -46,6 +50,7 @@ public class Order {
     private LocalDateTime created = LocalDateTime.now();
 
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonManagedReference // Tuần tự hóa Order -> OrderItems nhưng không ngược lại
     private List<OrderItem> orderItems;
 }
 

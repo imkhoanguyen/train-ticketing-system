@@ -1,9 +1,7 @@
 package com.example.train.dto.response;
 
 import java.io.Serializable;
-
 import com.example.train.entity.Train;
-
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;

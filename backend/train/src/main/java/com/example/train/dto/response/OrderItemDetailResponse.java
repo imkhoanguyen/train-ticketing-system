@@ -1,7 +1,8 @@
 package com.example.train.dto.response;
+
 import java.io.Serializable;
-
-
+import com.example.train.entity.Ticket;
+import com.example.train.entity.Order;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
@@ -11,6 +12,6 @@ import lombok.Setter;
 @Builder
 public class OrderItemDetailResponse implements Serializable{
     private int id;
-    private int ticket_id;
-    private int order_id; 
+    private Ticket ticket;
+    private Order order; 
 }

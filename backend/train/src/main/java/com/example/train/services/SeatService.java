@@ -3,6 +3,7 @@ package com.example.train.services;
 import java.util.List;
 
 import com.example.train.dto.request.SeatRequestDto;
+import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.SeatDetailResponse;
 
 public interface SeatService {
@@ -13,4 +14,6 @@ public interface SeatService {
     void updateSeat(int id, SeatRequestDto seatRequestDto);
     void deleteSeat(int id);
     void restoreSeat(int id);
+
+    PageResponse<?> getAllSeatAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search, String sortBy,int id);
 }

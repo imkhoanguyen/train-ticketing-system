@@ -2,21 +2,16 @@ package com.example.train.services.implement;
 import com.example.train.dto.request.StationRequestDto;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.StationDetailResponse;
-import com.example.train.entity.Schedule;
 import com.example.train.entity.Station;
 import com.example.train.repository.StationRepository;
 import com.example.train.services.StationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-// import org.springframework.data.domain.Page;
-// import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 //định nghĩa tầng service
 @Service
