@@ -20,10 +20,12 @@ import { AdminComponent } from './component/admin/admin.component';
 import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { UserComponent } from './component/admin/user/user.component';
+import { OrderedTicketComponent } from './component/ordered-ticket/ordered-ticket/ordered-ticket.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'train-results', component: TrainResultsComponent },
+  { path: 'ordered-tickets', component: OrderedTicketComponent },
   {
     path: 'booking',
     component: BookingStepsComponent,

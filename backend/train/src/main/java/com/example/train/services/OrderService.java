@@ -9,4 +9,5 @@ public interface OrderService {
     void restoreOrder(int id);
 
     PageResponse<?> getAllOrderAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search, String sortBy);
+    PageResponse<?> getAllOrderByUserIdAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search, String sortBy,int id);
 } 
