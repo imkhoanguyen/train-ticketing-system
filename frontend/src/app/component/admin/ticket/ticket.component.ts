@@ -18,7 +18,7 @@ import { forkJoin } from 'rxjs';
 import jsPDF from 'jspdf';
 import { SortEvent } from 'primeng/api';
 import { PaginatorModule } from 'primeng/paginator';
-
+import '../../../../assets/fonts/Roboto-Regular-normal.js'
 @Component({
   selector: 'app-ticket',
   standalone: true,
@@ -117,77 +117,31 @@ export class TicketComponent implements OnInit {
         },
       });
   }
-
-
-  // exportPdf1Ticket(id:number){
-  //   // console.log(this.tickets)
-  //   const doc = new jsPDF('p', 'pt', 'a4');
-  //   const title = 'Vé đã mua';
-  //   const startY = 60;
-  //   let position = startY;
-  //   doc.setFontSize(20);
-  //   doc.text(title, 20, 30);  
-  //   doc.setFontSize(12);
-  //   console.log(this.tickets)
-  //   for(let i=0;i<=this.tickets.length-1;i++){
-  //     if (this.tickets[i].id==id){
-  //       // console.log(this.tickets[i])       
-  //       doc.text(`Mã vé: ${this.tickets[i].id ?? ''}`, 20, position); position += 15;
-  //       doc.text(`Ngày Mua: ${this.tickets[i].dateBuy ?? ''}`, 20, position); position += 15;
-  //       doc.text(`Tên: ${this.tickets[i].fullname ?? ''}`, 20, position); position += 15;
-  //       doc.text(`Đối tượng: ${this.tickets[i].object ?? ''}`, 20, position); position += 15;
-  //       doc.text(`Căn cước: ${this.tickets[i].can_cuoc ?? ''}`, 20, position); position += 15;
-  //       doc.text(`Ga bắt đầu: ${this.tickets[i].startStation ?? ''}`, 20, position); position += 15;
-  //       doc.text(`Ga kết thúc: ${this.tickets[i].endStation ?? ''}`, 20, position); position += 15;
-  //       doc.text(`Thời gian đi: ${this.tickets[i].startDate ?? ''}`, 20, position); position += 15;
-  //       doc.text(`Thời gian đến: ${this.tickets[i].endDate ?? ''}`, 20, position); position += 15;
-  //       doc.text(`Khuyến mãi: ${this.tickets[i].promotionName ?? ''}`, 20, position); position += 15;
-  //       doc.text(`Giá tiền: ${this.tickets[i].price ?? ''}`, 20, position); position += 15;
-  //       doc.text(`Giá tiền đã giảm: ${this.tickets[i].price_reduced ?? ''}`, 20, position); position += 25;  
-  //     }
-  //     // console.log(this.tickets[i].id)
-  //   }
-  //   // doc.line(20, position - 10, 580, position - 10);
-  //   doc.setFontSize(8);
-  //   doc.text('Generated on: ' + new Date().toLocaleString(), 20, doc.internal.pageSize.height - 20);
-  //   doc.save('VeDaMua.pdf');
-  
-  
   
   exportPdf() {
     const doc = new jsPDF('p', 'pt', 'a4');
-
   
-    const title = 'Danh sách vé đã mua';
+    // Sử dụng font Roboto-Regular
+    doc.setFont('Roboto-Regular'); 
     doc.setFontSize(20);
-    doc.text(title, 20, 30);
-
+    doc.text('Danh sách vé đã mua ắ', 20, 30);
+  
     const startY = 60;
     let position = startY;
-
+  
     this.tickets.forEach(ticket => {
       doc.setFontSize(12);
       doc.text(`Mã vé: ${ticket.id ?? ''}`, 20, position); position += 15;
       doc.text(`Ngày Mua: ${ticket.dateBuy ?? ''}`, 20, position); position += 15;
-      // doc.text(`Tên: ${ticket.fullname ?? ''}`, 20, position); position += 15;
-      // doc.text(`Đối tượng: ${ticket.object ?? ''}`, 20, position); position += 15;
-      // doc.text(`Căn cước: ${ticket.can_cuoc ?? ''}`, 20, position); position += 15;
-      // doc.text(`Ga bắt đầu: ${ticket.startStation ?? ''}`, 20, position); position += 15;
-      // doc.text(`Ga kết thúc: ${ticket.endStation ?? ''}`, 20, position); position += 15;
-      // doc.text(`Thời gian đi: ${ticket.startDate ?? ''}`, 20, position); position += 15;
-      // doc.text(`Thời gian đến: ${ticket.endDate ?? ''}`, 20, position); position += 15;
-      // doc.text(`Khuyến mãi: ${ticket.promotionName ?? ''}`, 20, position); position += 15;
-      // doc.text(`Giá tiền: ${ticket.price ?? ''}`, 20, position); position += 15;
-      // doc.text(`Giá tiền đã giảm: ${ticket.price_reduced ?? ''}`, 20, position); position += 25;
-
       doc.line(20, position - 10, 580, position - 10);
     });
-
+  
+    // Footer
     doc.setFontSize(8);
     doc.text('Generated on: ' + new Date().toLocaleString(), 20, doc.internal.pageSize.height - 20);
+  
     doc.save('DanhSachVeDaMua.pdf');
   }
-
   
   
 }
