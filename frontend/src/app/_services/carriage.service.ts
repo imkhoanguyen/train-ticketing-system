@@ -12,7 +12,7 @@ export class CarriageService {
   private baseUrl = environment.apiUrl;
 
   getAllCarriagesByTrainId(id:number) {
-    return this.http.get<ApiResponse<Carriage[]>>(`${this.baseUrl}/carriage/list/${id}`);
+    return this.http.get<ApiResponse<Carriage[]>>(`${this.baseUrl}/carriage/trainId/${id}`);
   }
 
   getWithLimit(

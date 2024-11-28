@@ -49,6 +49,7 @@ export class TrainResultsComponent implements OnInit {
       this.scheduleService.getSchedules().subscribe({
         next: (data: schedule[]) => {
           this.schedules = data;
+          console.log("schedulesss", this.schedules);
           this.trains = this.schedules.map((schedule) => schedule.train);
           // Lưu vào localStorage
           localStorage.setItem('schedules', JSON.stringify(this.schedules));

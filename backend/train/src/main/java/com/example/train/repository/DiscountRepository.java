@@ -13,4 +13,5 @@ public interface DiscountRepository extends JpaRepository<Discount, Integer> {
     Page<Discount> findAllByIsDeleteFalse(Pageable pageable);
     Page<Discount> findByObjectContainingIgnoreCaseAndIsDeleteFalse(String name, Pageable pageable);
     List<Discount> findAllByIsDeleteFalse();
+    Discount findDiscountById(int id);
 }

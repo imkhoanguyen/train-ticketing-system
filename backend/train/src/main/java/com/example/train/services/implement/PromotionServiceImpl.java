@@ -99,4 +99,10 @@ public class PromotionServiceImpl implements PromotionService {
     public List<Promotion> getAllPromotionsWithIsDeleteFalse() {
         return promotionRepository.findAllByIsDeleteFalse();
     }
+
+    @Override
+    public Promotion getPromotionByCode(String code) {
+        return promotionRepository.findByCode(code);
+
+    }
 }

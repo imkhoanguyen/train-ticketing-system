@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Discount } from '../_models/discount';
+import { ApiResponse } from '../_models/api-response.module';
 
 @Injectable({
   providedIn: 'root',
@@ -29,6 +30,12 @@ export class DiscountService {
       observe: 'response',
       params,
     });
+  }
+  getAllDiscounts(){
+    return this.http.get<ApiResponse<Discount[]>>(this.baseUrl + '/discount/list-all');
+  }
+  getDiscountById(id: number) {
+    return this.http.get<ApiResponse<Discount>>(this.baseUrl + `/discount/${id}`);
   }
 
   add(discount: Discount) {

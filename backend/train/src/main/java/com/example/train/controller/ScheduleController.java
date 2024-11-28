@@ -60,6 +60,12 @@ public class ScheduleController {
         return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Route retrieved successfully", scheduleDetailResponse));
     }
 
+    @GetMapping("/routeId/{id}")
+    public ResponseEntity<ResponseData<?>> getScheduleByRouteId(@PathVariable int id) {
+        log.info("Request to get station with ID: {}", id);
+        List<ScheduleDetailResponse> scheduleDetailResponse = ScheduleService.getAllSchedulesByRouteId(id);
+        return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Route retrieved successfully", scheduleDetailResponse));
+    }
     @Operation(summary = "Add new schedule", description = "Send a request to add a new Route")
     @PostMapping("/add")
     public ResponseEntity<ResponseData<?>> addSchedule(@Validated @RequestBody ScheduleRequestDto scheduleRequestDto) {

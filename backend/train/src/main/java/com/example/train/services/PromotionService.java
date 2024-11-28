@@ -14,4 +14,5 @@ public interface PromotionService {
 
     void deletePromotion(int id);
     List<Promotion> getAllPromotionsWithIsDeleteFalse();
+    Promotion getPromotionByCode(String code);
 }

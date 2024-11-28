@@ -2,6 +2,7 @@ import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Promotion } from '../_models/promotion';
+import { ApiResponse } from '../_models/api-response.module';
 
 @Injectable({
   providedIn: 'root',
@@ -44,5 +45,8 @@ export class PromotionService {
 
   delete(id: number) {
     return this.http.delete<any>(this.baseUrl + `/promotion/delete/${id}`);
+  }
+  getPromotionByCode(code: string){
+    return this.http.get<ApiResponse<Promotion>>(this.baseUrl + `/promotion/code/${code}`);
   }
 }

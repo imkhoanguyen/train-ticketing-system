@@ -56,6 +56,12 @@ public class CarriageController {
         CarriageDetailResponse carriageDetailResponse = carriageService.getCarriage(id);
         return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Carriage retrieved successfully", carriageDetailResponse));
     }
+    @GetMapping("trainId/{id}")
+    public ResponseEntity<ResponseData<?>> getAllCarriageByTrainId(@PathVariable int id) {
+        log.info("Request to get carriage with ID: {}", id);
+        List<CarriageDetailResponse> carriageDetailResponse = carriageService.getAllCarriagesByTrainId(id);
+        return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Carriage retrieved successfully", carriageDetailResponse));
+    }
 
     @Operation(summary = "Add new Carriage", description = "Send a request to add a new Carriage")
     @PostMapping("/add")

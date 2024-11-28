@@ -28,7 +28,7 @@ export class ScheduleService {
 
 
   getAllSchedulesByRouteId(id:number) {
-    return this.http.get<ApiResponse<schedule[]>>(`${this.baseUrl}/schedule/list/${id}`);
+    return this.http.get<ApiResponse<schedule[]>>(`${this.baseUrl}/schedule/routeId/${id}`);
   }
 
   getWithLimit(

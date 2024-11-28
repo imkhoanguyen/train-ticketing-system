@@ -64,4 +64,10 @@ public class PromotionController {
         promotionService.deletePromotion(id);
         return new ResponseData<>(HttpStatus.OK.value(), "deleted successfully");
     }
+
+    @GetMapping("/code/{code}")
+    public ResponseData<Promotion> getPromotionByCode(@PathVariable String code) {
+        Promotion promotion =  promotionService.getPromotionByCode(code);
+        return new ResponseData<>(HttpStatus.OK.value(), "get successfully", promotion);
+    }
 }

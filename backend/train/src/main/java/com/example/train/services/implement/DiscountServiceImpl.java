@@ -87,4 +87,9 @@ public class DiscountServiceImpl implements DiscountService {
     public List<Discount> getAllDiscountsWithIsDeleteFalse() {
         return discountRepository.findAllByIsDeleteFalse();
     }
+
+    @Override
+    public Discount getDiscountById(int id) {
+        return discountRepository.findDiscountById(id);
+    }
 }

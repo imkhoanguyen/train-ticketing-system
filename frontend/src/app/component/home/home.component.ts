@@ -52,7 +52,7 @@ export class HomeComponent implements OnInit {
     } else {
       this.isLogin = false;
     }
-    // this.loadStations();
+    this.loadStations();
   }
   load() {
     this.loading = true;
@@ -68,9 +68,11 @@ export class HomeComponent implements OnInit {
     }
   }
   loadStations() {
+    console.log('load stations');
     this.stationService.getAllStations().subscribe(
       (response: any) => {
         this.stations = response.data;
+        console.log("stations", this.stations);
       },
       (error) => {
         console.log('error load stations', error);
