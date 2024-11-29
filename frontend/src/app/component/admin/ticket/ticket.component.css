@@ -1,103 +1,199 @@
-.container {
-  padding: 20px;
+/* Global styles */
+body {
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #e9f7fc; /* Nền xanh nhạt */
+  color: #2b5f87; /* Chữ xanh đậm */
 }
 
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff; /* Nền trắng */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header styles */
 .header-container {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 15px;
+  flex-direction: column;
+  align-items: center; /* Canh giữa theo chiều ngang */
+  justify-content: center; /* Canh giữa theo chiều dọc */
+  margin-bottom: 20px;
 }
 
 .ticket-title {
-  margin: 0 auto;
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2b5f87; /* Chữ xanh đậm */
   text-align: center;
+  margin: 10px 0;
 }
 
+.back-button {
+  align-self: flex-start; /* Canh nút "Quay lại" về bên trái */
+  font-size: 1rem;
+  background-color: #3aa8db; /* Nút xanh đậm */
+  color: #ffffff; /* Chữ trắng */
+  border: none;
+  padding: 10px 15px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  margin-bottom: 10px;
+}
+
+.back-button:hover {
+  background-color: #2b87ba; /* Nút xanh đậm hơn khi hover */
+  transform: scale(1.05);
+}
+
+/* Search and button container */
 .button-search-container {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .search-container {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  width: 50%;
+  flex-grow: 1;
+  max-width: 400px;
 }
 
-.search-icon {
-  margin-right: 8px;
-}
-
-.custom-table {
+.search-container input {
   width: 100%;
+  padding: 10px 15px;
+  border: 1px solid #b3d9ec; /* Viền xanh nhạt */
+  border-radius: 5px;
+  background-color: #f1faff; /* Nền ô tìm kiếm */
+  color: #2b5f87; /* Chữ xanh đậm */
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.even-row {
-  background-color: #f9f9f9;
+.search-container input:focus {
+  border-color: #3aa8db;
+  outline: none;
+  box-shadow: inset 0 4px 6px rgba(58, 168, 219, 0.3);
 }
 
-.odd-row {
-  background-color: #fff;
-}
-
-/* Styling for combined columns */
-td {
-  vertical-align: middle;
-}
-
-td strong {
-  display: block;
-}
-
-td {
-  padding: 8px 12px;
-}
-
-/* Additional styles for combined cells */
-td:first-child {
-  text-align: center;
-}
-
-td:nth-child(2),
-td:nth-child(3),
-td:nth-child(4),
-td:nth-child(5) {
-  padding-left: 15px;
-}
-
-td:nth-child(2) {
-  width: 20%;
-}
-
-td:nth-child(3) {
-  width: 20%;
-}
-
-td:nth-child(4) {
-  width: 25%;
-}
-
-td:nth-child(5) {
-  width: 15%;
-}
-
-td:nth-child(6) {
-  width: 10%;
-}
-
-td:nth-child(7) {
-  width: 10%;
-}
-
-td:nth-child(8) {
-  text-align: center;
-  width: 10%;
-}
-
+/* Button styles */
 button.p-button-rounded {
+  border-radius: 50%;
+  background-color: #3aa8db;
+  color: #ffffff;
   font-size: 1.2rem;
+  padding: 10px;
+  border: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+}
+
+button.p-button-rounded:hover {
+  background-color: #2b87ba;
+  transform: scale(1.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Table styles */
+p-table {
+  width: 100%;
+  margin-top: 20px;
+  border-spacing: 0;
+  border-collapse: collapse;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+p-table th {
+  background-color: #3aa8db; /* Nền xanh đậm */
+  color: #ffffff; /* Chữ trắng */
+  text-align: left;
+  padding: 15px;
+  font-size: 1rem;
+  border-bottom: 2px solid #b3d9ec; /* Viền xanh nhạt */
+}
+
+p-table tr:nth-child(even) {
+  background-color: #f1faff; /* Hàng chẵn xanh nhạt */
+}
+
+p-table tr:nth-child(odd) {
+  background-color: #ffffff; /* Hàng lẻ màu trắng */
+}
+
+p-table tr:hover {
+  background-color: #d0ecf7; /* Màu xanh nhạt hơn khi hover */
+}
+
+p-table td {
+  padding: 15px;
+  font-size: 0.9rem;
+  color: #2b5f87;
+  vertical-align: middle;
+  border-bottom: 1px solid #b3d9ec;
+}
+
+p-table td strong {
+  display: block;
+  color: #555;
+}
+
+p-table td:first-child,
+p-table td:last-child {
+  text-align: center;
+}
+
+/* Paginator styles */
+.p-paginator {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.p-paginator button {
+  border-radius: 50%;
+  background-color: #3aa8db;
+  color: #ffffff;
+  font-size: 1rem;
+  margin: 0 5px;
+  padding: 10px;
+  transition: all 0.3s ease;
+  border: none;
+}
+
+.p-paginator button:hover {
+  background-color: #2b87ba;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+  .header-container {
+    flex-wrap: wrap;
+  }
+
+  .ticket-title {
+    font-size: 1.5rem;
+    margin: 10px 0;
+  }
+
+  .button-search-container {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .search-container {
+    width: 100%;
+  }
+
+  p-table th,
+  p-table td {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
 }

@@ -11,10 +11,6 @@ import { InputTextModule } from 'primeng/inputtext';
 import { TableModule } from 'primeng/table';
 import { TicketService } from '../../../_services/ticket.service';
 import { Ticket } from '../../../_models/ticket.module';
-import { OrderItemService } from '../../../_services/orderItem.service';
-import { OrderItem } from '../../../_models/orderItem.module';
-import { forkJoin } from 'rxjs';
-
 import jsPDF from 'jspdf';
 import { SortEvent } from 'primeng/api';
 import { PaginatorModule } from 'primeng/paginator';
@@ -117,31 +113,153 @@ export class TicketComponent implements OnInit {
         },
       });
   }
-  
+
   exportPdf() {
-    const doc = new jsPDF('p', 'pt', 'a4');
-  
-    // Sử dụng font Roboto-Regular
-    doc.setFont('Roboto-Regular'); 
+    const doc = new jsPDF('p', 'pt', 'a5');
+
+    // Header
+    doc.setFont('Roboto-Regular');
     doc.setFontSize(20);
-    doc.text('Danh sách vé đã mua ắ', 20, 30);
-  
-    const startY = 60;
-    let position = startY;
-  
-    this.tickets.forEach(ticket => {
+    const pageWidth = doc.internal.pageSize.width;
+
+    this.tickets.forEach((ticket, index) => {
+      let startY = 100;
+
+      // Tiêu đề và thông tin cơ bản
+      doc.text('VÉ TÀU HỎA', pageWidth / 2, 40, { align: 'center' });
       doc.setFontSize(12);
-      doc.text(`Mã vé: ${ticket.id ?? ''}`, 20, position); position += 15;
-      doc.text(`Ngày Mua: ${ticket.dateBuy ?? ''}`, 20, position); position += 15;
-      doc.line(20, position - 10, 580, position - 10);
+      const ticketId = `Mã vé: ${ticket.id ?? ''}`;
+      const dateBuy = `Ngày Mua: ${this.formatDateTime(ticket.dateBuy?.toString() ?? '')}`;
+      doc.text(`${ticketId}`, 40, 70);
+      doc.text(`${dateBuy}`, pageWidth - 40, 70, { align: 'right' });
+
+      // Thông tin khách hàng
+      doc.text('Thông tin khách hàng:', 40, startY);
+      startY += 20;
+      doc.text(`Họ tên: ${ticket.fullName ?? ''}`, 60, startY);
+      startY += 15;
+      doc.text(`CMND: ${ticket.cmnd ?? ''}`, 60, startY);
+      startY += 20;
+
+      // Thông tin chuyến đi
+      doc.text('Thông tin chuyến đi:', 40, startY);
+      startY += 20;
+      doc.text(`Tên chuyến: ${ticket.schedule.route.name ?? ''}`, 60, startY);
+      startY += 15;
+      const gaDiDen = `Ga đi - Ga đến: ${ticket.schedule.route.startStation.name ?? ''} - ${ticket.schedule.route.endStation.name ?? ''}`;
+      doc.text(gaDiDen, 60, startY);
+      startY += 15;
+      doc.text(`Thời gian đi: ${this.formatDateTime(ticket.schedule.startDate?.toString() ?? '')}`, 60, startY);
+      startY += 15;
+      doc.text(`Thời gian đến (dự kiến): ${this.formatDateTime(ticket.schedule.endDate?.toString() ?? '')}`, 60, startY);
+      startY += 20;
+
+      // Thông tin chỗ ngồi
+      const toaChoNgoi = `Toa: ${ticket.seat.carriage.name ?? ''}, Chỗ ngồi: ${ticket.seat.name ?? ''}`;
+      doc.text(toaChoNgoi, 60, startY);
+      startY += 20;
+
+      // Thông tin giá vé
+      doc.text('Thông tin thanh toán:', 40, startY);
+      startY += 20;
+      doc.text(`Đối tượng khuyến mãi: ${ticket.objectDiscount ?? ''}`, 60, startY);
+      startY += 15;
+      doc.text(`Giá tiền: ${ticket.price ?? ''} VNĐ`, 60, startY);
+      startY += 15;
+      doc.text(`Giá tiền đã giảm: ${ticket.priceDiscount ?? ''} VNĐ`, 60, startY);
+
+      startY += 40;
+
+      // Thêm trang nếu còn vé
+      if (index < this.tickets.length - 1) {
+        doc.addPage();
+      }
     });
-  
+
     // Footer
-    doc.setFontSize(8);
-    doc.text('Generated on: ' + new Date().toLocaleString(), 20, doc.internal.pageSize.height - 20);
-  
-    doc.save('DanhSachVeDaMua.pdf');
+    doc.setFontSize(10);
+    const footerY = doc.internal.pageSize.height - 40;
+    doc.text('Cảm ơn quý khách đã sử dụng dịch vụ!', pageWidth / 2, footerY, { align: 'center' });
+
+    // Xuất PDF
+    doc.save('HoaDonBanVeTauHoa.pdf');
+  }
+
+  exportPdfEach(ticket:Ticket){
+    console.log(ticket)
+    const doc = new jsPDF('p', 'pt', 'a5');
+
+    // Header
+    doc.setFont('Roboto-Regular');
+    doc.setFontSize(20);
+    const pageWidth = doc.internal.pageSize.width;
+    let startY = 100;
+
+      // Tiêu đề và thông tin cơ bản
+      doc.text('VÉ TÀU HỎA', pageWidth / 2, 40, { align: 'center' });
+      doc.setFontSize(12);
+      const ticketId = `Mã vé: ${ticket.id ?? ''}`;
+      // const dateBuy = `Ngày Mua: ${ticket.dateBuy ?? ''}`;
+      const dateBuy = `Ngày Mua: ${this.formatDateTime(ticket.dateBuy?.toString() ?? '')}`;
+      
+      doc.text(`${ticketId}`, 40, 70);
+      doc.text(`${dateBuy}`, pageWidth - 40, 70, { align: 'right' });
+
+      // Thông tin khách hàng
+      doc.text('Thông tin khách hàng:', 40, startY);
+      startY += 20;
+      doc.text(`Họ tên: ${ticket.fullName ?? ''}`, 60, startY);
+      startY += 15;
+      doc.text(`CMND: ${ticket.cmnd ?? ''}`, 60, startY);
+      startY += 20;
+
+      // Thông tin chuyến đi
+      doc.text('Thông tin chuyến đi:', 40, startY);
+      startY += 20;
+      doc.text(`Tên chuyến: ${ticket.schedule.route.name ?? ''}`, 60, startY);
+      startY += 15;
+      const gaDiDen = `Ga đi - Ga đến: ${ticket.schedule.route.startStation.name ?? ''} - ${ticket.schedule.route.endStation.name ?? ''}`;
+      doc.text(gaDiDen, 60, startY);
+      startY += 15;
+      doc.text(`Thời gian đi: ${this.formatDateTime(ticket.schedule.startDate?.toString() ?? '')}`, 60, startY);
+      startY += 15;
+      doc.text(`Thời gian đến (dự kiến): ${this.formatDateTime(ticket.schedule.endDate?.toString() ?? '')}`, 60, startY);
+      startY += 20;
+
+      // Thông tin chỗ ngồi
+      const toaChoNgoi = `Toa: ${ticket.seat.carriage.name ?? ''}, Chỗ ngồi: ${ticket.seat.name ?? ''}`;
+      doc.text(toaChoNgoi, 60, startY);
+      startY += 20;
+
+      // Thông tin giá vé
+      doc.text('Thông tin thanh toán:', 40, startY);
+      startY += 20;
+      doc.text(`Đối tượng khuyến mãi: ${ticket.objectDiscount ?? ''}`, 60, startY);
+      startY += 15;
+      doc.text(`Giá tiền: ${ticket.price ?? ''} VNĐ`, 60, startY);
+      startY += 15;
+      doc.text(`Giá tiền đã giảm: ${ticket.priceDiscount ?? ''} VNĐ`, 60, startY);
+
+      startY += 40;
+
+      // Footer
+      doc.setFontSize(10);
+      const footerY = doc.internal.pageSize.height - 40;
+      doc.text('Cảm ơn quý khách đã sử dụng dịch vụ!', pageWidth / 2, footerY, { align: 'center' });
+
+      // Xuất PDF
+      doc.save('HoaDonBanVeTauHoa.pdf');
   }
   
+  formatDateTime(dateString: string): string {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+  
+    return `${day}/${month}/${year} ${hours}:${minutes}`;
+  }
   
 }

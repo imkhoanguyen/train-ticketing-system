@@ -47,8 +47,8 @@
           <td>{{ schedule.price }}</td>
           <td>{{ schedule.route.name }}</td>
           <td>{{ schedule.train.name }}</td>
-          <td>{{ schedule.startDate }}</td>
-          <td>{{ schedule.endDate }}</td>
+          <td>{{ schedule.startDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+          <td>{{ schedule.endDate | date: 'dd/MM/yyyy HH:mm'}}</td>
           <td>
             <p-inputSwitch 
               [style]="{width: '50px'}" 

@@ -1,0 +1,237 @@
+/* Global styles */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f7fa;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+    transition: background-color 0.5s ease;
+    line-height: 1.6;
+}
+
+/* Container styles */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    padding: 40px;
+    background: linear-gradient(135deg, #f4f7fa 0%, #ffffff 100%);
+    opacity: 0;
+    animation: fadeIn 1s forwards;
+}
+
+/* Header styles */
+.header-container {
+    text-align: center;
+    margin-bottom: 30px;
+    background: linear-gradient(135deg, #3b6db1, #6fa4d3);
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+}
+
+.order-title {
+    font-size: 2.6rem;
+    font-weight: bold;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    transition: transform 0.3s ease-in-out, color 0.3s ease;
+}
+
+.order-title:hover {
+    transform: scale(1.1);
+    color: #e0eaff; /* Nhẹ nhàng sáng hơn khi hover */
+}
+
+/* Input field */
+.button-container input {
+    border: 1px solid #3b6db1;
+    border-radius: 10px;
+    padding: 15px;
+    width: 100%;
+    max-width: 450px;
+    margin: 0 auto 20px auto;
+    font-size: 1.1rem;
+    background-color: #f9fafc;
+    box-shadow: inset 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
+}
+
+.button-container input:focus {
+    border-color: #3b6db1;
+    outline: none;
+    box-shadow: 0 0 10px rgba(59, 109, 177, 0.4);
+    background-color: #fff;
+    transform: scale(1.05); /* Slightly scale up on focus */
+}
+
+/* Table styles */
+p-table {
+    width: 100%;
+    margin-top: 20px;
+    border-spacing: 0;
+    border-collapse: collapse;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+p-table tr {
+    background-color: #fff;
+    border-bottom: 1px solid #ddd;
+    transition: background-color 0.3s ease, transform 0.3s ease, box-shadow 0.2s ease;
+}
+
+p-table tr:hover {
+    background-color: #e4f0fd;
+    transform: translateY(-4px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+p-table th {
+    text-align: left;
+    padding: 18px;
+    font-size: 1.1rem;
+    color: #fff;
+    background-color: #3b6db1;
+    border-bottom: 2px solid #ddd;
+    font-weight: 600;
+}
+
+p-table td {
+    padding: 15px;
+    font-size: 1rem;
+    color: #333;
+}
+
+p-table tr:nth-child(even) {
+    background-color: #f9fafc;
+}
+
+p-table tr:nth-child(odd) {
+    background-color: #fff;
+}
+
+/* Button styles */
+button.p-button-rounded {
+    border-radius: 50%;
+    border: none;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease, transform 0.2s ease;
+    background-color: #3b6db1;
+    color: #fff;
+    padding: 14px 16px;
+    font-size: 1.2rem;
+    cursor: pointer;
+}
+
+button.p-button-rounded:hover {
+    background-color: #335b90;
+    transform: scale(1.1);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+    transition: background-color 0.2s ease-in, transform 0.2s ease-in, box-shadow 0.2s ease-in;
+}
+
+button.p-button-rounded:focus {
+    outline: 2px solid #3b6db1;
+}
+
+/* Paginator styles */
+.p-paginator {
+    display: flex;
+    justify-content: center;
+    padding: 25px 0;
+}
+
+.p-paginator button {
+    border-radius: 50%;
+    padding: 12px;
+    margin: 0 6px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    background-color: #3b6db1;
+    color: #fff;
+}
+
+.p-paginator button:hover {
+    background-color: #335b90;
+    transform: scale(1.1);
+}
+
+/* Dialog styles */
+p-dialog {
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    animation: slideIn 0.5s ease-out;
+}
+
+p-dialog header {
+    font-size: 1.4rem;
+    font-weight: bold;
+    color: #3b6db1;
+    background-color: #e2f0ff;
+    padding: 20px;
+    border-radius: 16px 16px 0 0;
+}
+
+p-dialog [style] {
+    background-color: #fff;
+    border-radius: 0 0 16px 16px;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    .order-title {
+        font-size: 2rem;
+    }
+
+    p-table th, p-table td {
+        padding: 12px;
+        font-size: 0.95rem;
+    }
+
+    /* Make buttons and inputs more touch-friendly */
+    .button-container input,
+    button.p-button-rounded {
+        width: 100%;
+        max-width: 100%;
+        padding: 12px;
+    }
+}
+
+/* Card styles */
+.card {
+    background-color: #fff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    border-radius: 16px;
+    padding: 20px;
+    margin: 20px 0;
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
+}
