@@ -6,27 +6,22 @@
     <button class="logo" (click)="toggleCollapse()">
       <i class="pi pi-bars"></i>
     </button>
-    @if (!isSidebarCollapsed) {
-      <div class="logo-text">TRAIN</div>
-      <button class="btn-close" (click)="closeSidenav()">
-      </button>
-    }
+    <div *ngIf="!isSidebarCollapsed" class="logo-text">TRAIN</div>
+    <button *ngIf="!isSidebarCollapsed" class="btn-close" (click)="closeSidenav()">
+      <i class="pi pi-times"></i>
+    </button>
   </div>
-  <div class="sidenav-nav">
-    @for (item of items; track $index) {
-      <li class="sidenav-nav-item">
-        <a
-          class="sidenav-nav-link"
-          [routerLink]="item.routerLink"
-          routerLinkActive="active"
-          [routerLinkActiveOptions]="{ exact: true }"
-        >
-          <i class="sidenav-link-icon" [class]="item.icon"></i>
-          @if (!isSidebarCollapsed) {
-            <span class="sidenav-link-text">{{ item.label }}</span>
-          }
-        </a>
-      </li>
-    }
-  </div>
+  <ul class="sidenav-nav">
+    <li class="sidenav-nav-item" *ngFor="let item of items">
+      <a
+        class="sidenav-nav-link"
+        [routerLink]="item.routerLink"
+        routerLinkActive="active"
+        [routerLinkActiveOptions]="{ exact: true }"
+      >
+        <i class="sidenav-link-icon" [class]="item.icon"></i>
+        <span class="sidenav-link-text">{{ item.label }}</span>
+      </a>
+    </li>
+  </ul>
 </div>
