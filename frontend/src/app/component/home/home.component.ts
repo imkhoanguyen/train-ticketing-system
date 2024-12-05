@@ -105,7 +105,8 @@ export class HomeComponent implements OnInit {
   }
 
   loadSchedules(routeId: number) {
-    this.scheduleService.getSchedulesByRouteIdAndDate(routeId, this.departureDate.toISOString()).subscribe({
+    const startDate = new Date(new Date( this.departureDate).getTime() + 7 * 60 * 60 * 1000);
+    this.scheduleService.getSchedulesByRouteIdAndDate(routeId, startDate.toISOString()).subscribe({
       next: (response: ApiResponse<schedule[]>) => {
         this.scheduleService.setSchedules(response.data);
         this.router.navigate(['/train-results']);

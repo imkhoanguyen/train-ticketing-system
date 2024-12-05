@@ -90,6 +90,10 @@ export class SeatService {
     });
   }
 
+  getRemainingTime(userId: number, seatId: number): Observable<number> {
+    return this.http.get<number>(`${this.baseUrl}/seat/remaining-time/${userId}/${seatId}`);
+  }
+
   getExpiredStream(): Observable<string> {
     return new Observable((observer) => {
       const eventSource = new EventSource(`${this.baseUrl}/seat/expired-stream`);

@@ -72,11 +72,17 @@ public class TicketController {
                 .body(new ResponseData<>(HttpStatus.OK.value(), "ticket deleted successfully", null));
     }
 
-    @PutMapping("/updateStatus/{id}")
-    public ResponseEntity<ResponseData<?>> updateTicketStatus(@PathVariable int id, @RequestParam TicketStatus status) {
+    @PutMapping("/updateStatus/{id}/{status}")
+    public ResponseEntity<ResponseData<?>> updateTicketStatus(@PathVariable int id, @PathVariable TicketStatus status) {
         ticketService.updateTicketStatus(id, status);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseData<>(HttpStatus.OK.value(), "Ticket status updated successfully", null));
+    }
+
+    @GetMapping("/paidSeats")
+    public ResponseEntity<ResponseData<List<Integer>>> getPaidSeatIds() {
+        List<Integer> paidSeatIds = ticketService.getPaidSeatIds();
+        return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Paid seat ids retrieved successfully", paidSeatIds));
     }
 
     

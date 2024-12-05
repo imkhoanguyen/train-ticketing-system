@@ -89,7 +89,10 @@ public class TicketServiceImpl implements TicketService {
         log.info("ticket updated: {}", ticket);
     }
 
-
+    @Override
+    public List<Integer> getPaidSeatIds() {
+        return ticketRepository.findSeatIdByStatus(TicketStatus.PAID);
+    }    
    
 
     @Override

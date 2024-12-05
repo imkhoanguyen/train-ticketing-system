@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { Order } from '../_models/order.module';
+import { Order, OrderStatus } from '../_models/order.module';
 import { Observable } from 'rxjs';
 
 @Injectable({
@@ -64,4 +64,13 @@ export class OrderService {
   getOrderByUserId(id: number): Observable<any> {
     return this.http.get<{ status: number; message: string; data: Order }>(`${this.baseUrl}/order/get/${id}`);
   }
+
+  updateOrderStatus(id: number, status: OrderStatus): Observable<any> {
+    return this.http.put(`${this.baseUrl}/order/updateStatus/${id}/${status}`, {});
+  }
+
+  updateOrderPromotion(id: number, promotion: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/order/updatePromotion/${id}/${promotion}`, {});
+  }
+
 }

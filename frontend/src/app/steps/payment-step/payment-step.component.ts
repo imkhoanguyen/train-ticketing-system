@@ -11,6 +11,7 @@ import { OrderItemService } from '../../_services/orderItem.service';
 import { Promotion } from '../../_models/promotion';
 import { ToastrService } from '../../_services/toastr.service';
 import { FormsModule } from '@angular/forms';
+import { OrderService } from '../../_services/order.service';
 
 @Component({
   selector: 'app-payment-step',
@@ -32,13 +33,14 @@ export class PaymentStepComponent implements OnInit {
   private promotionService = inject(PromotionService);
   private paymentService = inject(PaymentService);
   private orderItemService = inject(OrderItemService);
+  private orderService = inject(OrderService);
   private toastrService = inject(ToastrService);
   constructor(private router: Router) {}
   ngOnInit(): void {
     const ticketObj = this.orderItemService.getTicketData();
     this.ticketData = JSON.parse(ticketObj);
     console.log('ticketData', this.ticketData);
-    this.orderData = this.orderItemService.getOrderData();
+    this.orderData = JSON.parse(this.orderItemService.getOrderData());
     this.currentUser = this.authService.getCurrentUser();
 
     this.subTotalPrice = this.ticketData.reduce((total, ticket) => total + ticket.price, 0);
@@ -46,24 +48,47 @@ export class PaymentStepComponent implements OnInit {
   applyPromotion(code: string): void {
     this.promotionService.getPromotionByCode(code).subscribe({
       next: (response: ApiResponse<Promotion>) => {
-        console.log(response.data);
-
         if (response.data) {
           this.promotionPrice = response.data.price;
-          this.toastrService.success('Mã đã được áp dụng!');
+          if (response.data.id !== undefined) {
+            this.updatePromotion(response.data.id);
+          } else {
+            this.handlePromotionError('Mã khuyến mãi không hợp lệ!');
+          }
         } else {
-          this.promotionPrice = 0;
-          this.toastrService.error('Không tìm thấy mã!');
+          this.handlePromotionError('Không tìm thấy mã!');
         }
       },
       error: (err) => {
-        console.error('Error applying promotion:', err);
-        this.toastrService.error('Có lỗi xảy ra khi áp dụng mã!');
+        this.handlePromotionError('Có lỗi xảy ra khi áp dụng mã!');
       },
     });
   }
 
+  private updatePromotion(promotionId: number): void {
+    if (!this.orderData || !this.orderData.id) {
+      this.toastrService.error('Không tìm thấy thông tin đơn hàng!');
+      return;
+    }
+
+    this.orderService.updateOrderPromotion(this.orderData.id, promotionId).subscribe({
+      next: () => {
+        this.toastrService.success('Mã đã được áp dụng!');
+      },
+      error: (err) => {
+        console.log(err);
+        this.handlePromotionError('Có lỗi xảy ra khi áp dụng mã!');
+      },
+    });
+  }
+
+  private handlePromotionError(message: string): void {
+    this.promotionPrice = 0;
+    this.toastrService.error(message);
+  }
+
   get totalPrice(): number {
+
     return this.subTotalPrice - this.promotionPrice;
   }
 

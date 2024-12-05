@@ -107,7 +107,8 @@
   <div class="seats-card">
     <div *ngFor="let seat of seats; let i = index" class="seat" [pTooltip]="seat.price.toString()" tooltipPosition="top"
       (click)="toggleSeatSelection(seat.id)" [ngClass]="{
-        'seat-selected': selectedSeatIds.includes(seat.id)
+        'seat-selected': selectedSeatIds.includes(seat.id),
+        'seat-paid' : paidSeats.includes(seat.id),
       }">
       {{ i + 1 }}
     </div>

@@ -64,6 +64,12 @@
   margin-top: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.seats-card .seat-paid {
+  background-color: #e00808;
+  color: white;
+  pointer-events: none;
+  cursor: pointer;
+}
 
 .train-stats p {
   margin: 5px 0;
