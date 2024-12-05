@@ -4,221 +4,178 @@
   font-family: 'Roboto', sans-serif;
   min-height: 90vh;
   padding-top: 70px;
-
 }
 
 .card {
   margin-top: 20px;
-  background-color: rgba(255, 255, 255, 0.7);
+  background-color: rgba(255, 255, 255, 0.85);
   border: none;
   border-radius: 15px;
   overflow: hidden;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
 }
 
-
-
-.card-body {
-  padding: 5px;
-  text-align: center;
-}
-
-.card-title {
-  font-size: 1.25rem;
-  font-weight: 600;
+.card-title, .cart-title {
+  font-size: 1.5rem;
+  font-weight: bold;
   color: #333;
-}
-
-.card-text {
-  font-size: 0.875rem;
-  color: #555;
-}
-
-.train-container {
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-.cart-container {
-  background-color: rgba(255, 255, 255, 0.8);
-  border-radius: 15px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.train-stats {
-  background-color: white;
-  color: black;
-  border-radius: 10px;
-  padding: 15px;
-  margin-top: 20px;
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-}
-.train-stats > div {
   margin-bottom: 10px;
 }
 
-
-.image-container {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  height: 100%;
-  position: relative;
-}
-.overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  color: white;
-  background-color: rgba(0, 0, 0, 0.5);
-  padding: 10px;
-  border-radius: 5px;
-}
-
-.train-image {
-  width: 100%;
-  height: 200px;
-  border-radius: 10px;
-  object-fit: cover;
-
-}
-
-.booking-card {
-  background-color: #2b2b2b;
-  border-radius: 10px;
-  color: white;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.05);
+.train-container, .cart-container {
+  background-color: rgba(255, 255, 255, 0.85);
+  border-radius: 15px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
   padding: 15px;
-  height: 100%;
 }
 
-
-.carriage-list {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-top: 20px;
-  padding: 10px;
+.table {
+  background-color: rgba(245, 245, 245, 0.9);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
-.seats-card {
-  background: rgba(245, 245, 245, 0.9);
-  border: 5px solid #0056b3;
+.table thead th {
+  background-color: #0056b3;
+  color: white;
+  text-align: center;
+}
+
+.table tbody tr:hover {
+  background-color: rgba(0, 86, 179, 0.1);
+  cursor: pointer;
+}
+
+.table td, .table th {
+  vertical-align: middle;
+  text-align: center;
+}
+
+.train-stats {
+  background-color: rgba(255, 255, 255, 0.95);
   border-radius: 10px;
   padding: 20px;
   margin-top: 20px;
-}
-.seats-card .seat {
-  display: inline-block;
-  width: 30px;
-  height: 30px;
-  background: lightgray;
-  border-radius: 5px;
-  margin: 5px;
-  text-align: center;
-  line-height: 30px;
-  font-size: 16px;
-
-}
-.seats-card .seat:not(.seat-unavailable):hover {
-  background-color: #377be2;
-  color: white;
-  cursor: pointer;
-}
-.seats-card .seat-selected {
-  background-color: #377be2 !important;
-  color: white !important;
-  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.seats-card .seat-available {
-  background-color: #dbf0e4;
-  cursor: pointer;
-
-}
-
-.seats-card .seat-unavailable {
-  background-color: #e94528;
-  color: white;
-  cursor: pointer;
-
-}
-.action-buttons {
-  margin-top: 20px;
-  display: flex;
-  justify-content: space-around;
-}
-.action-buttons button {
-  width: 100px;
-  height: 50px;
-  border-radius: 10px;
-  font-size: 18px;
-}
-.cancel-btn {
-  background-color: #e74c3c;
-  color: white;
-}
-.choose-btn:hover {
-  transform: scale(1.1);
-}
-.submit-btn {
-  background-color: #2ecc71;
-  color: white;
-}
-.submit-btn:hover {
-  transform: scale(1.1);
-}
-
-.carriage {
-  display: flex;
-  align-items: center;
-  gap: 15px;
+.train-stats p {
+  margin: 5px 0;
+  font-size: 1rem;
+  color: #333;
 }
 
 .carriage-list {
   display: flex;
-  flex-wrap: nowrap;
-  gap: 10px;
+  justify-content: space-evenly;
+  gap: 15px;
+  margin: 20px 0;
 }
 
 .et-car-block {
-  margin: 0;
-  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s;
 }
 
-.et-car-icon {
-  margin: 0 1px 10px;
-  border-radius: 10px;
-  overflow: visible;
-  transition: transform 0.2s, background-color 0.2s;
-}
-
-.et-car-icon:hover {
-  background-color: #a6b727;
+.et-car-block:hover {
   transform: scale(1.1);
 }
 
-.et-car-icon-selected {
-  background-color: #a6b727;
+.et-car-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  transition: background-color 0.3s ease;
 }
 
 .et-car-icon-avaiable {
   background-color: #80b5d6;
 }
 
-.train-image {
-  margin-left: 10px;
+.et-car-icon-selected {
+  background-color: #a6b727;
+  transform: scale(1.15);
 }
+
+.seats-card {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid #0056b3;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.seats-card .seat {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: #f0f0f0;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  margin: 5px;
+  text-align: center;
+  line-height: 40px;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+.seats-card .seat:hover {
+  background-color: #377be2;
+  border-color: #0056b3;
+  color: white;
+  cursor: pointer;
+}
+
+.seats-card .seat-selected {
+  background-color: #377be2 !important;
+  border-color: #0056b3;
+  color: white;
+}
+
+.action-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+}
+
+.action-buttons button {
+  width: 120px;
+  height: 45px;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.cancel-btn {
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+}
+
+.cancel-btn:hover {
+  background-color: #c0392b;
+  transform: scale(1.05);
+}
+
+.submit-btn {
+  background-color: #2ecc71;
+  color: white;
+  border: none;
+}
+
+.submit-btn:hover {
+  background-color: #27ae60;
+  transform: scale(1.05);
+}
+
