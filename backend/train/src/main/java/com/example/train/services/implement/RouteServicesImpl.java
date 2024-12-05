@@ -1,6 +1,8 @@
 package com.example.train.services.implement;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.train.dto.request.RouteRequestDto;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.RouteDetailResponse;
@@ -149,16 +151,16 @@ public class RouteServicesImpl implements RouteService {
                 .orElseThrow(() -> new IllegalArgumentException("Start station not found with id: " + startStationId));
         Station endStation = stationRepository.findById(endStationId)
                 .orElseThrow(() -> new IllegalArgumentException("End station not found with id: " + endStationId));
-        List<Route> routes = routeRepository.findByStartStationAndEndStation(startStation, endStation);
-        return routes.stream()
-                .map(route -> RouteDetailResponse.builder()
-                        .id(route.getId())
-                        .name(route.getName())
-                        .startStation(route.getStartStation())
-                        .endStation(route.getEndStation())
-                        .isDelete(route.isDelete())
-                        .build())
-                .toList();
+        return routeRepository.findByStartStationAndEndStation(startStation, endStation)
+                .stream() 
+                .map(route -> RouteDetailResponse.builder() 
+                        .id(route.getId()) 
+                        .name(route.getName()) 
+                        .startStation(route.getStartStation()) 
+                        .endStation(route.getEndStation()) 
+                        .isDelete(route.isDelete()) 
+                        .build()) 
+                .collect(Collectors.toList());
     }
 
 }

@@ -30,36 +30,25 @@ public class VNPayConfig {
     @Value("${payment.vnPay.orderType}")
     private String orderType;
 
-    public Map<String, String> getVnPayConfig() {
+    public Map<String, String> getVNPayConfig() {
         Map<String, String> vnpParamsMap = new HashMap<>();
-        vnpParamsMap.put("vnp_Version", vnp_Version);
-        vnpParamsMap.put("vnp_Command", vnp_Command);
-        vnpParamsMap.put("vnp_TmnCode", vnp_TmnCode);
+        vnpParamsMap.put("vnp_Version", this.vnp_Version);
+        vnpParamsMap.put("vnp_Command", this.vnp_Command);
+        vnpParamsMap.put("vnp_TmnCode", this.vnp_TmnCode);
         vnpParamsMap.put("vnp_CurrCode", "VND");
-        vnpParamsMap.put("vnp_TxnRef", VNPayUtil.getRandomNumber(8));
-        vnpParamsMap.put("vnp_OrderInfo", "Thanh toan don hang:" + VNPayUtil.getRandomNumber(8));
-        vnpParamsMap.put("vnp_OrderType", orderType);
+        vnpParamsMap.put("vnp_TxnRef",  VNPayUtil.getRandomNumber(8));
+        vnpParamsMap.put("vnp_OrderInfo", "Thanh toan don hang:" +  VNPayUtil.getRandomNumber(8));
+        vnpParamsMap.put("vnp_OrderType", this.orderType);
         vnpParamsMap.put("vnp_Locale", "vn");
-        vnpParamsMap.put("vnp_ReturnUrl", vnp_ReturnUrl);
-
-        // Thêm ngày giờ
-        vnpParamsMap.putAll(getTimeParams());
-
-        return vnpParamsMap;
-    }
-
-    private Map<String, String> getTimeParams() {
-        Map<String, String> timeParams = new HashMap<>();
+        vnpParamsMap.put("vnp_ReturnUrl", this.vnp_ReturnUrl);
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("Etc/GMT+7"));
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHHmmss");
         String vnpCreateDate = formatter.format(calendar.getTime());
-        timeParams.put("vnp_CreateDate", vnpCreateDate);
-
+        vnpParamsMap.put("vnp_CreateDate", vnpCreateDate);
         calendar.add(Calendar.MINUTE, 15);
-        String vnpExpireDate = formatter.format(calendar.getTime());
-        timeParams.put("vnp_ExpireDate", vnpExpireDate);
-
-        return timeParams;
+        String vnp_ExpireDate = formatter.format(calendar.getTime());
+        vnpParamsMap.put("vnp_ExpireDate", vnp_ExpireDate);
+        return vnpParamsMap;
     }
 
 }

@@ -1,14 +1,23 @@
 package com.example.train.services.implement;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
+import com.example.train.dto.request.SeatSelection;
 import com.example.train.dto.response.ScheduleDetailResponse;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import com.example.train.dto.request.SeatRequestDto;
@@ -20,16 +29,70 @@ import com.example.train.repository.CarriageRepository;
 import com.example.train.repository.SeatRepository;
 import com.example.train.services.SeatService;
 
+import java.time.Duration;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 @Service
 // ghi log
 @Slf4j
 // khởi tạo bean UserRepository
 @RequiredArgsConstructor
+@EnableScheduling
 public class SeatServiceImpl implements SeatService{
     private final CarriageRepository carriageRepository;
     private final SeatRepository seatRepository;
+
+    @Autowired 
+    private RedisTemplate<String, Object> redisTemplate; 
+
+    private static final long EXPIRATION_TIME =20;
+    
+    private String getSeatKey(int userId, int seatId) {
+        return String.format("seat:%s:%d", userId, seatId);
+    }
+    @Override 
+    public void saveSeatSelection(SeatSelection seatSelection) { 
+        String key = getSeatKey(seatSelection.getuserId(), seatSelection.getSeatId()); 
+        seatSelection.setTime(System.currentTimeMillis());
+        redisTemplate.opsForValue().set(key, seatSelection, EXPIRATION_TIME, TimeUnit.SECONDS); 
+        System.out.println("Saved seat selection with key: " + key); 
+    } 
+        
+    @Override 
+    public void cancelSeatSelection(SeatSelection seatSelection) { 
+        String key = getSeatKey(seatSelection.getuserId(), seatSelection.getSeatId()); 
+        redisTemplate.delete(key); 
+        System.out.println("Cancelled seat selection with key: " + key); 
+    } 
+    @Override 
+    public SeatSelection getReservedSeat(int userId, int seatId) { 
+        String key = getSeatKey(userId, seatId); 
+        SeatSelection seatSelection = (SeatSelection) redisTemplate.opsForValue().get(key); 
+        System.out.println("Retrieved seat selection with key: " + key); 
+        return seatSelection; 
+    } 
+
+    @Override
+    public Flux<String> streamExpiredSeats() {
+        return Flux.interval(Duration.ofSeconds(1))
+            .map(tick -> {
+                Set<String> keys = redisTemplate.keys("seat:*");
+                List<String> expiredSeats = new ArrayList<>();
+                if (keys != null) {
+                    for (String key : keys) {
+                        Long ttl = redisTemplate.getExpire(key, TimeUnit.SECONDS);
+                        if (ttl != null && ttl <= 0) {
+                            redisTemplate.delete(key);
+                            System.out.println("Deleted expired seat selection with key: " + key);
+                            expiredSeats.add(key);
+                        }
+                    }
+                }
+                return String.join(",", expiredSeats);
+            });
+    }
+
 
     @Override
     public PageResponse<?> getAllSeatAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search,
@@ -65,7 +128,7 @@ public class SeatServiceImpl implements SeatService{
 
     @Override
     public List<SeatDetailResponse> getAllSeatsByCarriageId(int id) {
-        List<Seat> seats = seatRepository.findByCarriageId(id);
+        List<Seat> seats = seatRepository.findByCarriage_Id(id);
 
         return seats.stream()
                 .map(seat -> SeatDetailResponse.builder()
@@ -89,7 +152,7 @@ public class SeatServiceImpl implements SeatService{
                 .name(seat.getName())
                 .price(seat.getPrice())
                 .description(seat.getDescription())
-                .isDelete(seat.isDelete())
+                .is_delete(seat.isDelete())
                 .build();
     }
 
@@ -133,6 +196,7 @@ public class SeatServiceImpl implements SeatService{
         log.info("seat deleted (set as inactive): {}", seat);
     }
 
+   
     @Override
     public void restoreSeat(int id) {
         Seat seat = seatRepository.findById(id)

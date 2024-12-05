@@ -13,12 +13,9 @@ export class SeatService {
   private baseUrl = environment.apiUrl;
   private seats: any[] = [];
 
-  setSeats(data: Seat[]) {
-    this.seats = data;
-    localStorage.setItem('seats', JSON.stringify(data));
-  }
+
   getSeats(): Observable<Seat[]> {
-    const storedSeats = localStorage.getItem('seats');
+    const storedSeats = localStorage.getItem('selectedSeats');
     if (storedSeats) {
       return of(JSON.parse(storedSeats));
     } else {
@@ -26,9 +23,9 @@ export class SeatService {
     }
   }
 
-  // getAllSeatsByCarriageId(id:number) {
-  //   return this.http.get<Seat[]>(`${this.baseUrl}/seat/list/${id}`);
-  // }
+  getAllSeatsByCarriageId(id:number) {
+    return this.http.get<ApiResponse<Seat[]>>(`${this.baseUrl}/seat/carriageId/${id}`);
+  }
 
   getWithLimit(
     page: number = 1,
@@ -79,4 +76,36 @@ export class SeatService {
       headers: { 'Content-Type': 'application/json' }
     });
   }
+
+  saveSeatSelection(seatData: any): Observable<any> {
+    console.log('Sending seat data:', seatData);
+    return this.http.post(`${this.baseUrl}/seat/save`, seatData, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  cancelSeatSelection(seatData: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/seat/cancel`, seatData, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  getExpiredStream(): Observable<string> {
+    return new Observable((observer) => {
+      const eventSource = new EventSource(`${this.baseUrl}/seat/expired-stream`);
+      eventSource.onmessage = (event) => {
+        observer.next(event.data);
+      };
+
+      eventSource.onerror = (error) => {
+        observer.error(error);
+        eventSource.close();
+      };
+
+      return () => {
+        eventSource.close();
+      };
+    });
+  }
+
 }

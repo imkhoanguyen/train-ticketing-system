@@ -20,11 +20,7 @@ export class BookingStepsComponent implements OnInit {
     this.items = [
       {
         label: 'Đặt vé',
-        routerLink: 'seat'
-      },
-      {
-        label: 'Thông tin người đặt',
-        routerLink: 'personal'
+        routerLink: 'ticket'
       },
       {
         label: 'Thanh toán',

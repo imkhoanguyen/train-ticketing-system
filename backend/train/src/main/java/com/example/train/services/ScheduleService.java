@@ -18,6 +18,5 @@ public interface ScheduleService {
 
     ScheduleDetailResponse getSchedule(int id);
     PageResponse<?> getAllScheduleAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search, String sortBy,int id);
-
-
+    List<ScheduleDetailResponse> getSchedulesByRouteAndStartDate(int routeId, LocalDate startDate);
 } 

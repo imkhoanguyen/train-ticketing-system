@@ -27,8 +27,9 @@ public class Order {
     @JsonBackReference // Ngăn vòng lặp tuần tự hóa từ Order -> User -> Order
     private User user;
 
+    @Enumerated(EnumType.STRING)  
     @Column(nullable = false)
-    private String status;
+    private OrderStatus status;  
 
     @Column(nullable = false)
     private String fullName;

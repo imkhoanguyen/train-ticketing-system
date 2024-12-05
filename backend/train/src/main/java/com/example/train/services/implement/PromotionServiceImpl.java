@@ -4,7 +4,6 @@ import com.example.train.dto.request.PromotionRequestDto;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.entity.Promotion;
 import com.example.train.exception.NotFoundException;
-import com.example.train.repository.CarriageRepository;
 import com.example.train.repository.PromotionRepository;
 import com.example.train.services.PromotionService;
 import lombok.RequiredArgsConstructor;

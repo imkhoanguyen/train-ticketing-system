@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DiscountRepository extends JpaRepository<Discount, Integer> {
@@ -14,4 +15,6 @@ public interface DiscountRepository extends JpaRepository<Discount, Integer> {
     Page<Discount> findByObjectContainingIgnoreCaseAndIsDeleteFalse(String name, Pageable pageable);
     List<Discount> findAllByIsDeleteFalse();
     Discount findDiscountById(int id);
+
+    Optional<Discount> findByObject(String object);
 }

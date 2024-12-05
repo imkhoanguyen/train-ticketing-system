@@ -1,5 +1,8 @@
 package com.example.train.dto.request;
 import java.time.LocalDateTime;
+
+import com.example.train.entity.TicketStatus;
+
 import java.math.BigDecimal;
 import java.io.Serializable;
 
@@ -7,7 +10,7 @@ public class TicketRequestDto implements Serializable{
     private int schedules_id;
     private int seat_id;
     private LocalDateTime dateBuy;
-    private String status;
+    private TicketStatus status;
     private String object;
     private String fullname;
     private String can_cuoc;
@@ -15,7 +18,7 @@ public class TicketRequestDto implements Serializable{
     private BigDecimal price;
     private BigDecimal price_reduced;
 
-    public TicketRequestDto(int schedules_id, int seat_id, LocalDateTime dateBuy,String status,
+    public TicketRequestDto(int schedules_id, int seat_id, LocalDateTime dateBuy,TicketStatus status,
                             String object,String fullname,String can_cuoc,int promotion_id,BigDecimal price,
                             BigDecimal price_reduced) {
 
@@ -43,7 +46,7 @@ public class TicketRequestDto implements Serializable{
         this.dateBuy = dateBuy;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TicketStatus status) {
         this.status = status;
     }
     public void setObject(String object) {
@@ -79,7 +82,7 @@ public class TicketRequestDto implements Serializable{
         return dateBuy;
     }
 
-    public String getStatus() {  
+    public TicketStatus getStatus() {  
         return status;
     }
     public String getObject() { 

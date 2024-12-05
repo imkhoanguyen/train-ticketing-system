@@ -2,7 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { schedule } from '../_models/schedule.module';
-import { Observable, of } from 'rxjs';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { ApiResponse } from '../_models/api-response.module';
 
 @Injectable({
@@ -11,25 +11,32 @@ import { ApiResponse } from '../_models/api-response.module';
 export class ScheduleService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
-  private schedules: any[] = [];
+  private scheduleList = new BehaviorSubject<schedule[]>([]);
+  schedules$ = this.scheduleList.asObservable();
 
-  setSchedules(data: schedule[]) {
-    this.schedules = data;
-    localStorage.setItem('schedules', JSON.stringify(data));
+  setSchedules(schedules: schedule[]): void {
+    this.scheduleList.next(schedules);
+    localStorage.setItem('schedules', JSON.stringify(schedules));
   }
-  getSchedules(): Observable<schedule[]> {
+
+  getSchedules(): schedule[] {
     const storedSchedules = localStorage.getItem('schedules');
     if (storedSchedules) {
-      return of(JSON.parse(storedSchedules));
+      return JSON.parse(storedSchedules);
     } else {
-      return of([]);
+      return [];
     }
   }
-
 
   getAllSchedulesByRouteId(id:number) {
     return this.http.get<ApiResponse<schedule[]>>(`${this.baseUrl}/schedule/routeId/${id}`);
   }
+  getSchedulesByRouteIdAndDate(id: number, startDate: string) {
+
+    return this.http.get<ApiResponse<schedule[]>>(`${this.baseUrl}/schedule/routeId/${id}/startDate/${startDate}`);
+  }
+
+
 
   getWithLimit(
     page: number = 1,
@@ -78,5 +85,7 @@ export class ScheduleService {
       headers: { 'Content-Type': 'application/json' }
     });
   }
+
+
 }
 

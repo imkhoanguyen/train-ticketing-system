@@ -6,18 +6,11 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 import com.example.train.dto.request.SeatRequestDto;
+import com.example.train.dto.request.SeatSelection;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.ResponseData;
 import com.example.train.dto.response.SeatDetailResponse;
@@ -27,6 +20,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import reactor.core.publisher.Flux;
 
 
 @RestController
@@ -92,5 +86,28 @@ public class SeatController {
         log.info("Request to get Seat with ID: {}", id);
         SeatDetailResponse seatDetailResponses = seatService.getSeat(id);
         return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Seat retrieved successfully", seatDetailResponses));
+    }
+
+    @GetMapping("/carriageId/{id}")
+    public ResponseEntity<ResponseData<?>> getSeatsByCarriageId(@PathVariable int id){
+        List<SeatDetailResponse> seatDetailResponses = seatService.getAllSeatsByCarriageId(id);
+        return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Seat retrieved successfully", seatDetailResponses));
+
+    }
+
+    @PostMapping("/save") 
+    public ResponseEntity<Void> saveSeatSelection(@Validated @RequestBody SeatSelection seatSelection) { 
+        seatService.saveSeatSelection(seatSelection); 
+        return ResponseEntity.ok().build(); 
+    } 
+    @PostMapping("/cancel") 
+    public ResponseEntity<Void> cancelSeatSelection(@Validated @RequestBody SeatSelection seatSelection) { 
+        seatService.cancelSeatSelection(seatSelection); 
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/expired-stream")
+    public ResponseEntity<Flux<String>> streamExpiredSeats() {
+        return ResponseEntity.ok().body(seatService.streamExpiredSeats());
     }
 }

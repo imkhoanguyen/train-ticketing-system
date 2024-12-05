@@ -3,14 +3,10 @@
   background-size: cover;
   font-family: 'Roboto', sans-serif;
   min-height: 90vh;
-  padding-top: 70px; /* Để tránh nội dung bị che bởi header */
+  padding-top: 70px;
+
 }
-.container{
-  background-color: rgba(188, 207, 226, 0.8); /* Độ trong suốt 80% */
-  border-radius: 15px; /* Thêm bo góc nếu cần */
-  padding: 20px; /* Thêm khoảng cách bên trong */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
-}
+
 .card {
   margin-top: 20px;
   background-color: rgba(255, 255, 255, 0.7);
@@ -26,11 +22,7 @@
   box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2);
 }
 
-.card-img-top {
-  height: 150px;
-  object-fit: cover;
-  border-radius: 15px 15px 0 0;
-}
+
 
 .card-body {
   padding: 5px;
@@ -48,7 +40,11 @@
   color: #555;
 }
 
-
+.train-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
 .cart-container {
   background-color: rgba(255, 255, 255, 0.8);
   border-radius: 15px;
@@ -61,11 +57,14 @@
   border-radius: 10px;
   padding: 15px;
   margin-top: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+}
+.train-stats > div {
+  margin-bottom: 10px;
 }
 
-.row.align-items-stretch {
-  display: flex;
-}
 
 .image-container {
   display: flex;
@@ -103,6 +102,14 @@
   height: 100%;
 }
 
+
+.carriage-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 20px;
+  padding: 10px;
+}
 
 .seats-card {
   background: rgba(245, 245, 245, 0.9);
@@ -171,37 +178,47 @@
 .submit-btn:hover {
   transform: scale(1.1);
 }
+
+.carriage {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+.carriage-list {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 10px;
+}
+
 .et-car-block {
-  width: 60px !important;
-  height: 60px;
-  margin-right: 5px;
+  margin: 0;
   cursor: pointer;
-  display: inline-block;
-  float: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-.et-car-icon img {
-  width: 100%;
-  height: 130%;
-}
+
 .et-car-icon {
   margin: 0 1px 10px;
   border-radius: 10px;
-  height: 30px;
   overflow: visible;
+  transition: transform 0.2s, background-color 0.2s;
 }
+
 .et-car-icon:hover {
   background-color: #a6b727;
-  transform: scale3d(1.1, 1.1, 1.1);
+  transform: scale(1.1);
 }
+
 .et-car-icon-selected {
   background-color: #a6b727;
 }
-.et-car-icon-sold-out {
-  background-color: #df5327;
-}
+
 .et-car-icon-avaiable {
   background-color: #80b5d6;
 }
 
-
-
+.train-image {
+  margin-left: 10px;
+}

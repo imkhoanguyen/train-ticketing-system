@@ -27,7 +27,8 @@ public class Ticket {
 
     private LocalDateTime dateBuy;
 
-    private String status;
+    @Enumerated(EnumType.STRING)
+    private TicketStatus status;
 
     private String objectDiscount;
     
@@ -35,7 +36,7 @@ public class Ticket {
 
     private String cmnd;
 
-    private BigDecimal price; // price schedules + price seat
+    private BigDecimal price; // price schedules + price seat - priceDiscount
 
     @ManyToOne
     @JoinColumn(name = "discountId", nullable = true)

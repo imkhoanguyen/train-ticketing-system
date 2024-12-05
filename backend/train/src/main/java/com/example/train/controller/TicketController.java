@@ -2,26 +2,23 @@ package com.example.train.controller;
 
 import java.util.List;
 
+import com.example.train.dto.request.ScheduleRequestDto;
+import com.example.train.dto.request.TicketRequestDto;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.ResponseData;
 import com.example.train.dto.response.TicketDetailResponse;
 import com.example.train.entity.OrderItem;
 import com.example.train.entity.Ticket;
+import com.example.train.entity.TicketStatus;
 import com.example.train.services.TicketService;
 
 import io.swagger.v3.oas.annotations.Operation;
 
 import org.springframework.validation.annotation.Validated;
-
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
@@ -44,6 +41,8 @@ public class TicketController {
     //     return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "ticket retrieved successfully", ticketDetailResponse));
     // }
 
+
+
     @GetMapping("/list/{id}")
     public ResponseData<PageResponse<List<Ticket>>> GetAllWithLimit(
             @RequestParam(value = "pageNumber", defaultValue = "1") int pageNumber,
@@ -57,6 +56,13 @@ public class TicketController {
         return new ResponseData<>(HttpStatus.OK.value(), "get list discount with limit", response);
     }
 
+    @PostMapping("/add")
+    public ResponseEntity<ResponseData<?>> addTickets(@Validated @RequestBody List<TicketRequestDto> ticketRequestDtos) {
+        List<Ticket> tickets =  ticketService.addTickets(ticketRequestDtos);
+        return ResponseEntity.status(HttpStatus.CREATED)
+            .body(new ResponseData<>(HttpStatus.CREATED.value(), "Ticket added successfully", tickets));
+    }
+
     @Operation(summary = "Delete a ticket", description = "Send a request to delete a ticket by ID")
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<ResponseData<?>> deleteTicket(@PathVariable int id) {
@@ -65,4 +71,14 @@ public class TicketController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseData<>(HttpStatus.OK.value(), "ticket deleted successfully", null));
     }
+
+    @PutMapping("/updateStatus/{id}")
+    public ResponseEntity<ResponseData<?>> updateTicketStatus(@PathVariable int id, @RequestParam TicketStatus status) {
+        ticketService.updateTicketStatus(id, status);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseData<>(HttpStatus.OK.value(), "Ticket status updated successfully", null));
+    }
+
+    
+    
 }

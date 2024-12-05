@@ -1,7 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { Ticket } from '../_models/ticket.module';
+import { Ticket, TicketStatus } from '../_models/ticket.module';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,7 +10,25 @@ import { Ticket } from '../_models/ticket.module';
 export class TicketService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
-  private tickets: any[] = [];
+  private ticketData: any;
+  private personalData: any;
+
+  setPersonalData(data: any): void{
+    this.personalData = data;
+    localStorage.setItem('personalData', JSON.stringify(this.personalData));
+  }
+  getPersonalData(): any{
+    return localStorage.getItem('personalData');
+  }
+  setTicketData(data: any): void {
+    this.ticketData = data;
+    localStorage.setItem('ticketData', JSON.stringify(this.ticketData));
+
+  }
+
+  getTicketData(): any {
+    return localStorage.getItem('ticketData');
+  }
 
   getWithLimit(
     page: number = 1,
@@ -36,9 +55,22 @@ export class TicketService {
     return this.http.get<{ status: number; message: string; data: Ticket }>(`${this.baseUrl}/ticket/${id}`);
   }
 
+  addTickets(tickets: Ticket[]): Observable<any> {
+    return this.http.post(`${this.baseUrl}/ticket/add`, tickets);
+  }
+
   DeleteTicket(id: number) {
     return this.http.delete(`${this.baseUrl}/ticket/delete/${id}`, {
       headers: { 'Content-Type': 'application/json' }
     });
+  }
+  UpdateTicketStatus(id: number, status: string) {
+    return this.http.put(`${this.baseUrl}/ticket/updateStatus/${id}`, { status }, {
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
+
+  getTicketsByUserId(id: number, status: TicketStatus) {
+    return this.http.get<any>(`${this.baseUrl}/ticket/list/${id}/${status}`);
   }
 }

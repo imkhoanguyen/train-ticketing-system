@@ -7,8 +7,8 @@ export interface schedule {
   endDate: Date;
   deleted:boolean;
   price:number;
-  route: RouteModule[];
-  train: Train[];
+  route: RouteModule;
+  train: Train;
 }
 
 

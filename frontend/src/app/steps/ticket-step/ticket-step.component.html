@@ -5,6 +5,7 @@
         <tr>
           <th scope="col" class="text-center align-middle">Họ tên</th>
           <th scope="col" class="text-center align-middle">Thông tin chỗ</th>
+          <th scope="col" class="text-center align-middle">Giá chuyến đi</th>
           <th scope="col" class="text-center align-middle">Giá vé</th>
           <th scope="col" class="text-center align-middle">Giảm đối tượng</th>
           <th scope="col" class="text-center align-middle">Thành tiền</th>
@@ -16,14 +17,14 @@
           <td class="text-center align-middle">
             <div class="input-group mb-3">
               <span class="input-group-text">Họ và tên</span>
-              <input type="text" class="form-control" formControlName="fullName">
+              <input type="text" class="form-control" formControlName="fullname">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text">Đối tượng</span>
               <select
                 class="form-select"
-                formControlName="discountId"
-                (change)="getDiscountById(i)"
+                formControlName="object"
+                (change)="getObjectById(i, $event)"
               >
                 <option selected disabled>Chọn đối tượng</option>
                 <option *ngFor="let object of discountObjects" [value]="object.id">
@@ -33,17 +34,14 @@
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text">Số giấy tờ</span>
-              <input type="text" class="form-control" formControlName="cmnd">
+              <input type="text" class="form-control" formControlName="can_cuoc">
             </div>
           </td>
           <td class="text-center align-middle">{{ selectSeats[i]?.name }}</td>
-          <td class="text-center align-middle">{{ selectSeats[i]?.price }}</td>
-          <td class="text-center align-middle">
-            {{ ticket.get('priceDiscount')?.value || 0 }}
-          </td>
-          <td class="text-center align-middle">
-            {{ calculateFinalPrice(i) }}
-          </td>
+          <td class="text-center align-middle">{{ selectSeats[i]?.schedulePrice }}</td> <!-- Giá chuyến đi -->
+          <td class="text-center align-middle">{{ selectSeats[i]?.price }}</td> <!-- Giá vé -->
+          <td class="text-center align-middle">{{ ticket.get('price_reduced')?.value || 0 }}</td>
+          <td class="text-center align-middle">{{ calculateFinalPrice(i) }}</td>
           <td class="text-center align-middle">
             <button type="button" class="btn btn-danger" (click)="removeTicket(i)">
               <i class="bi bi-trash"></i> Xóa vé
@@ -62,18 +60,6 @@
         </tr>
       </tbody>
     </table>
-
-    <div class="input-group mb-3 d-flex justify-content-start">
-      <input
-        type="text"
-        class="form-control"
-        formControlName="promotion"
-        placeholder="Nhập mã giảm giá"
-      >
-      <button type="button" class="btn btn-primary" (click)="applyPromotion()">
-        Áp dụng
-      </button>
-    </div>
 
     <div class="d-flex justify-content-end">
       <button type="button" class="btn btn-primary btn-lg" (click)="nextPage()">

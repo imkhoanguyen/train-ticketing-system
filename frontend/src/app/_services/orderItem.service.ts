@@ -10,10 +10,14 @@ export class OrderItemService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
 
+  private ticketData: any;
+  private orderData: any;
+
+
   // getAllOrderItemsByOrderId(id:number) {
   //   return this.http.get<OrderItem[]>(`${this.baseUrl}/orderItem/list/${id}`);
   // }
- 
+
   // getWithLimit(
   //   page: number = 1,
   //   size: number = 10,
@@ -35,4 +39,24 @@ export class OrderItemService {
   //     params,
   //   });
   // }
+
+  addOrderItem(orderItem: any) {
+    return this.http.post(`${this.baseUrl}/orderItem/add`, orderItem, {});
+  }
+
+  setTicketData(data: any): void {
+    this.ticketData = data;
+    localStorage.setItem('ticketData', JSON.stringify(this.ticketData));
+  }
+  getTicketData(): any {
+    return localStorage.getItem('ticketData');
+  }
+
+  setOrderData(data: any): void {
+    this.orderData = data;
+    localStorage.setItem('orderData', JSON.stringify(this.orderData));
+  }
+  getOrderData(): any {
+    return localStorage.getItem('orderData');
+  }
 }

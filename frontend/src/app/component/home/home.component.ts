@@ -23,7 +23,6 @@ import { ApiResponse } from '../../_models/api-response.module';
     RadioButtonModule,
     CalendarModule,
     ButtonModule,
-    RouterLink,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -54,19 +53,14 @@ export class HomeComponent implements OnInit {
     }
     this.loadStations();
   }
-  load() {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
-    this.router.navigate(['/booking']);
-  }
+
 
   onTripTypeChange() {
     if (this.tripType === 'motchieu') {
       this.returnDate = null;
     }
   }
+
   loadStations() {
     console.log('load stations');
     this.stationService.getAllStations().subscribe(
@@ -92,29 +86,34 @@ export class HomeComponent implements OnInit {
       alert('Vui lòng chọn ngày về');
       return;
     }
+    this.getRoutesAndSchedules();
+  }
+  getRoutesAndSchedules() {
     this.routeService.getRoutesByStationId(this.selectedStation.id, this.selectedDestination.id).subscribe({
-      next: (response : RouteModule[]) => {
-        console.log('routes', response);
-
-        const routeId = response.map((route) => route.id);
-        this.scheduleService.getAllSchedulesByRouteId(routeId[0]).subscribe({
-          next: (response : ApiResponse<schedule[]>) => {
-            console.log('schedules', response.data);
-
-            this.scheduleService.setSchedules(response.data);
-
-            this.router.navigate(['/train-results']);
-
-          },
-          error: (error) => {
-            console.log('error load schedules', error);
-          },
-
-        });
-
+      next: (routes: RouteModule[]) => {
+        if (routes.length > 0) {
+          const routeId = routes[0].id;
+          this.loadSchedules(routeId);
+        } else {
+          console.log('No routes found');
+        }
+      },
+      error: (error) => {
+        console.log('Error loading routes', error);
       }
     });
+  }
 
+  loadSchedules(routeId: number) {
+    this.scheduleService.getSchedulesByRouteIdAndDate(routeId, this.departureDate.toISOString()).subscribe({
+      next: (response: ApiResponse<schedule[]>) => {
+        this.scheduleService.setSchedules(response.data);
+        this.router.navigate(['/train-results']);
+      },
+      error: (error) => {
+        console.log('Error loading schedules', error);
+      }
+    });
   }
 
 

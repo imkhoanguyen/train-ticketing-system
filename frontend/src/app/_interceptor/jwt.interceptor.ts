@@ -12,7 +12,7 @@ export const jwtInterceptor: HttpInterceptorFn = (req, next) => {
   if (currentUser) {
     try {
       token = currentUser.token;
-      console.log('tokenTrong jwtInterceptor', token);
+      //console.log('tokenTrong jwtInterceptor', token);
     } catch (error) {
       console.error('Error parsing user data:', error);
       toastr.error('Error parsing user data');

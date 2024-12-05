@@ -1,1 +1,134 @@
-<p>payment-step works!</p>
+<div class="container mt-4">
+  <div class="row">
+    <div class="col-8">
+      <div class="card shadow mb-5">
+        <div class="card-header bg-primary text-white text-center">
+          <h3><i class="fas fa-credit-card"></i> Thông Tin Thanh Toán</h3>
+        </div>
+        <div class="card-body">
+          <!-- Personal Information -->
+          <div *ngIf="currentUser" class="mt-4 mb-4" >
+            <h5 class="text-secondary"><i class="fas fa-user"></i> Thông Tin Cá Nhân</h5>
+            <table class="table table-striped" >
+              <thead class="bg-light">
+                <tr>
+                  <th>Thông Tin</th>
+                  <th>Chi Tiết</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Họ và Tên</td>
+                  <td>{{ currentUser.fullName }}</td>
+                </tr>
+                <tr>
+                  <td>Số Điện Thoại</td>
+                  <td>{{ currentUser.phone }}</td>
+                </tr>
+                <tr>
+                  <td>CMND</td>
+                  <td>{{ currentUser.cmnd }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Ticket Information -->
+          <h5 class="text-secondary mb-4"><i class="fas fa-ticket-alt"></i> Thông Tin Vé</h5>
+          <div style="max-height: 200px; overflow-y: auto;">
+            <div *ngFor="let ticket of ticketData" class="mb-4">
+              <div class="card border-secondary" >
+                <div class="card-body">
+                  <table class="table table-bordered">
+                    <tbody>
+                      <tr>
+                        <td><strong>Họ và Tên</strong></td>
+                        <td>{{ ticket.fullName }}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Đối Tượng</strong></td>
+                        <td>{{ ticket.objectDiscount }}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Số Giấy Tờ</strong></td>
+                        <td>{{ ticket.cmnd }}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Chỗ Ngồi</strong></td>
+                        <td>{{ ticket.seat.name }}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Chuyến đi</strong></td>
+                        <td>{{ ticket.schedule.route.startStation.name }} → {{ ticket.schedule.route.endStation.name }}</td>
+                      </tr>
+                      <tr>
+                        <td><strong>Giá vé</strong></td>
+                        <td>{{ ticket.price | currency:'VND' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+    <div class="col-4">
+      <div class="card shadow mb-4">
+        <div class="card-header bg-primary text-white text-center">
+          <h3><i class="fas fa-money-check-alt"></i> Thanh Toán</h3>
+        </div>
+        <div class="card-body">
+          <!-- Ticket Summary -->
+          <table class="table table-striped mb-3">
+            <tbody>
+              <tr>
+                <td>Số lượng vé</td>
+                <td>{{ticketData.length}}</td>
+              </tr>
+              <tr>
+                <td>Tiền Vé</td>
+                <td>{{ totalPrice | currency:'VND':'symbol':'1.0-0' }}</td>
+              </tr>
+              <tr>
+                <td>Giảm giá</td>
+                <td>{{ promotionPrice | currency:'VND':'symbol':'1.0-0' }}</td>
+              </tr>
+              <tr>
+                <th><strong>Tổng Tiền</strong></th>
+                <td><strong class="text-danger">{{ totalPrice | currency:'VND':'symbol':'1.0-0' }}</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- Discount Code Input -->
+          <div class="input-group mb-4">
+            <input
+              type="text"
+              class="form-control"
+              placeholder="Nhập mã giảm giá"
+              aria-label="Discount Code"
+              aria-describedby="discount-button"
+              [(ngModel)]="discountCode"
+            >
+            <button class="btn btn-outline-secondary" type="button" id="discount-button" (click)="applyPromotion(discountCode)">
+              Áp dụng
+            </button>
+          </div>
+
+          <!-- Payment Button -->
+          <div class="text-center">
+            <button class="btn btn-success btn-lg" (click)="getPayment()">
+              <i class="fas fa-wallet"></i> Thanh Toán Ngay
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>

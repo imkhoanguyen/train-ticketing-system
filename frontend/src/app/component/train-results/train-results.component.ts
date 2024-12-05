@@ -1,107 +1,183 @@
-import { afterNextRender, Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
-import { TrainCar } from '../../_models/traincar.module';
-import { TrainCarService } from '../../_services/traincar.service';
 import { TooltipModule } from 'primeng/tooltip';
 import { ScheduleService } from '../../_services/schedule.service';
 import { Train } from '../../_models/train.module';
-import {  schedule } from '../../_models/schedule.module';
+import { schedule } from '../../_models/schedule.module';
 import { DropdownModule } from 'primeng/dropdown';
 import { CarriageService } from '../../_services/carriage.service';
 import { Carriage } from '../../_models/carriage.module';
 import { SeatService } from '../../_services/seat.service';
 import { Seat } from '../../_models/seat.module';
 import { ApiResponse } from '../../_models/api-response.module';
+import { TrainService } from '../../_services/train.service';
+import { AuthService } from '../../_services/auth.service';
+import { User } from '../../_models/user-detail';
+import * as Stomp from 'stompjs';
+import  SockJS from 'sockjs-client';
 @Component({
   selector: 'app-train-results',
   standalone: true,
   imports: [DialogModule, CommonModule, TooltipModule, DropdownModule],
   templateUrl: './train-results.component.html',
-  styleUrl: './train-results.component.css'
+  styleUrl: './train-results.component.css',
 })
 export class TrainResultsComponent implements OnInit {
   isVisible = false;
-
   selectedSeats: number[] = [];
-  trainCars: TrainCar[] = [];
-  countdownTimes: { [key: number]: number } = {};
 
   carriages: Carriage[] = [];
+  selectedSchedule: schedule = {} as schedule;
   selectedCarriageId!: number;
   selectedSeatIds: number[] = [];
   seats: Seat[] = [];
-  schedules: any[] = [];
+  schedules!: schedule[];
   trains!: Train[];
-  private trainCarService = inject(TrainCarService);
+  selectedTrain!: Train;
+  currentUser!: User;
+  expiredSeats: string[] = [];
+
+  private trainService = inject(TrainService);
   private scheduleService = inject(ScheduleService);
   private carriageService = inject(CarriageService);
   private seatService = inject(SeatService);
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  private authService = inject(AuthService);
+  constructor(private router: Router, private cdr: ChangeDetectorRef) {}
 
-  ngOnInit() {
-    const storedSchedules = localStorage.getItem('schedules');
-    if (storedSchedules) {
-      this.schedules = JSON.parse(storedSchedules);
-      this.trains = this.schedules.map((schedule) => schedule.train);
+  ngOnInit(): void {
+
+    this.schedules = this.scheduleService.getSchedules();
+    console.log('Schedules in TrainResultsComponent:', this.schedules);
+    const savedSeats = localStorage.getItem('selectedSeats');
+    if (savedSeats) {
+      this.selectedSeatIds = JSON.parse(savedSeats).map((seat: any) => seat.seatId);  // Giả sử mỗi ghế có thuộc tính seatId
+    }
+
+    this.currentUser = this.authService.getCurrentUser();
+
+    this.seatService.getExpiredStream().subscribe(
+      (data) => {
+        this.expiredSeats = data.split(',');
+        console.log('Ghế hết hạn:', this.expiredSeats);
+
+        this.expiredSeats.forEach((expiredSeat) => {
+          const seatId = parseInt(expiredSeat.split(':')[2], 10);
+
+          const seatItem = localStorage.getItem('seat' + seatId);
+          console.log('seatItem:', seatItem);
+          if (seatItem) {
+              this.removeSeat(seatId);
+              console.log('Xóa ghế hết hạn:', seatId);
+
+          }
+        });
+
+        this.cdr.detectChanges();
+      },
+      (error) => console.error('Error:', error)
+    );
+  }
+
+  toggleSeatSelection(seatId: number): void {
+    const dateNow = new Date().getTime();
+    const userId = this.currentUser.id;
+    const schedulePrice = this.selectedSchedule.price;
+    const seatData = {
+      userId: userId,
+      scheduleId: this.selectedSchedule.id,
+      seatId: seatId,
+      schedulePrice: schedulePrice,
+      time: dateNow };
+
+    if (this.selectedSeatIds.includes(seatId)) {
+      // Hủy ghế
+      this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
+      this.seatService.cancelSeatSelection(seatData).subscribe();
+      this.removeSeat(seatId);
     } else {
-      this.scheduleService.getSchedules().subscribe({
-        next: (data: schedule[]) => {
-          this.schedules = data;
-          console.log("schedulesss", this.schedules);
-          this.trains = this.schedules.map((schedule) => schedule.train);
-          // Lưu vào localStorage
-          localStorage.setItem('schedules', JSON.stringify(this.schedules));
-        },
-        error: (err) => {
-          console.error('Error fetching schedules:', err);
-        },
-      });
+      // Lưu ghế
+      this.selectedSeatIds.push(seatId);
+      localStorage.setItem('seat' + seatId, JSON.stringify(seatData));
+      this.seatService.saveSeatSelection(seatData).subscribe();
     }
-    setInterval(() => {
-      this.checkSeatExpiry();
-    }, 1000);
 
-    this.selectedSeats.forEach((seatIndex) => {
-      this.startCountdown(seatIndex);
+    const seatsWithPrices = this.seats
+      .filter((seat) => this.selectedSeatIds.includes(seat.id))
+      .map((seat) => ({
+        ...seat,
+        scheduleId: this.selectedSchedule.id,
+        schedulePrice: this.selectedSchedule.price,
+      }));
+
+    localStorage.setItem('selectedSeats', JSON.stringify(seatsWithPrices));
+    console.log('Selected seats:', this.selectedSeatIds);
+  }
+
+  removeSeat(seatId: number): void {
+    this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
+    localStorage.removeItem('seat' + seatId);
+    this.updateSeatsInLocalStorage();
+
+    this.cdr.detectChanges();
+  }
+
+  removeSeatAll(): void {
+    this.selectedSeatIds.forEach((seatId) => {
+      this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
+      localStorage.removeItem('seat' + seatId);
     });
+    this.selectedSeatIds = [];
+    this.updateSeatsInLocalStorage();
 
-    this.trainCarService.getTrainCars().subscribe((data) => {
-      this.trainCars = data;
+    this.cdr.detectChanges();
+  }
+
+  updateSeatsInLocalStorage(): void {
+    const seatsWithPrices = this.seats
+      .filter((seat) => this.selectedSeatIds.includes(seat.id))
+      .map((seat) => ({
+        ...seat,
+        scheduleId: this.selectedSchedule.id,
+        schedulePrice: this.selectedSchedule.price,
+      }));
+
+    localStorage.setItem('selectedSeats', JSON.stringify(seatsWithPrices));
+    console.log('Updated selected seats in localStorage:', seatsWithPrices);
+  }
+  getTrainById(trainId: number) {
+    this.trainService.getTrainById(trainId).subscribe({
+      next: (response) => {
+        this.selectedTrain = response.data;
+      },
+      error: (err) => {
+        console.log('error load train', err);
+      },
     });
   }
 
-  startCountdown(seatIndex: number): void {
-    const seatData = localStorage.getItem('seat' + seatIndex);
-    console.log('seatData', seatData);
-    if (seatData) {
-      const parsedData = JSON.parse(seatData);
-      const now = new Date().getTime();
-
-      // Tính toán thời gian còn lại
-      const expiryTime = parsedData.time + 30000; // 1 phút (60 giây)
-      this.countdownTimes[seatIndex] = Math.max(0, Math.floor((expiryTime - now) / 1000));
-
-      // Cập nhật đếm ngược mỗi giây
-      const interval = setInterval(() => {
-        if (this.countdownTimes[seatIndex] > 0) {
-          this.countdownTimes[seatIndex]--;
-        } else {
-          // Xoá ghế khi hết thời gian
-          this.removeSeat(seatIndex);
-          clearInterval(interval);
-        }
-      }, 1000);
-    }
+  getScheduleById(scheduleId: number) {
+    this.scheduleService.getScheduleById(scheduleId).subscribe({
+      next: (response) => {
+        this.selectedSchedule = response.data;
+      },
+      error: (err) => {
+        console.log('error load schedule', err);
+      },
+    });
   }
 
-  trainDetail(trainId: number): void {
+  trainDetail(scheduleId: number, trainId: number): void {
+
     this.isVisible = true;
+    this.getScheduleById(scheduleId);
+    this.getTrainById(trainId);
     this.carriageService.getAllCarriagesByTrainId(trainId).subscribe({
       next: (response: ApiResponse<Carriage[]>) => {
         console.log('carriages', response.data);
         this.carriages = response.data;
+        console.log("scheduleId", scheduleId);
       },
       error: (err) => {
         console.log('error load carriages', err);
@@ -109,76 +185,22 @@ export class TrainResultsComponent implements OnInit {
     });
   }
   selectCarriage(carriageId: number): void {
-    this.selectedCarriageId = carriageId;
     this.seatService.getAllSeatsByCarriageId(carriageId).subscribe({
       next: (response: ApiResponse<Seat[]>) => {
-        console.log('seats', response.data);
         this.seats = response.data;
+        console.log('seats', this.seats);
       },
       error: (err) => {
         console.log('error load seats', err);
-      }
+      },
     });
-  }
-
-  checkSeatExpiry(): void {
-    const dateNow = new Date().getTime();
-
-    this.selectedSeatIds.forEach((seatId) => {
-      const seatData = localStorage.getItem('seat' + seatId);
-
-      if (seatData) {
-        const parsedData = JSON.parse(seatData);
-        // Nếu ghế đã hết hạn
-        if (dateNow - parsedData.time > 60000) {
-          localStorage.removeItem('seat' + seatId);
-          this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
-        }
-      }
-    });
-  }
-
-  toggleSeatSelection(seatId: number): void {
-    const dateNow = new Date().getTime();
-
-    if (this.selectedSeatIds.includes(seatId)) {
-      this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
-      localStorage.removeItem('seat' + seatId);
-    } else {
-      this.selectedSeatIds.push(seatId);
-      const seatData = { time: dateNow };
-      localStorage.setItem('seat' + seatId, JSON.stringify(seatData));
-      this.startCountdown(seatId);
-    }
-
-    this.seatService.setSeats(
-      this.seats.filter((seat) => this.selectedSeatIds.includes(seat.id))
-    );
-
-    console.log('Selected seats:', this.selectedSeatIds);
-  }
-
-
-
-  removeSeat(seatId: number): void {
-    this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
-    localStorage.removeItem('seat' + seatId);
-  }
-  removeSeatAll(): void {
-    this.selectedSeatIds.forEach((seatId) => {
-      this.selectedSeatIds.filter((id) => id !== seatId);
-
-      localStorage.removeItem('seat' + seatId);
-    });
-
-    this.selectedSeatIds = [];
   }
 
   onSubmit(): void {
-    this.router.navigate(['/booking/seat']);
+    this.router.navigate(['/booking/ticket']);
   }
   closeDialog(): void {
     this.isVisible = false;
+    this.seats = [];
   }
 }
-

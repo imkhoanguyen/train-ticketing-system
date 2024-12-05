@@ -14,3 +14,10 @@ export interface Order {
     orderItems:OrderItem[];
 
 }
+
+export enum OrderStatus {
+  DRAFT = 'DRAFT',
+  PENDING = 'PENDING',
+  SUCCESS = 'SUCCESS',
+  FAIL = 'FAIL',
+}

@@ -1,7 +1,10 @@
 package com.example.train.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -64,6 +67,13 @@ public class ScheduleController {
     public ResponseEntity<ResponseData<?>> getScheduleByRouteId(@PathVariable int id) {
         log.info("Request to get station with ID: {}", id);
         List<ScheduleDetailResponse> scheduleDetailResponse = ScheduleService.getAllSchedulesByRouteId(id);
+        return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Route retrieved successfully", scheduleDetailResponse));
+    }
+
+    @GetMapping("/routeId/{routeId}/startDate/{startDate}")
+    public ResponseEntity<ResponseData<?>> getScheduleByRouteIdAndStartDate(@PathVariable int routeId, @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate startDate) {
+        log.info("Request to get station with start date: {}", startDate);
+        List<ScheduleDetailResponse> scheduleDetailResponse = ScheduleService.getSchedulesByRouteAndStartDate(routeId, startDate);
         return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Route retrieved successfully", scheduleDetailResponse));
     }
     @Operation(summary = "Add new schedule", description = "Send a request to add a new Route")

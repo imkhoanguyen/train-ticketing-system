@@ -3,8 +3,6 @@ import { HomeComponent } from './component/home/home.component';
 import { StationComponent } from './component/admin/station/station.component';
 import { TrainResultsComponent } from './component/train-results/train-results.component';
 import { BookingStepsComponent } from './component/booking-steps/booking-steps.component';
-import { SeatStepComponent } from './steps/seat-step/seat-step.component';
-import { PersonalStepComponent } from './steps/personal-step/personal-step.component';
 import { ConfirmationStepComponent } from './steps/confirmation-step/confirmation-step.component';
 import { PaymentStepComponent } from './steps/payment-step/payment-step.component';
 import { RouteComponent } from './component/admin/route/route.component';
@@ -21,6 +19,7 @@ import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { UserComponent } from './component/admin/user/user.component';
 import { OrderedTicketComponent } from './component/ordered-ticket/ordered-ticket/ordered-ticket.component';
+import { TicketStepComponent } from './steps/ticket-step/ticket-step.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -30,8 +29,7 @@ export const routes: Routes = [
     path: 'booking',
     component: BookingStepsComponent,
     children: [
-      { path: 'seat', component: SeatStepComponent },
-      { path: 'personal', component: PersonalStepComponent },
+      { path: 'ticket', component: TicketStepComponent },
       { path: 'payment', component: PaymentStepComponent },
       { path: 'confirmation', component: ConfirmationStepComponent },
       { path: '', redirectTo: 'seat', pathMatch: 'full' },
