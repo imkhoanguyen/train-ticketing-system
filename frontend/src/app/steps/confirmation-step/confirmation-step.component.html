@@ -1,1 +1,15 @@
-<p>confirmation-step works!</p>
+<div class="invoice-container">
+  <h2 class="text-center">Hóa đơn thanh toán</h2>
+  <div class="invoice-details">
+    <p><strong>Mã đơn hàng:</strong> {{ paymentData?.orderId }}</p>
+    <p><strong>Số tiền:</strong> {{ paymentData?.amount | currency:'VND':'symbol' }}</p>
+    <p><strong>Phương thức thanh toán:</strong> {{ paymentData?.paymentMethod }}</p>
+    <p><strong>Ngày giao dịch:</strong> {{ paymentData?.transactionDate }}</p>
+    <p><strong>Trạng thái:</strong>
+      <span class="badge" [ngClass]="status === 'success' ? 'badge-success' : 'badge-danger'">
+        {{ status }}
+      </span>
+    </p>
+  </div>
+  <button class="btn btn-primary mt-3" (click)="goBack()">Quay lại</button>
+</div>

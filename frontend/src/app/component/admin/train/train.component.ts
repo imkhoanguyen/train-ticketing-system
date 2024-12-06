@@ -13,6 +13,7 @@ import { Train } from '../../../_models/train.module';
 import { TrainService } from '../../../_services/train.service';
 import { SortEvent } from 'primeng/api';
 import { PaginatorModule } from 'primeng/paginator';
+import { CloudinaryService } from '../../../_services/cloudinary.service';
 
 @Component({
   selector: 'app-train',
@@ -59,6 +60,7 @@ export class TrainComponent implements OnInit{
   constructor(
     private formBuilder: FormBuilder,
     private trainService:TrainService,
+    private cloudinaryService: CloudinaryService,
     // private router:Router,
   ){
     this.trainForm = this.formBuilder.group({
@@ -181,46 +183,195 @@ export class TrainComponent implements OnInit{
           pictureUrl: train.pictureUrl,
           is_active: !train.delete 
         });
-        // this.imagePreviewUrl = train.pictureUrl;
+        this.imagePreviewUrl = train.pictureUrl;
       }
     })
     
   }
 
+  // onSubmit(): void {
+  //   if (this.trainForm.valid) {
+  //     const trainData = {
+  //       name: this.trainForm.get('name')?.value,
+  //       description: this.trainForm.get('description')?.value,
+  //       pictureUrl: this.trainForm.get('pictureUrl')?.value,
+  //       isDelete: !this.trainForm.get('is_active')?.value ? 'true' : 'false'
+  //     };
+  //     console.log(trainData.pictureUrl)
+  //     if (!this.currentState) {
+  //       this.trainService.AddTrain(trainData).subscribe({
+  //         next: (response) => {
+  //           console.log('Train added successfully', response);
+  //           this.loadTrains()
+  //         },
+  //         error: (err) => {
+  //           console.log('Failed to add train', err);
+  //         }
+  //       });
+  //     } else {
+  //       this.trainService.UpdateTrain(this.id,trainData).subscribe({
+  //         next: (response) => {
+  //           console.log('Train updated successfully', response);
+  //           this.loadTrains()
+  //         },
+  //         error: (err) => {
+  //           console.log('Failed to update train', err);
+  //         }
+  //       });
+  //     }
+  //     this.displayDialog = false; // Đóng dialog
+  //   }
+  // }
+
+  // onSubmit(): void {
+  //   if (this.trainForm.valid) {
+  //     // Kiểm tra nếu có ảnh mới
+  //     if (this.imagePreviewUrl) {
+  //       const fileInput = document.getElementById('pictureUrl') as HTMLInputElement;
+  //       const file = fileInput?.files?.[0]; // Lấy file từ input
+  
+  //       if (file) {
+  //         this.cloudinaryService.uploadImage(file).subscribe({
+  //           next: (response) => {
+  //             // Lấy URL của ảnh từ phản hồi của Cloudinary
+  //             const uploadedImageUrl = response.secure_url;
+  
+  //             // Tạo đối tượng dữ liệu train
+  //             const trainData = {
+  //               name: this.trainForm.get('name')?.value,
+  //               description: this.trainForm.get('description')?.value,
+  //               pictureUrl: uploadedImageUrl, // Sử dụng URL của ảnh từ Cloudinary
+  //               isDelete: !this.trainForm.get('is_active')?.value ? 'true' : 'false',
+  //             };
+  
+  //             // Thêm hoặc cập nhật train
+  //             if (!this.currentState) {
+  //               this.trainService.AddTrain(trainData).subscribe({
+  //                 next: (response) => {
+  //                   console.log('Train added successfully', response);
+  //                   this.loadTrains();
+  //                 },
+  //                 error: (err) => {
+  //                   console.log('Failed to add train', err);
+  //                 },
+  //               });
+  //             } else {
+  //               this.trainService.UpdateTrain(this.id, trainData).subscribe({
+  //                 next: (response) => {
+  //                   console.log('Train updated successfully', response);
+  //                   this.loadTrains();
+  //                 },
+  //                 error: (err) => {
+  //                   console.log('Failed to update train', err);
+  //                 },
+  //               });
+  //             }
+  //             this.displayDialog = false; // Đóng dialog
+  //           },
+  //           error: (err) => {
+  //             console.log('Failed to upload image to Cloudinary', err);
+  //           },
+  //         });
+  //       }
+  //     } else {
+  //       // Nếu không có ảnh mới, gửi dữ liệu không có ảnh
+  //       const trainData = {
+  //         name: this.trainForm.get('name')?.value,
+  //         description: this.trainForm.get('description')?.value,
+  //         pictureUrl: this.trainForm.get('pictureUrl')?.value,
+  //         isDelete: !this.trainForm.get('is_active')?.value ? 'true' : 'false',
+  //       };
+  
+  //       if (!this.currentState) {
+  //         this.trainService.AddTrain(trainData).subscribe({
+  //           next: (response) => {
+  //             console.log('Train added successfully', response);
+  //             this.loadTrains();
+  //           },
+  //           error: (err) => {
+  //             console.log('Failed to add train', err);
+  //           },
+  //         });
+  //       } else {
+  //         this.trainService.UpdateTrain(this.id, trainData).subscribe({
+  //           next: (response) => {
+  //             console.log('Train updated successfully', response);
+  //             this.loadTrains();
+  //           },
+  //           error: (err) => {
+  //             console.log('Failed to update train', err);
+  //           },
+  //         });
+  //       }
+  
+  //       this.displayDialog = false; // Đóng dialog
+  //     }
+  //   }
+  // }
+
   onSubmit(): void {
     if (this.trainForm.valid) {
-      const trainData = {
-        name: this.trainForm.get('name')?.value,
-        description: this.trainForm.get('description')?.value,
-        pictureUrl: this.trainForm.get('pictureUrl')?.value,
-        isDelete: !this.trainForm.get('is_active')?.value ? 'true' : 'false'
-      };
-      console.log(trainData.pictureUrl)
-      if (!this.currentState) {
-        this.trainService.AddTrain(trainData).subscribe({
-          next: (response) => {
-            console.log('Train added successfully', response);
-            this.loadTrains()
-          },
-          error: (err) => {
-            console.log('Failed to add train', err);
-          }
-        });
+      let pictureUrl = this.trainForm.get('pictureUrl')?.value;
+  
+      // Kiểm tra nếu có ảnh mới
+      if (this.imagePreviewUrl && this.imagePreviewUrl !== pictureUrl) {
+        const fileInput = document.getElementById('pictureUrl') as HTMLInputElement;
+        const file = fileInput?.files?.[0]; // Lấy file từ input
+  
+        if (file) {
+          this.cloudinaryService.uploadImage(file).subscribe({
+            next: (response) => {
+              // Lấy URL của ảnh từ phản hồi của Cloudinary
+              pictureUrl = response.secure_url;
+  
+              this.saveTrainData(pictureUrl);
+            },
+            error: (err) => {
+              console.log('Failed to upload image to Cloudinary', err);
+            },
+          });
+        }
       } else {
-        this.trainService.UpdateTrain(this.id,trainData).subscribe({
-          next: (response) => {
-            console.log('Train updated successfully', response);
-            this.loadTrains()
-          },
-          error: (err) => {
-            console.log('Failed to update train', err);
-          }
-        });
+        // Nếu không có ảnh mới, gửi dữ liệu không có ảnh
+        this.saveTrainData(pictureUrl);
       }
-      this.displayDialog = false; // Đóng dialog
     }
   }
-
+  
+  saveTrainData(pictureUrl: string): void {
+    const trainData = {
+      name: this.trainForm.get('name')?.value,
+      description: this.trainForm.get('description')?.value,
+      pictureUrl: pictureUrl,
+      isDelete: !this.trainForm.get('is_active')?.value ? 'true' : 'false',
+    };
+  
+    if (!this.currentState) {
+      this.trainService.AddTrain(trainData).subscribe({
+        next: (response) => {
+          console.log('Train added successfully', response);
+          this.loadTrains();
+        },
+        error: (err) => {
+          console.log('Failed to add train', err);
+        },
+      });
+    } else {
+      this.trainService.UpdateTrain(this.id, trainData).subscribe({
+        next: (response) => {
+          console.log('Train updated successfully', response);
+          this.loadTrains();
+        },
+        error: (err) => {
+          console.log('Failed to update train', err);
+        },
+      });
+    }
+  
+    this.displayDialog = false; // Đóng dialog
+  }
+  
+ 
   showUploadDialog() {
     this.uploadDialog = true; // Open the upload dialog
   }
@@ -289,6 +440,6 @@ export class TrainComponent implements OnInit{
     }
   }
 
-  
+
   
 }

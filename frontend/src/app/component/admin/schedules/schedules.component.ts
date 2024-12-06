@@ -62,7 +62,7 @@ export class SchedulesComponent implements OnInit {
 
   trainsOptions: any[] = [];
   routesOptions: any[] = [];
- 
+
   existingSchedules: any[] = [];
 
   confirmDialogVisible: boolean = false;
@@ -74,7 +74,7 @@ export class SchedulesComponent implements OnInit {
   search: string = '';
   sortBy = 'id';
   sortOrder = 'asc';
-  
+
   constructor(
     private formBuilder: FormBuilder,
     private route: ActivatedRoute,
@@ -100,7 +100,7 @@ export class SchedulesComponent implements OnInit {
       endDate: [null, Validators.required],
       is_active: [false]
     });
-    
+
     }
   //
   onPageChange(event: any) {
@@ -120,10 +120,10 @@ export class SchedulesComponent implements OnInit {
 
     this.loadSchedules();
   }
-  
+
   loadSchedules() {
     this.loadTrains()
-    
+
     const orderBy = `${this.sortBy},${this.sortOrder}`;
     this.scheduleService
       .getWithLimit(this.pageNumber, this.pageSize, this.search, orderBy,this.routeId)
@@ -212,7 +212,7 @@ export class SchedulesComponent implements OnInit {
     // console.log(this.selectedRoute.name)
     this.scheduleForm.get('routeSelect')?.setValue(this.selectedRoute.name);
   }
-  
+
   editSchedule(id: number) {
     this.currentState = true;
     this.showDialog();
@@ -223,8 +223,8 @@ export class SchedulesComponent implements OnInit {
         console.log(scheduleArray);
         this.scheduleForm.patchValue({
           routeSelect: scheduleArray.route.name,
-          trainSelect: scheduleArray.train.id, 
-          startDate: new Date(new Date(scheduleArray.startDate).getTime() + 7 * 60 * 60 * 1000), 
+          trainSelect: scheduleArray.train.id,
+          startDate: new Date(new Date(scheduleArray.startDate).getTime() + 7 * 60 * 60 * 1000),
           endDate: new Date(new Date(scheduleArray.endDate).getTime() + 7 * 60 * 60 * 1000),
           priceSelect: scheduleArray.price,
           is_active: scheduleArray.deleted
@@ -263,6 +263,8 @@ export class SchedulesComponent implements OnInit {
       }
 
       if (!this.currentState) {
+
+
         this.scheduleService.AddSchedule(scheduleData).subscribe({
           next: (response) => {
             console.log('Schedule added successfully', response);

@@ -33,7 +33,11 @@
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              {
+                "input": "node_modules/stompjs/lib/stomp.min.js"
+              }
+            ]
           },
           "configurations": {
             "production": {

@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { Order } from '../_models/order.module';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -13,7 +14,7 @@ export class OrderService {
   // getAllOrders() {
   //   return this.http.get<Order[]>(this.baseUrl + '/order/list');
   // }
- 
+
   getWithLimit(
     page: number = 1,
     size: number = 10,
@@ -54,5 +55,13 @@ export class OrderService {
       observe: 'response',
       params,
     });
+  }
+
+  addOrder(order: any): Observable<any> {
+    return this.http.post(`${this.baseUrl}/order/add`, order);
+  }
+
+  getOrderByUserId(id: number): Observable<any> {
+    return this.http.get<{ status: number; message: string; data: Order }>(`${this.baseUrl}/order/get/${id}`);
   }
 }

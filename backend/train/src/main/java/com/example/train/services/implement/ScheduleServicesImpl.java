@@ -1,11 +1,18 @@
 package com.example.train.services.implement;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
+
 import com.example.train.dto.request.ScheduleRequestDto;
 import com.example.train.dto.response.PageResponse;
+import com.example.train.dto.response.RouteDetailResponse;
 import com.example.train.dto.response.ScheduleDetailResponse;
 import com.example.train.entity.Route;
 import com.example.train.entity.Schedule;
 import com.example.train.entity.Train;
+import com.example.train.exception.BadRequestException;
+import com.example.train.exception.NotFoundException;
 import com.example.train.repository.RouteRepository;
 import com.example.train.repository.ScheduleRepository;
 import com.example.train.repository.TrainRepository;
@@ -73,8 +80,24 @@ public class ScheduleServicesImpl implements ScheduleService {
         Schedule schedule = scheduleRepository.findById(id)
         .orElseThrow(() -> new RuntimeException("Schedule not found"));
 
-        schedule.setDeleted(false);
-        scheduleRepository.save(schedule);
+    }
+
+
+    @Override
+    public List<ScheduleDetailResponse> getAllSchedulesByRouteId(int id) {
+        List<Schedule> schedules = scheduleRepository.findByRouteId(id);
+
+        return schedules.stream()
+                .map(schedule -> ScheduleDetailResponse.builder()
+                        .id(schedule.getId())
+                        .price(schedule.getPrice())
+                        .isDeleted(schedule.isDeleted())
+                        .route(schedule.getRoute())
+                        .train(schedule.getTrain())
+                        .startDate(schedule.getStartDate())
+                        .endDate(schedule.getEndDate())
+                        .build())
+                .toList();
     }
 
     @Override
@@ -125,6 +148,22 @@ public class ScheduleServicesImpl implements ScheduleService {
                 .build();
     }
 
-    
-    
+
+    @Override
+    public List<ScheduleDetailResponse> getSchedulesByRouteAndStartDate(int routeId, LocalDate startDate) {
+        return scheduleRepository.findByRouteIdAndStartDate(routeId, startDate)
+                .stream()
+                .map(schedule -> ScheduleDetailResponse.builder()
+                        .id(schedule.getId())
+                        .price(schedule.getPrice())
+                        .isDeleted(schedule.isDeleted())
+                        .route(schedule.getRoute())
+                        .train(schedule.getTrain())
+                        .startDate(schedule.getStartDate())
+                        .endDate(schedule.getEndDate())
+                        .build())
+                .collect(Collectors.toList());
+    }
+
+
 }

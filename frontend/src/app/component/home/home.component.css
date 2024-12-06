@@ -1,35 +1,14 @@
 .container {
   padding: 20px;
   margin: auto;
-  background-color: #dce2e2;
-  border-radius: 8px;
-  box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+  background-color: #f0f4f8;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-.navbar {
-  border-radius: 20px;
-}
-
-.navbar-nav .nav-item .nav-link {
-  padding: 10px 15px;
-  transition: background-color 0.3s ease, color 0.3s ease;
-}
-
-.navbar-nav .nav-item .nav-link:hover {
-  background-color: #1daafc;
-  color: #ffffff;
-  border-radius: 5px;
-}
-
-.navbar-brand {
-  font-size: 24px;
-  font-weight: bold;
-  color: #1daafc;
-}
 
 .pdropdown {
   margin-bottom: 15px;
-  width: 100%;
 }
 
 .radio-group {
@@ -43,7 +22,8 @@
   padding: 10px 30px;
   border-radius: 50px;
   margin-right: 10px;
-  transition: border-color 0.3s ease, background-color 0.3s ease;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  background-color: #e0e0e0;
 }
 
 .radio-group input[type="radio"]:checked + label {
@@ -55,13 +35,6 @@
   display: none;
 }
 
-.row {
-  margin: 15px 0;
-}
-
-.col-auto {
-  margin: 0 15px;
-}
 
 .btn {
   background-color: #337ab7;
@@ -97,7 +70,7 @@
   left: 0;
   z-index: -1;
   background-size: cover;
-  image-rendering: crisp-edges;
+  filter: blur(2px);
 }
 
 /* Responsive styles */

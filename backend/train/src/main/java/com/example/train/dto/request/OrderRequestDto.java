@@ -1,11 +1,14 @@
 package com.example.train.dto.request;
 import java.io.Serializable;
 
+import com.example.train.entity.OrderStatus;
+import com.example.train.entity.TicketStatus;
+
 public class OrderRequestDto implements Serializable{
     private int user_id;
-    private String status;
+    private OrderStatus status;
 
-    public OrderRequestDto(int user_id, String status) {
+    public OrderRequestDto(int user_id, OrderStatus status) {
         this.user_id = user_id;
         this.status = status;
     }
@@ -14,7 +17,7 @@ public class OrderRequestDto implements Serializable{
         this.user_id = user_id;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(OrderStatus status) {
         this.status = status;
     }
 
@@ -22,7 +25,7 @@ public class OrderRequestDto implements Serializable{
         return user_id;
     }
 
-    public String getStatus() {  
+    public OrderStatus getStatus() {  
         return status;
     }
 }

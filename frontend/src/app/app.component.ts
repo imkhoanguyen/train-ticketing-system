@@ -2,12 +2,13 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { ToastModule } from 'primeng/toast';
+import { HeaderComponent } from "./layout/header/header.component";
 
 @Component({
   selector: 'app-root',
   standalone: true,
 
-    imports: [RouterOutlet, ToastModule, CommonModule],
+    imports: [RouterOutlet, ToastModule, CommonModule, HeaderComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })

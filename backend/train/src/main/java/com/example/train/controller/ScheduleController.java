@@ -1,7 +1,10 @@
 package com.example.train.controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -34,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("api/schedule")
 @Validated
 @Slf4j
-@Tag(name = "Schedule Controller")                           
+@Tag(name = "Schedule Controller")
 @RequiredArgsConstructor
 
 public class ScheduleController {
@@ -46,7 +49,7 @@ public class ScheduleController {
             @RequestParam(value = "search", required = false) String search,
             @RequestParam(value = "sortBy", defaultValue = "id,desc") String sortBy,
             @PathVariable int id) {
-            
+
         PageResponse<List<Schedule>> response = (PageResponse<List<Schedule>>) ScheduleService.getAllScheduleAndSearchWithPagingAndSorting(pageNumber, pageSize, search, sortBy,id);
 
         return new ResponseData<>(HttpStatus.OK.value(), "get list discount with limit", response);
@@ -60,6 +63,19 @@ public class ScheduleController {
         return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Route retrieved successfully", scheduleDetailResponse));
     }
 
+    @GetMapping("/routeId/{id}")
+    public ResponseEntity<ResponseData<?>> getScheduleByRouteId(@PathVariable int id) {
+        log.info("Request to get station with ID: {}", id);
+        List<ScheduleDetailResponse> scheduleDetailResponse = ScheduleService.getAllSchedulesByRouteId(id);
+        return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Route retrieved successfully", scheduleDetailResponse));
+    }
+
+    @GetMapping("/routeId/{routeId}/startDate/{startDate}")
+    public ResponseEntity<ResponseData<?>> getScheduleByRouteIdAndStartDate(@PathVariable int routeId, @PathVariable @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME) LocalDate startDate) {
+        log.info("Request to get station with start date: {}", startDate);
+        List<ScheduleDetailResponse> scheduleDetailResponse = ScheduleService.getSchedulesByRouteAndStartDate(routeId, startDate);
+        return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Route retrieved successfully", scheduleDetailResponse));
+    }
     @Operation(summary = "Add new schedule", description = "Send a request to add a new Route")
     @PostMapping("/add")
     public ResponseEntity<ResponseData<?>> addSchedule(@Validated @RequestBody ScheduleRequestDto scheduleRequestDto) {
@@ -71,8 +87,8 @@ public class ScheduleController {
 
     @Operation(summary = "Update existing schedule", description = "Send a request to update an existing route")
     @PutMapping("/update/{id}")
-    public ResponseEntity<ResponseData<?>> updateSchedule(@PathVariable int id, 
-                                                        @Validated @RequestBody ScheduleRequestDto scheduleRequestDto) {
+    public ResponseEntity<ResponseData<?>> updateSchedule(@PathVariable int id,
+                                                          @Validated @RequestBody ScheduleRequestDto scheduleRequestDto) {
         log.info("Request to update route with ID: {}", id);
         ScheduleService.updateSchedule(id, scheduleRequestDto);
         return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Route updated successfully", null));

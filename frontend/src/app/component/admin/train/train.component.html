@@ -4,18 +4,16 @@
       <button pButton label="Thêm mới" icon="pi pi-plus" class="p-button-success mb-2" (click)="newTrain()"></button>
       <button pButton label="Upload Excel" icon="pi pi-upload" (click)="showUploadDialog()"></button>
     </div>
-  
+
     <p-dialog [(visible)]="uploadDialog" modal="modal" [closable]="true" [responsive]="true" header="Upload Excel">
       <div class="upload-container">
         <input type="file" (change)="onFileChange($event)" accept=".xlsx, .xls" />
         <button pButton label="Upload" icon="pi pi-upload" (click)="uploadTrains()" class="p-button-info"></button>
       </div>
     </p-dialog>
-  
+
     <!-- Search -->
     <div class="mb-2 search-container">
-      <!-- <i class="pi pi-search search-icon"></i>
-      <input type="text" pInputText [(ngModel)]="searchQuery" placeholder="Tìm kiếm theo tên" /> -->
       <input
         class="form-control"
         placeholder="Tìm kiếm tên tàu"
@@ -54,7 +52,8 @@
         </tr>
       </ng-template>
     </p-table> -->
-    
+
+
     <p-table
       [value]="trains"
       [tableStyle]="{ 'min-width': '60rem' }"
@@ -77,14 +76,14 @@
           <td>{{ train.id }}</td>
           <td>{{ train.name }}</td>
           <td>{{ train.description }}</td>
-          <td>{{ train.pictureUrl }}</td>
-          <!-- <td>
-            <img [src]="train.pictureUrl" alt="Train Image" width="100" height="100" />
-          </td> -->
+          <!-- <td>{{ train.pictureUrl }}</td> -->
           <td>
-            <p-inputSwitch 
-              [style]="{width: '50px'}" 
-              (onChange)="train.delete ? onRestore(train):onDelete(train) " 
+            <img [src]="train.pictureUrl" alt="Train Image" width="100" height="100" />
+          </td>
+          <td>
+            <p-inputSwitch
+              [style]="{width: '50px'}"
+              (onChange)="train.delete ? onRestore(train):onDelete(train) "
               [(ngModel)]="train.delete">
             </p-inputSwitch>
           </td>
@@ -110,6 +109,7 @@
     }
 
 
+
     <!-- Dialog for adding/editing station -->
     <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true" header="Thông tin Ga">
       <div class="container">
@@ -117,7 +117,7 @@
         <ng-template #editTemplate>
           <h2>Chỉnh Sửa Tàu</h2>
         </ng-template>
-  
+
         <form [formGroup]="trainForm" (ngSubmit)="onSubmit()">
           <div class="p-field">
             <label for="name">Tên:</label>
@@ -130,37 +130,37 @@
           <div class="p-field">
             <label for="pictureUrl">Hình ảnh:</label>
             <!-- <input id="pictureUrl" pInputText formControlName="pictureUrl" required /> -->
-            <!-- <input 
-              type="file" 
-              id="pictureUrl" 
-              accept="image/*" 
-              (change)="onImageSelect($event)" 
-              hidden 
+            <!-- <input
+              type="file"
+              id="pictureUrl"
+              accept="image/*"
+              (change)="onImageSelect($event)"
+              hidden
             /> -->
-            <input 
-              type="file" 
-              id="pictureUrl" 
-              (change)="onImageSelect($event)" 
-              accept="image/*" 
+            <input
+              type="file"
+              id="pictureUrl"
+              (change)="onImageSelect($event)"
+              accept="image/*"
               style="display: none;"
             />
-            <button 
-              pButton 
-              label="Chọn Ảnh" 
-              icon="pi pi-image" 
+            <button
+              pButton
+              label="Chọn Ảnh"
+              icon="pi pi-image"
               (click)="selectImage()"
               type="button"
             ></button>
             <div *ngIf="imagePreviewUrl" class="image-preview mt-2">
               <img [src]="imagePreviewUrl" alt="Image Preview" width="100" height="100" />
-               
+
             </div>
           </div>
           <div class="p-field-checkbox">
             <p-checkbox inputId="is_active" formControlName="is_active" [binary]="true"></p-checkbox>
             <label for="is_active">Kích hoạt</label>
           </div>
-  
+
           <button pButton type="submit" class="p-button-success-1">
             <b>{{ currentState ? 'Chỉnh Sửa Tàu' : 'Thêm Tàu' }}</b>
           </button>
@@ -168,4 +168,3 @@
       </div>
     </p-dialog>
   </div>
-  

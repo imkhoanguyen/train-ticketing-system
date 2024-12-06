@@ -1,188 +1,234 @@
-/* General container styling */
-.container {
-    padding: 20px;
+/* Global Styles */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #e9f7fc; /* Light blue background */
+    color: #2b5f87; /* Dark blue text */
+  }
+  
+  /* Container */
+  .container {
     max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Header and button spacing */
-.header-container {
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #ffffff; /* White background */
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Header Container */
+  .header-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    margin-bottom: 16px;
-}
-
-.schedule-title {
-    flex-grow: 1;
+    margin-bottom: 20px;
+  }
+  
+  /* Schedule Title - Align center */
+  .schedule-title {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #2b5f87;
     text-align: center;
     margin: 0;
-    color: #333;
-    font-weight: 600;
-}
-
-.back-button {
-    font-size: 0.85rem; /* Adjust button size */
-}
-
-/* Button and search input spacing */
-/* .button-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-} */
-.button-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 16px;
-    width: 100%;
-}
-input.form-control {
-    width: 200px;  /* Adjusted width for the search input */
-    padding: 8px;  /* Reduced padding for smaller input */
-    margin-right: 16px;  /* Space between search input and button */
-    order: 1;  /* Position it to the left */
-}
-button.p-button-success {
-    padding: 6px 12px;  /* Reduced padding to make the button smaller */
-    order: 2;  /* Position it to the right */
-}
-
-.search-container {
-    position: relative;
-    margin-left: 16px;
-    width: 300px;
-}
-
-.search-icon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.2rem;
-    color: #666;
-}
-
-input[pInputText] {
-    padding-left: 36px;
-    width: 100%;
-}
-
-/* PrimeNG table styling */
-.custom-table {
-    border-collapse: collapse;
-    width: 100%;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-.even-row {
-    background-color: #f9f9f9;
-}
-
-.odd-row {
-    background-color: #fff;
-}
-
-.custom-table th {
-    background-color: #007bff;
+    width: 100%; /* Ensure it's full width for centering */
+    display: block;
+    text-align: center; /* Center align text */
+  }
+  
+  /* Back Button */
+  .back-button {
+    background-color: #3aa8db;
     color: white;
-    text-align: left;
-    padding: 8px;
-}
-
-.custom-table th p-sortIcon {
-    margin-left: 8px;
-}
-
-.custom-table td {
-    padding: 12px 8px;
-}
-
-.custom-table td button {
-    margin-right: 4px;
-}
-
-/* Dialogs */
-p-dialog .container {
-    padding: 16px;
-}
-
-p-dialog h2 {
-    margin-bottom: 24px;
-}
-
-p-dialog form {
-    width: 300px;
+    border: none;
+    padding: 10px 20px;
+    width: 150px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .back-button:hover {
+    background-color: #2b87ba; 
+    transform: scale(1.05);
+  }
+  
+  /* Button Container - Align left */
+  .button-container {
     display: flex;
     flex-direction: column;
-}
-
-.p-field {
-    margin-bottom: 16px;
-}
-
-.p-field label {
-    font-weight: 500;
-    margin-bottom: 8px;
-    display: block;
-}
-
-/* Form elements */
-input[pInputText],
-p-dropdown,
-p-calendar {
+    align-items: flex-start;
+    gap: 10px;
+    margin-bottom: 20px;
+  }
+  
+  /* Button in Button Container */
+  .button-container button {
+    background-color: #3aa8db;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .button-container button:hover {
+    background-color: #2b87ba;
+    transform: scale(1.05);
+  }
+  
+  /* Search Input */
+  .form-control {
     width: 100%;
-}
-
-button[type="submit"] {
-    margin-top: 12px;
+    max-width: 300px;
+    padding: 10px 15px;
+    border: 1px solid #b3d9ec;
+    border-radius: 4px;
+    background-color: #f1faff;
+    color: #2b5f87;
+    transition: all 0.3s ease;
+  }
+  
+  .form-control:focus {
+    border-color: #3aa8db;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Table Styles */
+  p-table {
     width: 100%;
-}
-
-/* Confirmation dialog */
-p-dialog[header="Xác nhận"] {
+    margin-top: 20px;
+    border-spacing: 0;
+    border-collapse: collapse;
+  }
+  
+  p-table th {
+    background-color: #3aa8db;
+    color: white;
+    text-align: left;
+    padding: 15px;
+    font-size: 1rem;
+    border-bottom: 2px solid #b3d9ec;
+  }
+  
+  p-table tr:nth-child(even) {
+    background-color: #f1faff; /* Light blue for even rows */
+  }
+  
+  p-table tr:nth-child(odd) {
+    background-color: white; /* White for odd rows */
+  }
+  
+  p-table tr:hover {
+    background-color: #d0ecf7; /* Light blue on hover */
+  }
+  
+  p-table td {
+    padding: 15px;
+    font-size: 0.9rem;
+    color: #2b5f87;
+    border-bottom: 1px solid #b3d9ec;
+  }
+  
+  p-table td:first-child,
+  p-table td:last-child {
     text-align: center;
-}
-
-p-dialog[header="Xác nhận"] button {
-    margin: 8px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 768px) {
-    .search-container {
-        width: 100%;
-    }
-
-    /* .button-container {
-        flex-direction: column;
-        align-items: flex-start;
-    } */
+  }
+  
+  /* Paginator Styles */
+  .p-paginator {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  .p-paginator button {
+    border-radius: 50%;
+    background-color: #3aa8db;
+    color: white;
+    font-size: 1rem;
+    margin: 0 5px;
+    padding: 10px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .p-paginator button:hover {
+    background-color: #2b87ba;
+  }
+  
+  /* Dialog Styles */
+  p-dialog {
+    background-color: white;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .p-field {
+    margin-bottom: 15px;
+  }
+  
+  .p-field label {
+    color: #2b5f87;
+    font-size: 1rem;
+  }
+  
+  .p-button-success-1 {
+    background-color: #3aa8db;
+    color: white;
+    font-size: 1rem;
+    padding: 10px 20px;
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+  }
+  
+  .p-button-success-1:hover {
+    background-color: #2b87ba;
+    transform: scale(1.05);
+  }
+  
+  /* Action Column Button Styles */
+  p-table td button {
+    border-radius: 50%; /* Make buttons circular */
+    padding: 10px;
+    background-color: #3aa8db;
+    color: white;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+  }
+  
+  p-table td button:hover {
+    background-color: #2b87ba;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+  }
+  
+  /* Responsive Styles */
+  @media (max-width: 768px) {
     .button-container {
-        flex-direction: column;
-        align-items: flex-start;
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 10px;
     }
-    input.form-control {
-        width: 100%; /* Ensure the input takes full width on smaller screens */
-        margin-right: 0;  /* Remove right margin on small screens */
+  
+    .form-control {
+      width: 100%;
     }
-
-    button.p-button-success {
-        width: 100%;  /* Make button full width on small screens */
-        margin-top: 8px;  /* Space between button and input */
+  
+    p-table th,
+    p-table td {
+      padding: 10px;
+      font-size: 0.85rem;
     }
-    
-    p-dialog .container {
-        padding: 8px;
+  
+    .p-button-success-1 {
+      width: 100%;
+      margin: 5px 0;
     }
-
-    p-dialog form {
-        align-items: center;
+  
+    .back-button {
+      width: 100%;
+      margin: 10px 0;
     }
-
-    button[type="submit"] {
-        width: auto;
-    }
-}
+  }
+  

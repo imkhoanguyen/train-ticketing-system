@@ -8,6 +8,12 @@ import { ButtonModule } from 'primeng/button';
 import { StationService } from '../../_services/station.service';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../_services/auth.service';
+import { RouteService } from '../../_services/route.service';
+import { ScheduleService } from '../../_services/schedule.service';
+import { RouteModule } from '../../_models/route.module';
+import { schedule } from '../../_models/schedule.module';
+import { ApiResponse } from '../../_models/api-response.module';
+
 @Component({
   selector: 'app-home',
   standalone: true,
@@ -17,7 +23,6 @@ import { AuthService } from '../../_services/auth.service';
     RadioButtonModule,
     CalendarModule,
     ButtonModule,
-    RouterLink,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
@@ -32,6 +37,8 @@ export class HomeComponent implements OnInit {
   loading: boolean = false;
   isLogin = false;
   private authService = inject(AuthService);
+  private routeService = inject(RouteService);
+  private scheduleService = inject(ScheduleService);
   currentUser: any;
 
   stationForm!: FormGroup;
@@ -44,25 +51,22 @@ export class HomeComponent implements OnInit {
     } else {
       this.isLogin = false;
     }
-    // this.loadStations();
+    this.loadStations();
   }
-  load() {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
-    this.router.navigate(['/booking']);
-  }
+
 
   onTripTypeChange() {
     if (this.tripType === 'motchieu') {
       this.returnDate = null;
     }
   }
+
   loadStations() {
+    console.log('load stations');
     this.stationService.getAllStations().subscribe(
       (response: any) => {
         this.stations = response.data;
+        console.log("stations", this.stations);
       },
       (error) => {
         console.log('error load stations', error);
@@ -70,15 +74,47 @@ export class HomeComponent implements OnInit {
     );
   }
   search() {
-    this.loading = true;
-    setTimeout(() => {
-      this.loading = false;
-    }, 1000);
-    this.router.navigate(['/train-results']);
+    if (!this.selectedStation || !this.selectedDestination) {
+      alert('Vui lòng chọn ga đi và ga đến');
+      return;
+    }
+    if (!this.departureDate) {
+      alert('Vui lòng chọn ngày đi');
+      return;
+    }
+    if (this.tripType === 'khuhoi' && !this.returnDate) {
+      alert('Vui lòng chọn ngày về');
+      return;
+    }
+    this.getRoutesAndSchedules();
+  }
+  getRoutesAndSchedules() {
+    this.routeService.getRoutesByStationId(this.selectedStation.id, this.selectedDestination.id).subscribe({
+      next: (routes: RouteModule[]) => {
+        if (routes.length > 0) {
+          const routeId = routes[0].id;
+          this.loadSchedules(routeId);
+        } else {
+          console.log('No routes found');
+        }
+      },
+      error: (error) => {
+        console.log('Error loading routes', error);
+      }
+    });
   }
 
-  onLogout() {
-    this.authService.logout();
-    window.location.reload();
+  loadSchedules(routeId: number) {
+    this.scheduleService.getSchedulesByRouteIdAndDate(routeId, this.departureDate.toISOString()).subscribe({
+      next: (response: ApiResponse<schedule[]>) => {
+        this.scheduleService.setSchedules(response.data);
+        this.router.navigate(['/train-results']);
+      },
+      error: (error) => {
+        console.log('Error loading schedules', error);
+      }
+    });
   }
+
+
 }

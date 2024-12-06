@@ -1,5 +1,6 @@
 <p-toast />
 <div *ngIf="!isAdminPage()">
+  <app-header></app-header>
   <router-outlet></router-outlet>
 </div>
 <router-outlet *ngIf="isAdminPage()"></router-outlet>

@@ -1,6 +1,7 @@
 package com.example.train.repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -16,4 +17,6 @@ public interface OrderRepository extends JpaRepository<Order,Integer>{
     Page<Order> findByUserId(int userId, Pageable pageable);
     Page<Order> findByCreatedBetweenAndUserId(LocalDateTime startOfDay, LocalDateTime endOfDay, int userId, Pageable pageable);
 
+    Optional<Order> findById(int id);
+    Optional<Order> findByUserId(int userId);
 }

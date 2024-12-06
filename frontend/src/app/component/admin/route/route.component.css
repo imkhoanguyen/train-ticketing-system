@@ -1,125 +1,168 @@
-/* General container styling */
 .container {
     padding: 20px;
-    max-width: 1200px;
-    margin: 0 auto;
-}
-
-/* Centered header */
-.text-center {
+    background-color: #e9f7fc; /* Nền xanh nhạt */
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  h2.text-center {
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #2b5f87; /* Màu xanh đậm */
     text-align: center;
-}
-
-/* Button container adjustments */
-.button-container {
+    margin: 10px 0;
+  }
+  
+  .button-container {
     display: flex;
-    align-items: center; /* Align items vertically center */
-    justify-content: space-between; /* Space between the button and the search */
-    margin-bottom: 16px;
-}
-
-/* Search input and icon */
-.search-container {
-    position: relative;
-    margin-left: 16px; /* Space between button and search */
-    width: 300px; /* Adjust width as necessary */
-}
-
-/* Search input styling */
-.search-icon {
-    position: absolute;
-    left: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.2rem;
-    color: #666;
-}
-
-input[pInputText] {
-    padding-left: 36px;
-    width: 100%;
-}
-
-/* Make "Quay lại" button smaller */
-.p-button-success {
-    font-size: 0.9em; /* Reduce button size */
-    padding: 0.4em 0.8em; /* Adjust padding */
-}
-
-/* Table styling */
-.custom-table {
-    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 15px;
+  }
+  
+  button {
+    font-size: 1rem;
+    padding: 8px 12px;
+    border-radius: 4px;
+    transition: transform 0.2s ease, background-color 0.2s ease;
+  }
+  
+  button.p-button-success {
+    background-color: #3aa8db; /* Màu xanh chính */
+    color: white;
+  }
+  
+  button.p-button-success:hover {
+    background-color: #2b87ba; /* Xanh đậm hơn khi hover */
+  }
+  
+  button.p-button-info {
+    background-color: #2b87ba; /* Màu xanh đậm */
+    color: white;
+  }
+  
+  button.p-button-info:hover {
+    background-color: #226a91; /* Xanh đậm hơn khi hover */
+  }
+  
+  .search-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 400px;
+    margin-bottom: 15px;
+  }
+  
+  .form-control {
+    flex: 1;
+    padding: 10px 12px;
+    border: 1px solid #b3d9ec; /* Viền xanh nhạt */
+    border-radius: 4px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+    background-color: #f1faff; /* Nền xanh nhạt */
+    color: #2b5f87; /* Chữ xanh đậm */
+  }
+  
+  p-table {
     border-collapse: collapse;
-}
-
-.custom-table th {
-    background-color: #4CAF50; /* Header background color */
-    color: white; /* Header text color */
-    padding: 10px;
+    width: 100%;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  
+  p-table th,
+  p-table td {
+    padding: 12px 16px;
     text-align: left;
-}
-
-.custom-table td {
+    border-bottom: 1px solid #b3d9ec;
+  }
+  
+  p-table th {
+    background-color: #d0ecf7;
+    color: #2b5f87;
+    font-weight: bold;
+  }
+  
+  p-table tr:nth-child(even) {
+    background-color: #f1faff;
+  }
+  
+  p-table tr:nth-child(odd) {
+    background-color: #ffffff;
+  }
+  
+  p-table tr:hover {
+    background-color: #c6e6f9; /* Màu khi hover */
+  }
+  
+  /* CSS cho các nút trong cột hành động */
+  button.p-button-rounded {
+    width: 40px; /* Kích thước chiều rộng */
+    height: 40px; /* Kích thước chiều cao */
+    border-radius: 50%; /* Làm cho nút thành hình tròn */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho nút */
+    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.3s ease; /* Hiệu ứng chuyển động khi hover */
+  }
+  
+  /* Hiệu ứng hover cho nút */
+  button.p-button-rounded:hover {
+    background-color: #226a91; /* Màu nền khi hover */
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Đổ bóng đậm hơn khi hover */
+    transform: translateY(-2px); /* Nâng nút lên một chút khi hover */
+  }
+  
+  /* Thêm hiệu ứng cho nút mắt (eye-button) */
+  button.p-button-rounded.eye-button {
+    background-color: #2b87ba; /* Màu nền của nút mắt */
+    color: white;
+  }
+  
+  button.p-button-rounded.eye-button:hover {
+    background-color: #2b87ba; /* Màu nền khi hover */
+  }
+  
+  /* Thêm hiệu ứng cho nút bút (pencil-button) */
+  button.p-button-rounded.pi-pencil {
+    background-color: #2b87ba; /* Màu nền của nút bút */
+    color: white;
+  }
+  
+  button.p-button-rounded.pi-pencil:hover {
+    background-color: #226a91; /* Màu nền khi hover */
+  }
+  
+  p-inputSwitch {
+    display: inline-flex;
+    align-items: center;
+  }
+  
+  p-dialog {
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+  }
+  
+  .dialog-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+  }
+  
+  .p-field {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+  }
+  
+  .submit-button {
+    background-color: #3aa8db;
+    color: white;
     padding: 10px;
-    border: 1px solid #ddd; /* Border for table cells */
-}
-
-/* Row hover effect */
-.custom-table tr:hover {
-    background-color: #f1f1f1; /* Light grey background on hover */
-}
-
-/* Styles for even and odd rows */
-.even-row {
-    background-color: #f9f9f9; /* Light background for even rows */
-}
-
-.odd-row {
-    background-color: #ffffff; /* White background for odd rows */
-}
-
-.eye-button {
-    margin-left: 5px;
-    background-color: #007bff; /* Change to desired color */
-    color: white; /* Text color */
-    border: none; /* Remove border */
-}
-
-.eye-button:hover {
-    background-color: #0056b3; /* Darker shade on hover */
-}
-
-/* Center the dialog title */
-.p-dialog-header {
-    text-align: center; /* Center the title text */
-}
-
-/* Style the form within the dialog */
-.dialog-form {
-    display: flex; /* Use flexbox for layout */
-    flex-direction: column; /* Stack children vertically */
-    align-items: stretch; /* Stretch to fill the container */
-    gap: 1em; /* Space between form fields */
-}
-
-/* Style for the label and input field */
-.dialog-form label {
-    margin-bottom: 0.5em; /* Space between label and input */
-}
-
-/* Make all inputs and dropdowns the same width */
-.dialog-form input[pInputText],
-.dialog-form p-dropdown {
-    width: 100%; /* Set width to 100% for consistency */
-}
-
-/* Align the checkbox to the left */
-.p-field-checkbox {
-    display: flex; /* Use flexbox for checkbox alignment */
-    align-items: center; /* Center checkbox vertically */
-}
-
-/* Center the submit button */
-.dialog-form .submit-button {
-    align-self: center; /* Center the button horizontally */
-}
+    font-weight: bold;
+  }
+  
+  .submit-button:hover {
+    background-color: #2b87ba;
+  }
+  

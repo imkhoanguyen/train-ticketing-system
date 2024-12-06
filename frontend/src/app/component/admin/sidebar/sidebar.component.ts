@@ -26,21 +26,10 @@ export class SidebarComponent{
       label: 'Route',
     },
     {
-      routerLink: 'schedule',
-      icon: 'pi pi-calendar-minus',
-      label: 'Schedule',
-
-    },
-    {
       routerLink: 'train',
       icon: 'pi pi-car',
       label: 'Train',
 
-    },
-    {
-      routerLink: 'carriage',
-      icon: 'pi pi-truck',
-      label: 'Carriage',
     },
     {
       routerLink: 'promotion',

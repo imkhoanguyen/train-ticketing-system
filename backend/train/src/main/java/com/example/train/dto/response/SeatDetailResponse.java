@@ -17,6 +17,7 @@ public class SeatDetailResponse implements Serializable{
     private String name;
     private BigDecimal price;
     private String description;
-    private boolean isDelete;
-
+    private boolean is_delete;
+    
+    //private String carriageName;
 }

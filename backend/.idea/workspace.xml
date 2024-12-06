@@ -4,55 +4,99 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="442f1894-f357-4ba9-a5cd-42b3981e20e2" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+    <list default="true" id="ede1b871-84c3-4f48-a59d-66e2e5ac0c31" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/config/RedisConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/request/SeatSelection.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/train/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/config/VNPayConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/config/VNPayConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/PaymentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/PaymentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/ScheduleController.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/ScheduleController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/SeatController.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/SeatController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/TicketController.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/controller/TicketController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/request/PaymentRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/request/PaymentRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/response/PaymentResponse.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/dto/response/PaymentResponse.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/entity/Ticket.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/entity/Ticket.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/repository/ScheduleRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/repository/ScheduleRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/PaymentService.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/PaymentService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/ScheduleService.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/ScheduleService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/SeatService.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/SeatService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/TicketService.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/TicketService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/PaymentServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/PaymentServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/RouteServicesImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/RouteServicesImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/ScheduleServicesImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/ScheduleServicesImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/SeatServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/SeatServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/TicketServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/services/implement/TicketServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/train/src/main/java/com/example/train/utilities/VNPayUtil.java" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/java/com/example/train/utilities/VNPayUtil.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/train/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/train/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../frontend/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_interceptor/jwt.interceptor.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_interceptor/jwt.interceptor.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_models/schedule.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_models/schedule.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_models/train.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_models/train.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_services/payment.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_services/payment.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_services/schedule.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_services/schedule.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_services/seat.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_services/seat.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_services/ticket.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/_services/ticket.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/_services/traincar.service.ts" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/home/home.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/component/train-results/train-results.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/steps/confirmation-step/confirmation-step.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/steps/confirmation-step/confirmation-step.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/steps/confirmation-step/confirmation-step.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/steps/confirmation-step/confirmation-step.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/steps/confirmation-step/confirmation-step.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/steps/confirmation-step/confirmation-step.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/steps/payment-step/payment-step.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/steps/payment-step/payment-step.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/steps/payment-step/payment-step.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/steps/payment-step/payment-step.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/steps/payment-step/payment-step.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/steps/payment-step/payment-step.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/steps/personal-step/personal-step.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/steps/personal-step/personal-step.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/steps/seat-step/seat-step.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/steps/seat-step/seat-step.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/../frontend/src/app/steps/seat-step/seat-step.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/../frontend/src/app/steps/seat-step/seat-step.component.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
-  <component name="CompilerWorkspaceConfiguration">
-    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
   </component>
   <component name="ProjectColorInfo">{
-  &quot;associatedIndex&quot;: 1
+  &quot;associatedIndex&quot;: 3
 }</component>
-  <component name="ProjectId" id="2nMcjYcaxblKFxS2v5ygnqKTQhq" />
+  <component name="ProjectId" id="2pTxVCqMHvuhviGsdGjAN5wVjey" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Spring Boot.TrainApplication.executor": "Run",
-    "git-widget-placeholder": "master",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/train/train-ticketing-system/backend",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "settings.editor.selected.configurable": "advanced.settings",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Spring Boot.TrainApplication.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;reference.settings.project.maven.repository.indices&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="TrainApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="train" />
@@ -73,14 +117,21 @@
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="442f1894-f357-4ba9-a5cd-42b3981e20e2" name="Changes" comment="" />
-      <created>1728786520932</created>
+      <changelist id="ede1b871-84c3-4f48-a59d-66e2e5ac0c31" name="Changes" comment="" />
+      <created>1732803923249</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
-      <updated>1728786520932</updated>
-      <workItem from="1728786522205" duration="3686000" />
-      <workItem from="1731139514750" duration="976000" />
-      <workItem from="1731575439393" duration="3886000" />
+      <updated>1732803923249</updated>
+      <workItem from="1732803932455" duration="2533000" />
+      <workItem from="1732842302968" duration="12744000" />
+      <workItem from="1732889148774" duration="4914000" />
+      <workItem from="1732927205871" duration="5238000" />
+      <workItem from="1732947001363" duration="337000" />
+      <workItem from="1733054010093" duration="106000" />
+      <workItem from="1733060451392" duration="7515000" />
+      <workItem from="1733123634435" duration="5995000" />
+      <workItem from="1733133672734" duration="20000" />
+      <workItem from="1733140438156" duration="1446000" />
     </task>
     <servers />
   </component>

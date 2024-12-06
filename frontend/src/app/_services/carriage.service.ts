@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { Carriage } from '../_models/carriage.module';
+import { ApiResponse } from '../_models/api-response.module';
 
 @Injectable({
   providedIn: 'root',
@@ -10,9 +11,9 @@ export class CarriageService {
   private http = inject(HttpClient);
   private baseUrl = environment.apiUrl;
 
-  // getAllCarriagesByTrainId(id:number) {
-  //   return this.http.get<Carriage[]>(`${this.baseUrl}/carriage/list/${id}`);
-  // }
+  getAllCarriagesByTrainId(id:number) {
+    return this.http.get<ApiResponse<Carriage[]>>(`${this.baseUrl}/carriage/trainId/${id}`);
+  }
 
   getWithLimit(
     page: number = 1,

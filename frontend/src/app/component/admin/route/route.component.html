@@ -2,16 +2,17 @@
   <h2 class="text-center">Danh sách chuyến tàu</h2> <!-- Centered title -->
   <div class="button-container">
       <button pButton label="Thêm mới" icon="pi pi-plus" class="p-button-success mb-2" (click)="newRoute()"></button>
-      <!-- Search -->
-      <div class="mb-2 search-container">
-          <input
-            class="form-control"
-            placeholder="Tìm kiếm theo ga bắt đầu"
-            [(ngModel)]="search"
-            name="search"
-            (keyup)="onSearch()"
-            />
-      </div>
+  </div>
+  
+  <!-- Search -->
+  <div class="mb-2 search-container">
+      <input
+        class="form-control"
+        placeholder="Tìm kiếm theo ga bắt đầu"
+        [(ngModel)]="search"
+        name="search"
+        (keyup)="onSearch()"
+      />
   </div>
 
   <p-table
@@ -40,7 +41,7 @@
         <td>
           <p-inputSwitch 
             [style]="{width: '50px'}" 
-            (onChange)="route.delete ? onRestore(route):onDelete(route) " 
+            (onChange)="route.delete ? onRestore(route):onDelete(route)" 
             [(ngModel)]="route.delete">
           </p-inputSwitch>
         </td>
@@ -51,6 +52,7 @@
       </tr>
     </ng-template>
   </p-table>
+
   <!-- paginator ngprime -->
   @if(pageSize && pageNumber) {
   <div class="card flex justify-content-center mt-3">
@@ -65,7 +67,6 @@
   </div>
   }
 
-  
   <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true" header="Thông tin chuyến tàu">
     <div class="container">
         <h2 *ngIf="!currentState; else editTemplate">Thêm chuyến tàu</h2>
@@ -84,7 +85,7 @@
                     [options]="stationStartOptions"  
                     formControlName="stationStart"
                     optionLabel="startStationName"             
-                    optionValue="startStationId"                
+                    optionValue="startStationId"                 
                     placeholder="Chọn ga bắt đầu"
                     [showClear]="false"
                 ></p-dropdown>
@@ -96,7 +97,7 @@
                     [options]="stationEndOptions"  
                     formControlName="stationEnd"
                     optionLabel="endStationName"             
-                    optionValue="endStationId"                
+                    optionValue="endStationId"                 
                     placeholder="Chọn ga kết thúc"
                     [showClear]="false"
                 ></p-dropdown>

@@ -1,121 +1,206 @@
-import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { DialogModule } from 'primeng/dialog';
 import { CommonModule } from '@angular/common';
-import { TrainCar } from '../../_models/traincar.module';
-import { TrainCarService } from '../../_services/traincar.service';
 import { TooltipModule } from 'primeng/tooltip';
+import { ScheduleService } from '../../_services/schedule.service';
+import { Train } from '../../_models/train.module';
+import { schedule } from '../../_models/schedule.module';
+import { DropdownModule } from 'primeng/dropdown';
+import { CarriageService } from '../../_services/carriage.service';
+import { Carriage } from '../../_models/carriage.module';
+import { SeatService } from '../../_services/seat.service';
+import { Seat } from '../../_models/seat.module';
+import { ApiResponse } from '../../_models/api-response.module';
+import { TrainService } from '../../_services/train.service';
+import { AuthService } from '../../_services/auth.service';
+import { User } from '../../_models/user-detail';
+import * as Stomp from 'stompjs';
+import  SockJS from 'sockjs-client';
 @Component({
   selector: 'app-train-results',
   standalone: true,
-  imports: [DialogModule, CommonModule, TooltipModule],
+  imports: [DialogModule, CommonModule, TooltipModule, DropdownModule],
   templateUrl: './train-results.component.html',
-  styleUrl: './train-results.component.css'
+  styleUrl: './train-results.component.css',
 })
 export class TrainResultsComponent implements OnInit {
-  isVisible = true;
-  seats = [
-    { isAvailable: true, isSelected: false },  // Ghế 0
-    { isAvailable: false, isSelected: false }, // Ghế 1
-    { isAvailable: true, isSelected: false },  // Ghế 2
-  ];
+  isVisible = false;
   selectedSeats: number[] = [];
-  trainCars: TrainCar[] = [];
-  countdownTimes: { [key: number]: number } = {};
 
-  constructor(private router: Router, private trainCarService: TrainCarService) {}
+  carriages: Carriage[] = [];
+  selectedSchedule: schedule = {} as schedule;
+  selectedCarriageId!: number;
+  selectedSeatIds: number[] = [];
+  seats: Seat[] = [];
+  schedules!: schedule[];
+  trains!: Train[];
+  selectedTrain!: Train;
+  currentUser!: User;
+  expiredSeats: string[] = [];
 
-  ngOnInit() {
-    setInterval(() => {
-      this.checkSeatExpiry();
-    }, 1000);
+  private trainService = inject(TrainService);
+  private scheduleService = inject(ScheduleService);
+  private carriageService = inject(CarriageService);
+  private seatService = inject(SeatService);
+  private authService = inject(AuthService);
+  constructor(private router: Router, private cdr: ChangeDetectorRef) {}
 
-    this.selectedSeats.forEach((seatIndex) => {
-      this.startCountdown(seatIndex);
-    });
+  ngOnInit(): void {
 
-    this.trainCarService.getTrainCars().subscribe((data) => {
-      this.trainCars = data;
-    });
-  }
-
-  startCountdown(seatIndex: number): void {
-    const seatData = localStorage.getItem('seat' + seatIndex);
-    console.log('seatData', seatData);
-    if (seatData) {
-      const parsedData = JSON.parse(seatData);
-      const now = new Date().getTime();
-
-      // Tính toán thời gian còn lại
-      const expiryTime = parsedData.time + 60000; // 1 phút (60 giây)
-      this.countdownTimes[seatIndex] = Math.max(0, Math.floor((expiryTime - now) / 1000));
-
-      // Cập nhật đếm ngược mỗi giây
-      const interval = setInterval(() => {
-        if (this.countdownTimes[seatIndex] > 0) {
-          this.countdownTimes[seatIndex]--;
-        } else {
-          // Xoá ghế khi hết thời gian
-          this.removeSeat(seatIndex);
-          clearInterval(interval);
-        }
-      }, 1000);
+    this.schedules = this.scheduleService.getSchedules();
+    console.log('Schedules in TrainResultsComponent:', this.schedules);
+    const savedSeats = localStorage.getItem('selectedSeats');
+    if (savedSeats) {
+      this.selectedSeatIds = JSON.parse(savedSeats).map((seat: any) => seat.seatId);  // Giả sử mỗi ghế có thuộc tính seatId
     }
-  }
-  doiToaMoi(toa: TrainCar, isAuto: boolean) {
 
-    this.trainCars.forEach((car) => (car.IsSelected = false));
-    toa.IsSelected = true;
+    this.currentUser = this.authService.getCurrentUser();
+
+    this.seatService.getExpiredStream().subscribe(
+      (data) => {
+        this.expiredSeats = data.split(',');
+        console.log('Ghế hết hạn:', this.expiredSeats);
+
+        this.expiredSeats.forEach((expiredSeat) => {
+          const seatId = parseInt(expiredSeat.split(':')[2], 10);
+
+          const seatItem = localStorage.getItem('seat' + seatId);
+          console.log('seatItem:', seatItem);
+          if (seatItem) {
+              this.removeSeat(seatId);
+              console.log('Xóa ghế hết hạn:', seatId);
+
+          }
+        });
+
+        this.cdr.detectChanges();
+      },
+      (error) => console.error('Error:', error)
+    );
   }
-  trainDetail(): void {
-    this.isVisible = true;
-  }
-  checkSeatExpiry(): void {
+
+  toggleSeatSelection(seatId: number): void {
     const dateNow = new Date().getTime();
-    this.selectedSeats.forEach((index) => {
-      const seatData = localStorage.getItem('seat' + index);
-      if (seatData) {
-        const parsedData = JSON.parse(seatData);
-        if (dateNow - parsedData.time > 60000) { 
-          localStorage.removeItem('seat' + index);
-          this.seats[index].isSelected = false;
-          this.selectedSeats = this.selectedSeats.filter((seatIndex) => seatIndex !== index);
-        }
-      }
-    });
-  }
+    const userId = this.currentUser.id;
+    const schedulePrice = this.selectedSchedule.price;
+    const seatData = {
+      userId: userId,
+      scheduleId: this.selectedSchedule.id,
+      seatId: seatId,
+      schedulePrice: schedulePrice,
+      time: dateNow };
 
-  toggleSeatSelection(index: number): void {
-    const dateNow = new Date().getTime();
-    this.seats[index].isSelected = !this.seats[index].isSelected;
-
-    if (this.seats[index].isSelected) {
-      const seatData = { time: dateNow };
-      localStorage.setItem('seat' + index, JSON.stringify(seatData));
-      this.selectedSeats.push(index);
-      this.startCountdown(index);
-
+    if (this.selectedSeatIds.includes(seatId)) {
+      // Hủy ghế
+      this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
+      this.seatService.cancelSeatSelection(seatData).subscribe();
+      this.removeSeat(seatId);
     } else {
-      localStorage.removeItem('seat' + index);
-      this.selectedSeats = this.selectedSeats.filter((seatIndex) => seatIndex !== index);
+      // Lưu ghế
+      this.selectedSeatIds.push(seatId);
+      localStorage.setItem('seat' + seatId, JSON.stringify(seatData));
+      this.seatService.saveSeatSelection(seatData).subscribe();
     }
+
+    const seatsWithPrices = this.seats
+      .filter((seat) => this.selectedSeatIds.includes(seat.id))
+      .map((seat) => ({
+        ...seat,
+        scheduleId: this.selectedSchedule.id,
+        schedulePrice: this.selectedSchedule.price,
+      }));
+
+    localStorage.setItem('selectedSeats', JSON.stringify(seatsWithPrices));
+    console.log('Selected seats:', this.selectedSeatIds);
   }
 
-  removeSeat(index: number): void {
-    this.seats[index].isSelected = false;
-    this.selectedSeats = this.selectedSeats.filter((seatIndex) => seatIndex !== index);
-    localStorage.removeItem('seat' + index);
+  removeSeat(seatId: number): void {
+    this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
+    localStorage.removeItem('seat' + seatId);
+    this.updateSeatsInLocalStorage();
+
+    this.cdr.detectChanges();
   }
+
   removeSeatAll(): void {
-    this.selectedSeats.forEach((index) => {
-      this.seats[index].isSelected = false;
-      localStorage.removeItem('seat' + index);
+    this.selectedSeatIds.forEach((seatId) => {
+      this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
+      localStorage.removeItem('seat' + seatId);
     });
-    this.selectedSeats = [];
+    this.selectedSeatIds = [];
+    this.updateSeatsInLocalStorage();
+
+    this.cdr.detectChanges();
+  }
+
+  updateSeatsInLocalStorage(): void {
+    const seatsWithPrices = this.seats
+      .filter((seat) => this.selectedSeatIds.includes(seat.id))
+      .map((seat) => ({
+        ...seat,
+        scheduleId: this.selectedSchedule.id,
+        schedulePrice: this.selectedSchedule.price,
+      }));
+
+    localStorage.setItem('selectedSeats', JSON.stringify(seatsWithPrices));
+    console.log('Updated selected seats in localStorage:', seatsWithPrices);
+  }
+  getTrainById(trainId: number) {
+    this.trainService.getTrainById(trainId).subscribe({
+      next: (response) => {
+        this.selectedTrain = response.data;
+      },
+      error: (err) => {
+        console.log('error load train', err);
+      },
+    });
+  }
+
+  getScheduleById(scheduleId: number) {
+    this.scheduleService.getScheduleById(scheduleId).subscribe({
+      next: (response) => {
+        this.selectedSchedule = response.data;
+      },
+      error: (err) => {
+        console.log('error load schedule', err);
+      },
+    });
+  }
+
+  trainDetail(scheduleId: number, trainId: number): void {
+
+    this.isVisible = true;
+    this.getScheduleById(scheduleId);
+    this.getTrainById(trainId);
+    this.carriageService.getAllCarriagesByTrainId(trainId).subscribe({
+      next: (response: ApiResponse<Carriage[]>) => {
+        console.log('carriages', response.data);
+        this.carriages = response.data;
+        console.log("scheduleId", scheduleId);
+      },
+      error: (err) => {
+        console.log('error load carriages', err);
+      },
+    });
+  }
+  selectCarriage(carriageId: number): void {
+    this.seatService.getAllSeatsByCarriageId(carriageId).subscribe({
+      next: (response: ApiResponse<Seat[]>) => {
+        this.seats = response.data;
+        console.log('seats', this.seats);
+      },
+      error: (err) => {
+        console.log('error load seats', err);
+      },
+    });
   }
 
   onSubmit(): void {
-    this.router.navigate(['/train-cart']);
+    this.router.navigate(['/booking/ticket']);
+  }
+  closeDialog(): void {
+    this.isVisible = false;
+    this.seats = [];
   }
 }
-

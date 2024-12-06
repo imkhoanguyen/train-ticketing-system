@@ -98,7 +98,7 @@ public class CarriageServiceImpl implements CarriageService {
     public CarriageDetailResponse getCarriage(int id) {
         Carriage carriage = carriageRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Carriage not found"));
-        
+
         return CarriageDetailResponse.builder()
                 .id(carriage.getId())
                 .name(carriage.getName())

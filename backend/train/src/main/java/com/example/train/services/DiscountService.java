@@ -16,4 +16,5 @@ public interface DiscountService {
 
     void deleteDiscount(int id);
     List<Discount> getAllDiscountsWithIsDeleteFalse();
+    Discount getDiscountById(int id);
 }

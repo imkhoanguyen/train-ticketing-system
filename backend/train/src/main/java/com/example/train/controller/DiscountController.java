@@ -46,6 +46,11 @@ public class DiscountController {
         return new ResponseData<>(HttpStatus.OK.value(), "get all promotions", discounts);
     }
 
+    @GetMapping("/{id}")
+    public ResponseData<Discount> getDiscountById(@PathVariable("id") int id) {
+        Discount discount = discountService.getDiscountById(id);
+        return new ResponseData<>(HttpStatus.OK.value(), "get discount by id", discount);
+    }
     @PostMapping("/create")
     public ResponseData<?> createPromotion(@Valid @RequestBody DiscountRequestDto dto, BindingResult bindingResult) {
         Discount created = discountService.createDiscount(dto);
