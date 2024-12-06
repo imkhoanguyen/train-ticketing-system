@@ -1,0 +1,65 @@
+<div class="container">
+  <div class="row mb-5">
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Danh thu (theo ngày)</h5>
+          <p class="card-text">100000000vnđ</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Số lượng khách hàng (hệ thống)</h5>
+          <p class="card-text">100 khách</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-4">
+      <div class="card">
+        <div class="card-body">
+          <h5 class="card-title">Số lượng vé bán ra (theo ngày)</h5>
+          <p class="card-text">10000 vé</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mb-5">
+    <div class="col-6">
+      <div class="card p-5">
+        <div
+          class="card-title text-center mb-3 fw-bold"
+          style="font-size: 24px"
+        >
+          Doanh thu theo tháng
+        </div>
+        <p-chart
+          type="bar"
+          [data]="basicData"
+          [options]="basicOptions"
+          [style]="{ height: '300px' }"
+        />
+      </div>
+    </div>
+
+    <div class="col-6">
+      <div class="card p-5">
+        <div class="fw-bold text-center mb-3" style="font-size: 24px">
+          Tỷ lệ đặt vé theo loại ghế
+        </div>
+        <div class="d-flex justify-content-center align-items-center">
+          <p-chart
+            type="pie"
+            [data]="data"
+            [options]="options"
+            [style]="{ width: '300px', height: '300px' }"
+          />
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -21,6 +21,7 @@ import { LoginComponent } from './component/login/login.component';
 import { RegisterComponent } from './component/register/register.component';
 import { UserComponent } from './component/admin/user/user.component';
 import { OrderedTicketComponent } from './component/ordered-ticket/ordered-ticket/ordered-ticket.component';
+import { DashboardComponent } from './component/admin/dashboard/dashboard.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -52,6 +53,8 @@ export const routes: Routes = [
       { path: 'promotion', component: PromotionComponent },
       { path: 'discount', component: DiscountComponent },
       { path: 'user', component: UserComponent },
+      { path: 'dashboard', component: DashboardComponent },
+      { path: '', component: DashboardComponent },
     ],
   },
   { path: 'login', component: LoginComponent },
