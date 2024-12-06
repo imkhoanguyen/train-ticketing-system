@@ -17,7 +17,9 @@ export interface Ticket {
     seatname: string;
     status: TicketStatus;
 
-
+    returnSchedule: schedule;
+    returnSeat: Seat;
+    returnSeatname:string
     // seatName?: string;
     // startDate?: Date;
     // endDate?: Date;

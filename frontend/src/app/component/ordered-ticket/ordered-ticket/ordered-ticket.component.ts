@@ -170,6 +170,23 @@ export class OrderedTicketComponent implements OnInit{
       doc.text(toaChoNgoi, 60, startY);
       startY += 20;
 
+      if(ticket.returnSeat){
+        doc.text('Thông tin chuyến về:', 40, startY);
+        startY += 20;
+        doc.text(`Tên chuyến: ${ticket.returnSchedule.route.name ?? ''}`, 60, startY);
+        startY += 15;
+        const gaDiDenreturn = `Ga đi - Ga đến: ${ticket.returnSchedule.route.startStation.name ?? ''} - ${ticket.returnSchedule.route.endStation.name ?? ''}`;
+        doc.text(gaDiDenreturn, 60, startY);
+        startY += 15;
+        doc.text(`Thời gian đi: ${this.formatDateTime(ticket.returnSchedule.startDate?.toString() ?? '')}`, 60, startY);
+        startY += 15;
+        doc.text(`Thời gian đến (dự kiến): ${this.formatDateTime(ticket.returnSchedule.endDate?.toString() ?? '')}`, 60, startY);
+        startY += 20;
+        const toaChoNgoireturn = `Toa: ${ticket.returnSeat.carriage.name ?? ''}, Chỗ ngồi: ${ticket.returnSeat.name ?? ''}`;
+        doc.text(toaChoNgoireturn, 60, startY);
+        startY += 20; 
+      }
+      
       // Thông tin giá vé
       doc.text('Thông tin thanh toán:', 40, startY);
       startY += 20;
