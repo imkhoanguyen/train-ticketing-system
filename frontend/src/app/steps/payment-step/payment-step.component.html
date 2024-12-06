@@ -114,7 +114,7 @@
               aria-describedby="discount-button"
               [(ngModel)]="discountCode"
             >
-            <button class="btn btn-outline-secondary" type="button" id="discount-button" (click)="applyPromotion(discountCode)">
+            <button class="btn btn-outline-secondary" type="button" id="discount-button" (click)="applyPromotion(discountCode)"  [disabled]="isButtonDisabled">
               Áp dụng
             </button>
           </div>

@@ -64,13 +64,16 @@ export class TicketService {
       headers: { 'Content-Type': 'application/json' }
     });
   }
-  UpdateTicketStatus(id: number, status: string) {
-    return this.http.put(`${this.baseUrl}/ticket/updateStatus/${id}`, { status }, {
-      headers: { 'Content-Type': 'application/json' }
-    });
+  updateTicketStatus(id: number, status: TicketStatus): Observable<any> {
+    console.log(status);
+    return this.http.put(`${this.baseUrl}/ticket/updateStatus/${id}/${status}`, {}  );
   }
 
   getTicketsByUserId(id: number, status: TicketStatus) {
     return this.http.get<any>(`${this.baseUrl}/ticket/list/${id}/${status}`);
+  }
+
+  getPaidSeats(){
+    return this.http.get<any>(`${this.baseUrl}/ticket/paidSeats`);
   }
 }

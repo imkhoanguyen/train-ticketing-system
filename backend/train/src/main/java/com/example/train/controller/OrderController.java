@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +18,9 @@ import com.example.train.dto.response.OrderDetailResponse;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.ResponseData;
 import com.example.train.entity.Order;
+import com.example.train.entity.OrderStatus;
 import com.example.train.entity.Schedule;
+import com.example.train.entity.TicketStatus;
 import com.example.train.services.OrderService;
 import com.example.train.services.ScheduleService;
 
@@ -71,5 +74,26 @@ public class OrderController {
         OrderDetailResponse response = orderService.getOrderByUserId(userId);
 
         return new ResponseData<>(HttpStatus.OK.value(), "get order by user id", response);
+    }
+    @PutMapping("/updateStatus/{id}/{status}")
+    public ResponseEntity<ResponseData<Order>> UpdateOrderStatus(@PathVariable int id, @PathVariable OrderStatus status) {
+        orderService.updateOrderStatus(id, status);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseData<>(HttpStatus.OK.value(), "Order status updated successfully", null));
+    }
+
+    @PutMapping("/updatePromotion/{orderId}/{promotionId}")
+    public ResponseEntity<ResponseData<Order>> UpdateOrderPromotion(@PathVariable int orderId, @PathVariable int promotionId) {
+        orderService.updateOrderPromotion(orderId, promotionId);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseData<>(HttpStatus.OK.value(), "Order promotion updated successfully", null));
+    }
+
+    @GetMapping("/get/{id}")
+    public ResponseData<OrderDetailResponse> GetOrderById(@PathVariable int id) {
+        System.out.println("iddddddddddddddđ: " + id);
+        OrderDetailResponse response = orderService.getOrderById(id);
+
+        return new ResponseData<>(HttpStatus.OK.value(), "get order by id", response);
     }
 }

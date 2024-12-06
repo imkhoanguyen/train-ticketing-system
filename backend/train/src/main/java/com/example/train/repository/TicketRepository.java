@@ -20,5 +20,8 @@ public interface TicketRepository extends JpaRepository<Ticket,Integer>{
     Page<Ticket> findTicketsByFullNameAndOrderId(@Param("fullName") String fullName, @Param("orderId") int orderId, Pageable pageable);
 
     Optional<Ticket> findById(int id);
+
+    @Query("SELECT t.seat.id FROM Ticket t WHERE t.status = :status")
+    List<Integer> findSeatIdByStatus( TicketStatus status);
     
 }

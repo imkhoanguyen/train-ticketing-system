@@ -93,6 +93,13 @@ public class SeatServiceImpl implements SeatService{
             });
     }
 
+    @Override
+    public long getRemainingTime(int userId, int seatId) {
+        String key = getSeatKey(userId, seatId);
+        Long ttl = redisTemplate.getExpire(key, TimeUnit.SECONDS);
+        return ttl != null ? ttl : 0;
+    }
+
 
     @Override
     public PageResponse<?> getAllSeatAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search,

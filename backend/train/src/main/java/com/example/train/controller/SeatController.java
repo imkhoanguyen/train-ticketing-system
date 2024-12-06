@@ -106,8 +106,15 @@ public class SeatController {
         return ResponseEntity.ok().build();
     }
 
+    @GetMapping("/getRemainingTime")
+    public ResponseEntity<Long> getRemainingTime(@RequestParam int userId, @RequestParam int seatId) {
+        return ResponseEntity.ok().body(seatService.getRemainingTime(userId, seatId));
+    }
+
     @GetMapping("/expired-stream")
     public ResponseEntity<Flux<String>> streamExpiredSeats() {
         return ResponseEntity.ok().body(seatService.streamExpiredSeats());
     }
+
+    
 }

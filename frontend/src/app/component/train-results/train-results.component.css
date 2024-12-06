@@ -64,6 +64,12 @@
   margin-top: 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+.seats-card .seat-paid {
+  background-color: #e00808;
+  color: white;
+  pointer-events: none;
+  cursor: pointer;
+}
 
 .train-stats p {
   margin: 5px 0;
@@ -93,16 +99,30 @@
 .et-car-icon {
   width: 60px;
   height: 60px;
+  margin-right: 30px;
   border-radius: 10px;
   transition: background-color 0.3s ease;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .et-car-icon-avaiable {
+  width: 100px;
+  height: 50px;
   background-color: #80b5d6;
 }
 
 .et-car-icon-selected {
+  width: 100px;
+  height: 50px;
   background-color: #a6b727;
+  transform: scale(1.15);
+}
+.et-car-icon-unavaiable{
+  width: 100px;
+  height: 50px;
+  background-color: #d83e22;
   transform: scale(1.15);
 }
 
@@ -138,6 +158,13 @@
 .seats-card .seat-selected {
   background-color: #377be2 !important;
   border-color: #0056b3;
+  color: white;
+}
+
+.seats-card .seat-paid {
+  background-color: #e93414 !important;
+  border-color: #0056b3;
+  pointer-events: none;
   color: white;
 }
 

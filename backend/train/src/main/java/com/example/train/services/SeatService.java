@@ -24,6 +24,7 @@ public interface SeatService {
     void cancelSeatSelection(SeatSelection seatSelection);
     SeatSelection getReservedSeat(int userId, int seatId);
     void saveSeatSelection(SeatSelection seatSelection);
+    long getRemainingTime(int userId, int seatId);
     //SSE
     Flux<String> streamExpiredSeats();
 }

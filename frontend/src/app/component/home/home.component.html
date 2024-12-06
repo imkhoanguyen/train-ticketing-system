@@ -60,6 +60,7 @@
           dateFormat="dd/mm/yy"
           placeholder="Chọn ngày bắt đầu"
           [appendTo]="'body'"
+          [minDate]="minDate"
         ></p-calendar>
       </div>
       <div class="col-auto">
@@ -69,12 +70,15 @@
           showIcon="true"
           readonlyInput="true"
           inputId="returnDate"
+          dateFormat="dd/mm/yy"
+          placeholder="Chọn ngày kết thúc"
           [disabled]="tripType === 'motchieu'"
+          [minDate]="departureDate || minDate"
         ></p-calendar>
       </div>
     </div>
     <div class="row justify-content-center">
-      <button pButton label="Tìm kiếm" icon="pi pi-search" class="p-button-primary" (click)="search()"></button>
+      <button pButton label="Tìm kiếm" class="p-button-primary" (click)="search()"></button>
     </div>
   </div>
 </div>

@@ -70,4 +70,9 @@ public class PromotionController {
         Promotion promotion =  promotionService.getPromotionByCode(code);
         return new ResponseData<>(HttpStatus.OK.value(), "get successfully", promotion);
     }
+    @PutMapping("/updateCount/{id}/{count}")
+    public ResponseData<?> updatePromotionCount(@PathVariable int id, @PathVariable int count) {
+        promotionService.updatePromotionCount(id, count);
+        return new ResponseData<>(HttpStatus.OK.value(), "updated successfully");
+    }
 }

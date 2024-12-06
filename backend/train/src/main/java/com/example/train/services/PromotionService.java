@@ -15,4 +15,6 @@ public interface PromotionService {
     void deletePromotion(int id);
     List<Promotion> getAllPromotionsWithIsDeleteFalse();
     Promotion getPromotionByCode(String code);
+
+    void updatePromotionCount(int id, int count);
 }

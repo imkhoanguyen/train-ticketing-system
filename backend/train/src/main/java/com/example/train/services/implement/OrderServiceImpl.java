@@ -25,6 +25,7 @@ import com.example.train.entity.Ticket;
 import com.example.train.entity.User;
 import com.example.train.exception.NotFoundException;
 import com.example.train.repository.OrderRepository;
+import com.example.train.repository.PromotionRepository;
 import com.example.train.repository.UserRepository;
 import com.example.train.services.OrderService;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 public class OrderServiceImpl implements OrderService{
     private final OrderRepository orderRepository;
     private final UserRepository userRepository;
+    private final PromotionRepository promotionRepository;
 
     @Override
     public Order addOrder(OrderRequestDto orderRequestDto) {
@@ -78,39 +80,53 @@ public class OrderServiceImpl implements OrderService{
                 .build();
     }
 
-   @Override
-    public void updateOrder(int id, OrderRequestDto orderRequestDto) {
+    @Override
+    public void updateOrderPromotion(int orderId, int promotionId) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundException("Order không tìm thấy"));
+
+        Promotion promotion = promotionRepository.findById(promotionId)
+                .orElseThrow(() -> new NotFoundException("Promotion không tìm thấy"));
+
+        BigDecimal subTotal = order.getSubTotal().compareTo(BigDecimal.ZERO) > 0 
+                ? order.getSubTotal().subtract(promotion.getPrice()) 
+                : BigDecimal.ZERO;
+
+
+        order.setPromotion(promotion);
+        order.setSubTotal(subTotal);
+
+        orderRepository.save(order);
+        log.info("Order updated: {}", order);
+    }
+
+    @Override
+    public void updateOrderStatus(int id, OrderStatus status) {
         Order order = orderRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Order không tìm thấy"));
 
-        User user = userRepository.findById(orderRequestDto.getUser_id())
-                .orElseThrow(() -> new NotFoundException("User không tìm thấy"));
-        
-        Promotion promotion = null;
-        // if (orderRequestDto.getPromotion_id() != null) {
-        //     promotion = promotionRepository.findById(orderRequestDto.getPromotion_id())
-        //             .orElseThrow(() -> new NotFoundException("Promotion không tìm thấy"));
-        // }
-
-        List<Ticket> tickets = order.getOrderItems().stream()
-                .map(OrderItem::getTicket) 
-                .collect(Collectors.toList());
-
-        BigDecimal totalTicketPrice = tickets.stream()
-                .map(Ticket::getPrice)
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
-
-        BigDecimal subTotal = totalTicketPrice.subtract(promotion != null ? promotion.getPrice() : BigDecimal.ZERO);
-
-        order.setUser(user);
-        order.setStatus(orderRequestDto.getStatus());
-        order.setFullName(user.getFullName());
-        order.setPhone(user.getPhone());
-        order.setCmnd(user.getCmnd());
-        order.setPromotion(promotion);
-        order.setSubTotal(subTotal);  
+        order.setStatus(status);
 
         orderRepository.save(order);
+        log.info("Order updated: {}", order);
+    }
+
+    @Override
+    public OrderDetailResponse getOrderById(int id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order không tìm thấy"));
+
+        return OrderDetailResponse.builder()
+                .id(order.getId())
+                .promotion(order.getPromotion())
+                .subTotal(order.getSubTotal())
+                .created(order.getCreated())
+                .cmnd(order.getCmnd())
+                .phone(order.getPhone())
+                .fullName(order.getFullName())
+                .status(OrderStatus.PENDING)
+                .orderItems(order.getOrderItems())
+                .build();
     }
 
 

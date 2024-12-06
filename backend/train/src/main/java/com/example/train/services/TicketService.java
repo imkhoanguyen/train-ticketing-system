@@ -18,5 +18,5 @@ public interface TicketService {
 
     PageResponse<?> getAllTicketAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search, String sortBy,int id);
 
-   // List<TicketDetailResponse> getTicketsByUserId(int userId, TicketStatus status);
+   List<Integer> getPaidSeatIds();
 }
