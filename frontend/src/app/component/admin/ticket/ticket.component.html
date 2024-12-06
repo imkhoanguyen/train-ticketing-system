@@ -54,16 +54,39 @@
           <strong>Giá giảm:</strong> {{ ticket.priceDiscount }}
         </td>
         <td>
-          <strong>Ngày bắt đầu:</strong> {{ ticket.schedule.startDate | date: 'dd/MM/yyyy HH:mm'}}<br>
-          <strong>Ngày kết thúc:</strong> {{ ticket.schedule.endDate | date: 'dd/MM/yyyy HH:mm'}}<br>
-          <strong>Ga bắt đầu:</strong> {{ ticket.schedule.route.startStation.name }}<br>
-          <strong>Ga kết thúc:</strong> {{ ticket.schedule.route.endStation.name }}
+          <div class="thongtinchuyentau">
+            <div class="chuyendi">
+              <strong>Chuyến đi</strong>
+              <strong>Ngày bắt đầu:</strong> {{ ticket.schedule.startDate | date: 'dd/MM/yyyy HH:mm'}}<br>
+              <strong>Ngày kết thúc:</strong> {{ ticket.schedule.endDate | date: 'dd/MM/yyyy HH:mm'}}<br>
+              <strong>Ga bắt đầu:</strong> {{ ticket.schedule.route.startStation.name }}<br>
+              <strong>Ga kết thúc:</strong> {{ ticket.schedule.route.endStation.name }}
+            </div>
+            <div class="chuyenve" *ngIf="ticket.returnSchedule">
+              <strong>Chuyến về</strong>
+              <strong>Ngày bắt đầu:</strong> {{ ticket.returnSchedule.startDate | date: 'dd/MM/yyyy HH:mm'}}<br>
+              <strong>Ngày kết thúc:</strong> {{ ticket.returnSchedule.endDate | date: 'dd/MM/yyyy HH:mm'}}<br>
+              <strong>Ga bắt đầu:</strong> {{ ticket.returnSchedule.route.startStation.name }}<br>
+              <strong>Ga kết thúc:</strong> {{ ticket.returnSchedule.route.endStation.name }}
+            </div>
+          </div>
           
         </td>
         <td>
-          <strong>Tàu:</strong> {{ ticket.schedule.train.name }}<br>
-          <strong>Toa:</strong> {{ ticket.seat.carriage.name }}<br>
-          <strong>Ghế:</strong> {{ ticket.seatName }}
+          <div class="thongtinghe">
+            <div class="chuyendi" >
+              <strong>Chuyến đi</strong>
+              <strong>Tàu:</strong> {{ ticket.schedule.train.name }}<br>
+              <strong>Toa:</strong> {{ ticket.seat.carriage.name }}<br>
+              <strong>Ghế:</strong> {{ ticket.seatName }}
+            </div>
+            <div class="chuyenve" *ngIf="ticket.returnSeat">
+              <strong>Chuyến về</strong>
+              <strong>Tàu:</strong> {{ ticket.returnSchedule.train.name }}<br>
+              <strong>Toa:</strong> {{ ticket.returnSeat.carriage.name }}<br>
+              <strong>Ghế:</strong> {{ ticket.returnSeatName }}
+            </div>
+          </div>      
         </td>
         <td>{{ ticket.dateBuy | date: 'dd/MM/yyyy HH:mm'}}</td>
         <td>{{ ticket.status }}</td>

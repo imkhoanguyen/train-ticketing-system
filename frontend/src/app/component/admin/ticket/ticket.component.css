@@ -148,6 +148,28 @@ p-table td:last-child {
   text-align: center;
 }
 
+/* Custom styling for chuyendi and chuyenve */
+.thongtinchuyentau, 
+.thongtinghe {
+  display: flex;
+  justify-content: space-between; /* Đưa chuyendi và chuyenve ra 2 phía */
+  gap: 20px; /* Khoảng cách giữa chuyendi và chuyenve */
+}
+
+.thongtinchuyentau .chuyendi, 
+.thongtinghe .chuyendi,
+.thongtinchuyentau .chuyenve, 
+.thongtinghe .chuyenve {
+  flex: 1;
+}
+
+.thongtinchuyentau strong, 
+.thongtinghe strong {
+  display: inline-block;
+  margin-bottom: 5px;
+  color: #3aa8db;
+}
+
 /* Paginator styles */
 .p-paginator {
   display: flex;
@@ -189,6 +211,11 @@ p-table td:last-child {
 
   .search-container {
     width: 100%;
+  }
+
+  .thongtinchuyentau, 
+  .thongtinghe {
+    flex-direction: column; /* Đưa chuyendi và chuyenve xuống hàng trong màn hình nhỏ */
   }
 
   p-table th,

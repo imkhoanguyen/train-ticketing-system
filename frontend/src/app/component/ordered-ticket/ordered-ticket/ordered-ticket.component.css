@@ -241,3 +241,27 @@ p-dialog [style] {
 .card:hover {
     box-shadow: 0 8px 18px rgba(0, 0, 0, 0.15);
 }
+.thongtinchuyendi {
+    display: flex;
+    flex-wrap: wrap; /* Đảm bảo các phần tử không tràn ra ngoài khi màn hình nhỏ */
+    justify-content: space-between; /* Thêm khoảng cách giữa các phần tử nếu cần */
+    align-items: flex-start; /* Canh các phần tử bắt đầu từ đỉnh */
+    gap: 20px; /* Khoảng cách giữa các phần tử */
+}
+
+.chuyendi, .chuyenve {
+    flex: 1; /* Chia đều không gian cho các thành phần */
+    min-width: 45%; /* Đảm bảo chúng không quá nhỏ khi màn hình hẹp */
+    padding: 10px; /* Thêm khoảng cách bên trong */
+    background-color: #f9fafc; /* Màu nền nhạt để tách biệt */
+    border-radius: 8px; /* Bo góc nhẹ */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Hiệu ứng đổ bóng */
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .chuyendi, .chuyenve {
+        flex: 100%; /* Đảm bảo xuống hàng trên màn hình nhỏ */
+        min-width: 100%; /* Đảm bảo chiếm đủ chiều ngang */
+    }
+}
