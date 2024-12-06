@@ -16,6 +16,7 @@ import lombok.Setter;
 public class TicketDetailResponse implements Serializable{
     private int id;
     private int schedules_id;
+    private int returnSchedules_id;
     private int seat_id;
     private LocalDateTime dateBuy;
     private TicketStatus status;

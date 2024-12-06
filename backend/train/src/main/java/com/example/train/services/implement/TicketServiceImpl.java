@@ -44,6 +44,8 @@ public class TicketServiceImpl implements TicketService {
             Schedule schedule = scheduleRepository.findById(ticketRequestDto.getSchedules_id()).orElse(null);
             if (schedule == null) throw new NotFoundException("Schedule không tìm thấy");
 
+            Schedule returnSchedule = scheduleRepository.findById(ticketRequestDto.getReturnSchedules_id()).orElse(null);
+            if (returnSchedule == null) throw new NotFoundException("ReturnSchedule không tìm thấy");
             Seat seat = seatRepository.findById(ticketRequestDto.getSeat_id()).orElse(null);
             if (seat == null) throw new NotFoundException("Seat không tìm thấy");
 
@@ -54,6 +56,7 @@ public class TicketServiceImpl implements TicketService {
 
             Ticket ticket = Ticket.builder()
                     .schedule(schedule)
+                    .returnSchedule(returnSchedule)
                     .seat(seat)
                     .seatName(seat.getName())
                     .dateBuy(ticketRequestDto.getDateBuy())
