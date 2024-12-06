@@ -1,0 +1,28 @@
+.card {
+  border: none;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+.card-body {
+  display: flex;
+  align-items: center;
+}
+.icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 15px;
+}
+.icon i {
+  font-size: 30px;
+  color: white;
+}
+.text-muted {
+  font-size: 0.9rem;
+}
+.text-success {
+  color: #ff7f50;
+}

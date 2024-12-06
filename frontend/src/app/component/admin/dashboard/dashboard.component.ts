@@ -1,22 +1,61 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { ChartModule } from 'primeng/chart';
+import { TableModule } from 'primeng/table';
+import { PaginatorModule } from 'primeng/paginator';
+import { StatisticalService } from '../../../_services/statistical.service';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [ChartModule],
+  imports: [ChartModule, TableModule],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent implements OnInit {
-  basicData: any;
-
-  basicOptions: any;
+  private statisticalService = inject(StatisticalService);
+  totalTicketToDay = 0;
+  totalPriceToDay = 0;
 
   data: any;
 
   options: any;
 
+  getTotalTicketToDay() {
+    this.statisticalService.getTotalTicketToDay().subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
+  getTotalPriceToDay() {
+    this.statisticalService.getTotalPriceToDay().subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
+  getDataChart() {
+    this.statisticalService.getDataChart(2024).subscribe({
+      next: (res) => {
+        console.log(res);
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
   ngOnInit() {
+    this.getDataChart();
+    this.getTotalPriceToDay();
+    this.getTotalTicketToDay();
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue(
@@ -24,30 +63,34 @@ export class DashboardComponent implements OnInit {
     );
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
-    this.basicData = {
-      labels: ['Q1', 'Q2', 'Q3', 'Q4'],
+    this.data = {
+      labels: [
+        'T1',
+        'T2',
+        'T3',
+        'T4',
+        'T5',
+        'T6',
+        'T7',
+        'T8',
+        'T9',
+        'T10',
+        'T11',
+        'T12',
+      ],
       datasets: [
         {
-          label: 'Sales',
-          data: [540, 325, 702, 620],
-          backgroundColor: [
-            'rgba(255, 159, 64, 0.2)',
-            'rgba(75, 192, 192, 0.2)',
-            'rgba(54, 162, 235, 0.2)',
-            'rgba(153, 102, 255, 0.2)',
-          ],
-          borderColor: [
-            'rgb(255, 159, 64)',
-            'rgb(75, 192, 192)',
-            'rgb(54, 162, 235)',
-            'rgb(153, 102, 255)',
-          ],
-          borderWidth: 1,
+          label: 'VNĐ',
+          backgroundColor: documentStyle.getPropertyValue('--blue-500'),
+          borderColor: documentStyle.getPropertyValue('--blue-500'),
+          data: [65, 59, 80, 81, 56, 55, 40],
         },
       ],
     };
 
-    this.basicOptions = {
+    this.options = {
+      maintainAspectRatio: false,
+      aspectRatio: 0.8,
       plugins: {
         legend: {
           labels: {
@@ -56,54 +99,25 @@ export class DashboardComponent implements OnInit {
         },
       },
       scales: {
-        y: {
-          beginAtZero: true,
-          ticks: {
-            color: textColorSecondary,
-          },
-          grid: {
-            color: surfaceBorder,
-            drawBorder: false,
-          },
-        },
         x: {
           ticks: {
             color: textColorSecondary,
+            font: {
+              weight: 500,
+            },
           },
           grid: {
             color: surfaceBorder,
             drawBorder: false,
           },
         },
-      },
-    };
-
-    //pie chart
-    this.data = {
-      labels: ['A', 'B', 'C'],
-      datasets: [
-        {
-          data: [540, 325, 702],
-          backgroundColor: [
-            documentStyle.getPropertyValue('--blue-500'),
-            documentStyle.getPropertyValue('--yellow-500'),
-            documentStyle.getPropertyValue('--green-500'),
-          ],
-          hoverBackgroundColor: [
-            documentStyle.getPropertyValue('--blue-400'),
-            documentStyle.getPropertyValue('--yellow-400'),
-            documentStyle.getPropertyValue('--green-400'),
-          ],
-        },
-      ],
-    };
-
-    this.options = {
-      plugins: {
-        legend: {
-          labels: {
-            usePointStyle: true,
-            color: textColor,
+        y: {
+          ticks: {
+            color: textColorSecondary,
+          },
+          grid: {
+            color: surfaceBorder,
+            drawBorder: false,
           },
         },
       },

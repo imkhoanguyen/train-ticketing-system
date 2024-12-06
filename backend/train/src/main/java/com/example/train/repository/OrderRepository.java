@@ -3,6 +3,7 @@ package com.example.train.repository;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
+import com.example.train.repository.custom.CustomOrderRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,7 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.example.train.entity.Order;
 
 @Repository
-public interface OrderRepository extends JpaRepository<Order,Integer>{
+public interface OrderRepository extends JpaRepository<Order,Integer>, CustomOrderRepository {
     Page<Order> findAll(Pageable pageable);
     Page<Order> findByFullNameContainingIgnoreCase(String fullName,Pageable pageable);
 

@@ -53,5 +53,12 @@ public class Order {
     @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference // Tuần tự hóa Order -> OrderItems nhưng không ngược lại
     private List<OrderItem> orderItems;
+
+    public BigDecimal getTotal() {
+        BigDecimal promotionPrice = promotion != null ? promotion.getPrice() : BigDecimal.ZERO;
+        BigDecimal total = subTotal.subtract(promotionPrice);
+        return total.max(BigDecimal.ZERO);
+    }
+
 }
 
