@@ -87,6 +87,14 @@ public class PromotionServiceImpl implements PromotionService {
     }
 
     @Override
+    public void updatePromotionCount(int id, int count){
+        Promotion promotion = promotionRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Promotion not found with id: " + id));
+        promotion.setCount(count);
+        promotionRepository.save(promotion);
+    }
+
+    @Override
     public void deletePromotion(int id) {
         Promotion promotion = promotionRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException("Promotion not found"));

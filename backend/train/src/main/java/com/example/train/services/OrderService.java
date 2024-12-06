@@ -20,6 +20,8 @@ public interface OrderService {
 
     OrderDetailResponse getOrderByUserId(int userId);
 
+    OrderDetailResponse getOrderById(int id);
+
     void updateOrderStatus(int id, OrderStatus status);
 
 } 

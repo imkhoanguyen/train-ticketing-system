@@ -49,4 +49,9 @@ export class PromotionService {
   getPromotionByCode(code: string){
     return this.http.get<ApiResponse<Promotion>>(this.baseUrl + `/promotion/code/${code}`);
   }
+
+  updatePromotionCount(id: number, count: number) {
+    return this.http.put(
+      this.baseUrl + `/promotion/updateCount/${id}/${count}`, {});
+  }
 }

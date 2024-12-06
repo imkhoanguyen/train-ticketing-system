@@ -88,4 +88,12 @@ public class OrderController {
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseData<>(HttpStatus.OK.value(), "Order promotion updated successfully", null));
     }
+
+    @GetMapping("/get/{id}")
+    public ResponseData<OrderDetailResponse> GetOrderById(@PathVariable int id) {
+        System.out.println("iddddddddddddddđ: " + id);
+        OrderDetailResponse response = orderService.getOrderById(id);
+
+        return new ResponseData<>(HttpStatus.OK.value(), "get order by id", response);
+    }
 }

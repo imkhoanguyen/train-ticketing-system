@@ -111,6 +111,24 @@ public class OrderServiceImpl implements OrderService{
         log.info("Order updated: {}", order);
     }
 
+    @Override
+    public OrderDetailResponse getOrderById(int id) {
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order không tìm thấy"));
+
+        return OrderDetailResponse.builder()
+                .id(order.getId())
+                .promotion(order.getPromotion())
+                .subTotal(order.getSubTotal())
+                .created(order.getCreated())
+                .cmnd(order.getCmnd())
+                .phone(order.getPhone())
+                .fullName(order.getFullName())
+                .status(OrderStatus.PENDING)
+                .orderItems(order.getOrderItems())
+                .build();
+    }
+
 
     @Override
     public void deleteOrder(int id) {

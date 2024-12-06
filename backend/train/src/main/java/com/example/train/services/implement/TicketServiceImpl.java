@@ -29,7 +29,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 // ghi log
 @Slf4j
-@Transactional
 // khởi tạo bean UserRepository
 @RequiredArgsConstructor
 public class TicketServiceImpl implements TicketService {

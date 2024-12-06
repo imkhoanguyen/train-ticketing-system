@@ -73,4 +73,7 @@ export class OrderService {
     return this.http.put(`${this.baseUrl}/order/updatePromotion/${id}/${promotion}`, {});
   }
 
+  getOrderById(id: number): Observable<any> {
+    return this.http.get<{ status: number; message: string; data: Order }>(`${this.baseUrl}/order/get/${id}`);
+  }
 }

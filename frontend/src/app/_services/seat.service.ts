@@ -15,12 +15,20 @@ export class SeatService {
 
 
   getSeats(): Observable<Seat[]> {
-    const storedSeats = localStorage.getItem('selectedSeats');
-    if (storedSeats) {
-      return of(JSON.parse(storedSeats));
-    } else {
-      return of([]);
+    const selectedSeats = [];
+    // Lặp qua các seatId đã được lưu trong localStorage
+    for (let i = 0; i < localStorage.length; i++) {
+      const key = localStorage.key(i);
+      if (key && key.startsWith('seat')) {
+        const seatData = localStorage.getItem(key);
+        if (seatData) {
+          selectedSeats.push(JSON.parse(seatData));
+        }
+      }
     }
+
+    console.log('Selected seats:', selectedSeats);
+    return of(selectedSeats);
   }
 
   getAllSeatsByCarriageId(id:number) {

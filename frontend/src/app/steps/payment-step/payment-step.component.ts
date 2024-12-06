@@ -25,7 +25,7 @@ export class PaymentStepComponent implements OnInit {
   ticketData: Ticket[] = [];
   subTotalPrice: number = 0;
   promotionPrice: number = 0;
-
+  isButtonDisabled: boolean = false;
   discountCode: string = '';
   orderData: any;
   currentUser: any;
@@ -51,7 +51,7 @@ export class PaymentStepComponent implements OnInit {
         if (response.data) {
           this.promotionPrice = response.data.price;
           if (response.data.id !== undefined) {
-            this.updatePromotion(response.data.id);
+            this.updatePromotion(response.data.id, response.data);
           } else {
             this.handlePromotionError('Mã khuyến mãi không hợp lệ!');
           }
@@ -65,15 +65,35 @@ export class PaymentStepComponent implements OnInit {
     });
   }
 
-  private updatePromotion(promotionId: number): void {
-    if (!this.orderData || !this.orderData.id) {
-      this.toastrService.error('Không tìm thấy thông tin đơn hàng!');
+  private updatePromotion(promotionId: number, promotion: Promotion): void {
+
+    if (promotion.count <= 0) {
+      this.toastrService.error('Mã khuyến mãi đã hết số lần sử dụng!');
       return;
     }
+    const date = new Date().getTime();
 
+    if(new Date(promotion.startDate).getTime() > date || new Date(promotion.endDate).getTime() < date){
+      this.toastrService.error('Mã khuyến mãi đã hết hạn!');
+      return;
+    }
     this.orderService.updateOrderPromotion(this.orderData.id, promotionId).subscribe({
       next: () => {
         this.toastrService.success('Mã đã được áp dụng!');
+        this.isButtonDisabled = true;
+        promotion.count = promotion.count - 1;
+        if (promotion.count > 0) {
+          this.promotionService.updatePromotionCount(promotionId, promotion.count).subscribe({
+            next: () => {
+              console.log('Cập nhật  mã khuyến mãi thành công!');
+            },
+            error: (err) => {
+              console.error('Lỗi khi cập nhật  mã khuyến mãi:', err);
+            }
+          });
+        } else {
+          console.log('Mã khuyến mãi đã hết số lần sử dụng, không cần cập nhật!');
+        }
       },
       error: (err) => {
         console.log(err);
@@ -81,6 +101,8 @@ export class PaymentStepComponent implements OnInit {
       },
     });
   }
+
+
 
   private handlePromotionError(message: string): void {
     this.promotionPrice = 0;

@@ -81,11 +81,12 @@
       <!-- Carriages -->
       <div class="carriage-list d-flex">
         <div class="et-car-block" *ngFor="let carriage of carriages.slice().reverse()" [pTooltip]="carriage.description"
-          tooltipPosition="top" (click)="selectCarriage(carriage.id)">
+          tooltipPosition="top" (click)="selectCarriage(carriage.id, carriage.schedule)">
           <div class="et-carriage">
             <div class="et-car-icon" [ngClass]="{
               'et-car-icon-avaiable': carriage.id !== selectedCarriageId,
-              'et-car-icon-selected': carriage.id === selectedCarriageId
+              'et-car-icon-selected': carriage.id === selectedCarriageId,
+              'et-car-icon-unavaiable': paidCarriages.includes(carriage.id),
             }">
               <img src="https://dsvn.vn/images/trainCar2.png" alt="Carriage" />
             </div>
@@ -106,7 +107,7 @@
 
   <div class="seats-card">
     <div *ngFor="let seat of seats; let i = index" class="seat" [pTooltip]="seat.price.toString()" tooltipPosition="top"
-      (click)="toggleSeatSelection(seat.id)" [ngClass]="{
+      (click)="toggleSeatSelection(seat, seat.schedule)" [ngClass]="{
         'seat-selected': selectedSeatIds.includes(seat.id),
         'seat-paid' : paidSeats.includes(seat.id),
       }">
