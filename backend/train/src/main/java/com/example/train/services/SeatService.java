@@ -20,11 +20,12 @@ public interface SeatService {
 
     PageResponse<?> getAllSeatAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search, String sortBy,int id);
 
+    List<SeatDetailResponse> getAllSeatsByTrainId(int id);
 
     void cancelSeatSelection(SeatSelection seatSelection);
     SeatSelection getReservedSeat(int userId, int seatId);
     void saveSeatSelection(SeatSelection seatSelection);
-    long getRemainingTime(int userId, int seatId);
+   
     //SSE
     Flux<String> streamExpiredSeats();
 }

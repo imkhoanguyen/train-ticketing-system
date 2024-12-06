@@ -82,7 +82,7 @@ export class TicketStepComponent implements OnInit {
     this.tickets.push(
       this.fb.group({
         schedules_id: [seat.scheduleId, Validators.required],
-        seat_id: [seat.id, Validators.required],
+        seat_id: [seat.seatId, Validators.required],
         dateBuy: [new Date(), Validators.required],
         status: [TicketStatus.PENDING, Validators.required],
         object: [null, Validators.required],
@@ -184,7 +184,7 @@ export class TicketStepComponent implements OnInit {
           const { schedulePrice, ...rest } = ticket;
           return rest;
         });
-
+        console.log('Tickets:', tickets);
         if (!this.ticketForm.valid) {
           this.toastrService.error('Please fill in all required fields.');
           return;

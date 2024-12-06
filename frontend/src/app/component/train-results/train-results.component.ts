@@ -42,6 +42,10 @@ export class TrainResultsComponent implements OnInit {
   paidCarriages: number[] = [];
   expiredSeats: string[] = [];
 
+  paidSeatsCount: number = 0;
+  totalSeats: number = 0;
+  selectSeats: any[] = [];
+
   private trainService = inject(TrainService);
   private scheduleService = inject(ScheduleService);
   private carriageService = inject(CarriageService);
@@ -53,42 +57,75 @@ export class TrainResultsComponent implements OnInit {
   ngOnInit(): void {
     this.getPaidSeats();
     this.schedules = this.scheduleService.getSchedules();
+
+   
     console.log('Schedules in TrainResultsComponent:', this.schedules);
-    const savedSeats = localStorage.getItem('selectedSeats');
-    if (savedSeats) {
-      this.selectedSeatIds = JSON.parse(savedSeats).map((seat: any) => seat.seatId);  // Giả sử mỗi ghế có thuộc tính seatId
-    }
+
 
     this.currentUser = this.authService.getCurrentUser();
 
-    // this.seatService.getExpiredStream().subscribe(
-    //   (data) => {
-    //     this.expiredSeats = data.split(',');
-    //     //console.log('Ghế hết hạn:', this.expiredSeats);
+    Promise.all(
+      this.schedules.map(schedule => 
+        this.seatService.getAllSeatsByTrainId(schedule.train.id).toPromise()
+      )
+    ).then(results => {
+      this.schedules = this.schedules.map((schedule, index) => {
+        const response = results[index];
+    
+        if (response) {
+          const paidSeat = response.data.filter(seat => this.paidSeats.includes(seat.id));
+          return {
+            ...schedule,
+            totalSeats: response.data.length,  
+            paidSeatsCount: paidSeat.length  
+          };
+        }
+        return schedule;
+      });
+    }).catch(err => {
+      console.log('Error loading seats:', err);
+    });
+   this.getExpiredSeats();
+  }
 
-    //     this.expiredSeats.forEach((expiredSeat) => {
-    //       const seatId = parseInt(expiredSeat.split(':')[2], 10);
+  getExpiredSeats(): void {
+    this.seatService.getExpiredStream().subscribe(
+      (data) => {
+        this.seatService.getSeats().subscribe({
+          next: (seats) => {
+            this.selectSeats = seats;
+          },
+          error: (err) => console.error('Error loading seats:', err),
+        });
 
-    //       const seatItem = localStorage.getItem('seat' + seatId);
-    //       //console.log('seatItem:', seatItem);
-    //       if (seatItem) {
-    //           this.removeSeat(seatId);
-    //           console.log('Xóa ghe:', seatId);
+        this.expiredSeats = data.split(',');
 
-    //       }
-    //     });
+        this.expiredSeats.forEach((expiredSeat) => {
+          const match = expiredSeat.match(/seat:\d+:(\d+)=(\d+)/);
+          if (match) {
+            const seatId = parseInt(match[1], 10);
+            const ttl = parseInt(match[2], 10);
 
-    //     this.cdr.detectChanges();
-    //   },
-    //   (error) => console.error('Error:', error)
-    // );
+            const seat = this.selectSeats.find(seat => seat.seatId === seatId);
+            if (seat) {
+              seat.ttl = ttl;
+            }
+            if (ttl <= 1) {
+              this.removeSeat(seatId);
+            }
+          }
+        });
+
+        this.cdr.detectChanges();
+      },
+      (error) => console.error('Error:', error)
+    );
   }
 
   getPaidSeats(): void {
     this.ticketService.getPaidSeats().subscribe({
       next: (response: ApiResponse<any>) => {
         this.paidSeats = response.data;
-        console.log('Ghế đã đặt:', this.paidSeats);
       },
       error: (err) => {
         console.error('Error getting paid seats:', err);
@@ -100,10 +137,11 @@ export class TrainResultsComponent implements OnInit {
     const seatData = {
       userId: this.currentUser.id,
       scheduleId: schedule.id,
-      id: seat.id,
+      seatId: seat.id,
       name: seat.name,
       price: seat.price,
       schedulePrice: schedule.price,
+
       time: new Date().getTime()
     };
 
@@ -111,17 +149,19 @@ export class TrainResultsComponent implements OnInit {
       // Hủy ghế
       this.selectedSeatIds = this.selectedSeatIds.filter(id => id !== seat.id);
       localStorage.removeItem('seat' + seat.id);
+
       this.seatService.cancelSeatSelection(seatData).subscribe();
     } else {
       // Lưu ghế
       this.selectedSeatIds.push(seat.id);
       localStorage.setItem('seat' + seat.id, JSON.stringify(seatData));
+      console.log('Ghế đã chọn:', seatData);
       this.seatService.saveSeatSelection(seatData).subscribe();
     }
 
   }
 
-
+  
 
   removeSeat(seatId: number): void {
     this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
@@ -205,8 +245,6 @@ export class TrainResultsComponent implements OnInit {
       },
     });
   }
-
-
 
 
   selectCarriage(carriageId: number, schedule: any): void {

@@ -56,6 +56,19 @@
   vertical-align: middle;
   text-align: center;
 }
+.seat-info {
+  text-align: center;       
+  font-size: 25px;           
+  font-weight: bold;             
+}
+
+.seat-info:first-child {
+  color: #245f26;
+}
+
+.seat-info:last-child {
+  color: #f44336;             
+}
 
 .train-stats {
   background-color: rgba(255, 255, 255, 0.95);
