@@ -16,7 +16,6 @@ export class SeatService {
 
   getSeats(): Observable<Seat[]> {
     const selectedSeats = [];
-    // Lặp qua các seatId đã được lưu trong localStorage
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);
       if (key && key.startsWith('seat')) {
@@ -26,13 +25,15 @@ export class SeatService {
         }
       }
     }
-
-    console.log('Selected seats:', selectedSeats);
     return of(selectedSeats);
   }
 
   getAllSeatsByCarriageId(id:number) {
     return this.http.get<ApiResponse<Seat[]>>(`${this.baseUrl}/seat/carriageId/${id}`);
+  }
+
+  getAllSeatsByTrainId(id:number) {
+    return this.http.get<ApiResponse<Seat[]>>(`${this.baseUrl}/seat/trainId/${id}`);
   }
 
   getWithLimit(

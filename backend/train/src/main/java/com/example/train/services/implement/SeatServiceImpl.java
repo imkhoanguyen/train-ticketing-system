@@ -1,6 +1,7 @@
 package com.example.train.services.implement;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -46,7 +47,7 @@ public class SeatServiceImpl implements SeatService{
     @Autowired 
     private RedisTemplate<String, Object> redisTemplate; 
 
-    private static final long EXPIRATION_TIME =20;
+    private static final long EXPIRATION_TIME =120;
     
     private String getSeatKey(int userId, int seatId) {
         return String.format("seat:%s:%d", userId, seatId);
@@ -78,28 +79,39 @@ public class SeatServiceImpl implements SeatService{
         return Flux.interval(Duration.ofSeconds(1))
             .map(tick -> {
                 Set<String> keys = redisTemplate.keys("seat:*");
+                Map<String, Long> countdownSeats = new HashMap<>();
                 List<String> expiredSeats = new ArrayList<>();
                 if (keys != null) {
                     for (String key : keys) {
                         Long ttl = redisTemplate.getExpire(key, TimeUnit.SECONDS);
-                        if (ttl != null && ttl <= 0) {
+                        if(ttl != null && ttl > 0) {
+                            countdownSeats.put(key, ttl);
+                        }
+                        else if (ttl != null && ttl <= 0) {
                             redisTemplate.delete(key);
                             System.out.println("Deleted expired seat selection with key: " + key);
                             expiredSeats.add(key);
                         }
                     }
                 }
-                return String.join(",", expiredSeats);
+                return String.join(",", expiredSeats) + countdownSeats.toString();
             });
     }
 
     @Override
-    public long getRemainingTime(int userId, int seatId) {
-        String key = getSeatKey(userId, seatId);
-        Long ttl = redisTemplate.getExpire(key, TimeUnit.SECONDS);
-        return ttl != null ? ttl : 0;
-    }
+    public List<SeatDetailResponse> getAllSeatsByTrainId(int id){
+        List<Seat> seats = seatRepository.findAllSeatsByTrainId(id);
 
+        return seats.stream()
+                .map(seat -> SeatDetailResponse.builder()
+                        .id(seat.getId())
+                        .name(seat.getName())
+                        .price(seat.getPrice())
+                        .description(seat.getDescription())
+                        .is_delete(seat.isDelete())
+                        .build()
+                ).toList();
+    }
 
     @Override
     public PageResponse<?> getAllSeatAndSearchWithPagingAndSorting(int pageNo, int pageSize, String search,

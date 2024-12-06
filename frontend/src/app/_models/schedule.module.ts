@@ -9,6 +9,9 @@ export interface schedule {
   price:number;
   route: RouteModule;
   train: Train;
+
+  paidSeatsCount?: number; 
+  totalSeats?: number; 
 }
 
 

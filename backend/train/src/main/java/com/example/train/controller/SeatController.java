@@ -2,6 +2,7 @@ package com.example.train.controller;
 
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -94,6 +95,12 @@ public class SeatController {
         return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Seat retrieved successfully", seatDetailResponses));
 
     }
+    @GetMapping("/trainId/{id}")
+    public ResponseEntity<ResponseData<?>> getSeatsByTrainId(@PathVariable int id){
+        List<SeatDetailResponse> seatDetailResponses = seatService.getAllSeatsByTrainId(id);
+        return ResponseEntity.ok(new ResponseData<>(HttpStatus.OK.value(), "Seat retrieved successfully", seatDetailResponses));
+
+    }
 
     @PostMapping("/save") 
     public ResponseEntity<Void> saveSeatSelection(@Validated @RequestBody SeatSelection seatSelection) { 
@@ -106,10 +113,6 @@ public class SeatController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("/getRemainingTime")
-    public ResponseEntity<Long> getRemainingTime(@RequestParam int userId, @RequestParam int seatId) {
-        return ResponseEntity.ok().body(seatService.getRemainingTime(userId, seatId));
-    }
 
     @GetMapping("/expired-stream")
     public ResponseEntity<Flux<String>> streamExpiredSeats() {

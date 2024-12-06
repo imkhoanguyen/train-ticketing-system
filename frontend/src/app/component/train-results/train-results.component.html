@@ -13,6 +13,8 @@
                 <th scope="col">Tuyến đường</th>
                 <th scope="col">Ngày khởi hành</th>
                 <th scope="col">Ngày đến</th>
+                <th scope="col">Vé đã đặt</th>
+                <th scope="col">Còn trống</th>
               </tr>
             </thead>
             <tbody>
@@ -25,6 +27,10 @@
                 <td>{{ schedule.route.startStation.name }} → {{ schedule.route.endStation.name }}</td>
                 <td>{{ schedule.startDate | date: 'dd/MM/yyyy HH:mm' }}</td>
                 <td>{{ schedule.endDate | date: 'dd/MM/yyyy HH:mm' }}</td>
+                <td class="seat-info">{{ schedule.paidSeatsCount }}</td>
+                <td class="seat-info">{{ (schedule.totalSeats || 0) - (schedule.paidSeatsCount || 0) }}</td>
+
+
               </tr>
             </tbody>
           </table>
@@ -37,13 +43,16 @@
         <div class="card shadow-sm p-3">
           <h5 class="cart-title mb-3">Giỏ vé</h5>
           <div class="cart-content">
-            <ng-container *ngIf="selectedSeatIds.length > 0; else emptyCart">
+            <ng-container *ngIf="selectSeats.length > 0; else emptyCart">
               <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center"
-                  *ngFor="let seatIndex of selectedSeatIds">
-                  Ghế: {{ seatIndex }}
-
-                  <i class="pi pi-trash text-danger" style="cursor: pointer;" (click)="removeSeat(seatIndex)">
+                  *ngFor="let seat of selectSeats">
+                  Ghế: {{ seat.name }}
+                  <span
+                    [ngStyle]="{'color': seat.ttl > 10 ? 'blue' : 'red'}">
+                    {{seat.ttl}} giây còn lại
+                  </span>
+                  <i class="pi pi-trash text-danger" style="cursor: pointer;" (click)="removeSeat(seat.seatId)">
                   </i>
                 </li>
               </ul>
@@ -111,7 +120,7 @@
         'seat-selected': selectedSeatIds.includes(seat.id),
         'seat-paid' : paidSeats.includes(seat.id),
       }">
-      {{ i + 1 }}
+      {{ seat.name}}
     </div>
   </div>
   <div class="action-buttons mt-3">
