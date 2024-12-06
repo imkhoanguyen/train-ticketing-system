@@ -8,7 +8,9 @@ import java.io.Serializable;
 
 public class TicketRequestDto implements Serializable{
     private int schedules_id;
+    private int returnSchedules_id;
     private int seat_id;
+    private int returnSeat_id;
     private LocalDateTime dateBuy;
     private TicketStatus status;
     private String object;
@@ -18,12 +20,14 @@ public class TicketRequestDto implements Serializable{
     private BigDecimal price;
     private BigDecimal price_reduced;
 
-    public TicketRequestDto(int schedules_id, int seat_id, LocalDateTime dateBuy,TicketStatus status,
+    public TicketRequestDto(int schedules_id, int returnSchedules_id, int seat_id, int returnSeat_id, LocalDateTime dateBuy,TicketStatus status,
                             String object,String fullname,String can_cuoc,int promotion_id,BigDecimal price,
                             BigDecimal price_reduced) {
 
         this.schedules_id = schedules_id;
+        this.returnSchedules_id = returnSchedules_id;
         this.seat_id = seat_id;
+        this.returnSeat_id = returnSeat_id;
         this.dateBuy = dateBuy;
         this.status = status;
         this.object = object;
@@ -38,10 +42,18 @@ public class TicketRequestDto implements Serializable{
     public void setSchedules_id(int schedules_id) {
         this.schedules_id = schedules_id;
     }
+    public void setReturnSchedules_id(int returnSchedules_id) {
+        this.returnSchedules_id = returnSchedules_id;
+    }
 
     public void setSeat_id(int seat_id) {
         this.seat_id = seat_id;
     }
+
+    public void setReturnSeat_id(int returnSeat_id) {
+        this.returnSeat_id = returnSeat_id;
+    }
+
     public void setDateBuy(LocalDateTime dateBuy) {
         this.dateBuy = dateBuy;
     }
@@ -74,10 +86,18 @@ public class TicketRequestDto implements Serializable{
     public int getSchedules_id() { 
         return schedules_id;
     }
+    public int getReturnSchedules_id() { 
+        return returnSchedules_id;
+    }
 
     public int getSeat_id() {  
         return seat_id;
     }
+
+    public int getReturnSeat_id() { 
+        return returnSeat_id;
+    }
+
     public LocalDateTime getDateBuy() { 
         return dateBuy;
     }

@@ -44,8 +44,14 @@ public class TicketServiceImpl implements TicketService {
             Schedule schedule = scheduleRepository.findById(ticketRequestDto.getSchedules_id()).orElse(null);
             if (schedule == null) throw new NotFoundException("Schedule không tìm thấy");
 
+            Schedule returnSchedule = scheduleRepository.findById(ticketRequestDto.getReturnSchedules_id()).orElse(null);
+            if (returnSchedule == null) return null;
+            
             Seat seat = seatRepository.findById(ticketRequestDto.getSeat_id()).orElse(null);
             if (seat == null) throw new NotFoundException("Seat không tìm thấy");
+
+            Seat returnSeat = seatRepository.findById(ticketRequestDto.getReturnSeat_id()).orElse(null);
+            if (returnSeat == null) return null;
 
             Discount discount = discountRepository.findByObject(ticketRequestDto.getObject()).orElse(null);
             BigDecimal priceDiscount = discount != null ? discount.getPrice() : BigDecimal.ZERO;
@@ -54,8 +60,11 @@ public class TicketServiceImpl implements TicketService {
 
             Ticket ticket = Ticket.builder()
                     .schedule(schedule)
+                    .returnSchedule(returnSchedule)
                     .seat(seat)
                     .seatName(seat.getName())
+                    .returnSeat(returnSeat)
+                    .returnSeatName(returnSeat.getName())
                     .dateBuy(ticketRequestDto.getDateBuy())
                     .status(ticketRequestDto.getStatus())
                     .objectDiscount(ticketRequestDto.getObject())

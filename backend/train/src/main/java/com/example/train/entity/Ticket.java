@@ -19,11 +19,20 @@ public class Ticket {
     @JoinColumn(name = "scheduleId", nullable = false)
     private Schedule schedule;
 
+    @ManyToOne
+    @JoinColumn(name = "returnScheduleId", nullable = true) 
+    private Schedule returnSchedule; //Danh cho ve khu hoi
+
 
     @ManyToOne
     @JoinColumn(name = "seatId",  nullable = false)
     private Seat seat;
     private String seatName;
+
+    @ManyToOne
+    @JoinColumn(name = "returnSeatId",  nullable = true)
+    private Seat returnSeat;
+    private String returnSeatName;
 
     private LocalDateTime dateBuy;
 

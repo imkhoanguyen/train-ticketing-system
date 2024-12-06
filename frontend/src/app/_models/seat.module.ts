@@ -7,4 +7,5 @@ export interface Seat {
     price:number;
     description:string;
     delete: boolean;
+    isSelected?: boolean;
 }
