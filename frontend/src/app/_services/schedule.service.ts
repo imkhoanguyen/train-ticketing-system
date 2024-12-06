@@ -15,9 +15,13 @@ export class ScheduleService {
   schedules$ = this.scheduleList.asObservable();
 
   setSchedules(schedules: schedule[]): void {
-    this.scheduleList.next(schedules);
-    localStorage.setItem('schedules', JSON.stringify(schedules));
+    const oldSchedules = localStorage.getItem('schedules');
+    let allSchedules: schedule[] = oldSchedules ? JSON.parse(oldSchedules) : [];
+    allSchedules = [...allSchedules, ...schedules];
+    localStorage.setItem('schedules', JSON.stringify(allSchedules));
+    this.scheduleList.next(allSchedules);
   }
+  
 
   getSchedules(): schedule[] {
     const storedSchedules = localStorage.getItem('schedules');

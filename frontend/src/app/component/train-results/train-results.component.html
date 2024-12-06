@@ -46,16 +46,34 @@
             <ng-container *ngIf="selectSeats.length > 0; else emptyCart">
               <ul class="list-group">
                 <li class="list-group-item d-flex justify-content-between align-items-center"
-                  *ngFor="let seat of selectSeats">
-                  Ghế: {{ seat.name }}
-                  <span
-                    [ngStyle]="{'color': seat.ttl > 10 ? 'blue' : 'red'}">
-                    {{seat.ttl}} giây còn lại
+                    *ngFor="let seat of selectSeats; let i = index">
+                  
+                  <div class="d-flex align-items-center">
+                    <p-checkbox 
+                      [(ngModel)]="seat.isSelected" 
+                      [binary]="true" 
+                      inputId="seat-{{i}}" 
+                      (onChange)="onSeatSelectionChange(seat)">
+                    </p-checkbox>
+                    <label for="seat-{{i}}" class="ms-2">Ghế: {{ seat.name }}</label>
+                  </div>
+                  <span [ngStyle]="{'color': seat.ttl > 10 ? 'blue' : 'red'}">
+                    {{ seat.ttl }} giây còn lại
                   </span>
                   <i class="pi pi-trash text-danger" style="cursor: pointer;" (click)="removeSeat(seat.seatId)">
                   </i>
                 </li>
               </ul>
+              
+              <div *ngIf="roundTripPairs.length > 0" class="mt-3">
+                <h5>Các cặp vé khứ hồi:</h5>
+                <ul>
+                  <li *ngFor="let pair of roundTripPairs">
+                    Cặp vé: {{ pair[0].name }} ↔ {{ pair[1].name }}
+                  </li>
+                </ul>
+              </div>
+              
               <button class="btn btn-primary btn-block mt-3" (click)="onSubmit()">Đặt vé
               </button>
             </ng-container>

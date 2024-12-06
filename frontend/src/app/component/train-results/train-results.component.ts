@@ -15,19 +15,22 @@ import { ApiResponse } from '../../_models/api-response.module';
 import { TrainService } from '../../_services/train.service';
 import { AuthService } from '../../_services/auth.service';
 import { User } from '../../_models/user-detail';
-import * as Stomp from 'stompjs';
-import  SockJS from 'sockjs-client';
+import { CheckboxModule } from 'primeng/checkbox';
 import { TicketService } from '../../_services/ticket.service';
+import { FormsModule } from '@angular/forms';
 @Component({
   selector: 'app-train-results',
   standalone: true,
-  imports: [DialogModule, CommonModule, TooltipModule, DropdownModule],
+  imports: [DialogModule, CommonModule, TooltipModule, DropdownModule, CheckboxModule, FormsModule],
   templateUrl: './train-results.component.html',
   styleUrl: './train-results.component.css',
 })
 export class TrainResultsComponent implements OnInit {
+  checked: boolean = false;
   isVisible = false;
   selectedSeats: number[] = [];
+  selectedSeatsState: Map<number, boolean> = new Map(); 
+  roundTripPairs: any[][] = [];
 
   carriages: any[] = [];
   selectedSchedule: schedule = {} as schedule;
@@ -57,13 +60,8 @@ export class TrainResultsComponent implements OnInit {
   ngOnInit(): void {
     this.getPaidSeats();
     this.schedules = this.scheduleService.getSchedules();
-
-   
     console.log('Schedules in TrainResultsComponent:', this.schedules);
-
-
     this.currentUser = this.authService.getCurrentUser();
-
     Promise.all(
       this.schedules.map(schedule => 
         this.seatService.getAllSeatsByTrainId(schedule.train.id).toPromise()
@@ -93,7 +91,13 @@ export class TrainResultsComponent implements OnInit {
       (data) => {
         this.seatService.getSeats().subscribe({
           next: (seats) => {
-            this.selectSeats = seats;
+            this.selectSeats = [...seats];
+
+            this.selectSeats.forEach(seat => {
+              if (this.selectedSeatsState.has(seat.seatId)) {
+                seat.isSelected = this.selectedSeatsState.get(seat.seatId);
+              }
+            });
           },
           error: (err) => console.error('Error loading seats:', err),
         });
@@ -121,7 +125,6 @@ export class TrainResultsComponent implements OnInit {
       (error) => console.error('Error:', error)
     );
   }
-
   getPaidSeats(): void {
     this.ticketService.getPaidSeats().subscribe({
       next: (response: ApiResponse<any>) => {
@@ -131,6 +134,30 @@ export class TrainResultsComponent implements OnInit {
         console.error('Error getting paid seats:', err);
       },
     });
+  }
+
+  onSeatSelectionChange(selectedSeat: any): void {
+    const selectedSeats = this.selectSeats.filter(seat => seat.isSelected );
+ 
+    if (selectedSeats.length % 2 === 0) {
+      this.updateRoundTripPairs(selectedSeats);
+    } else {
+      this.removeUnpairedSeats(selectedSeat);
+    }
+  
+    console.log('Cặp vé khứ hồi:', this.roundTripPairs);
+  }
+
+  updateRoundTripPairs(selectedSeats: any[]): void {
+    this.roundTripPairs = [];
+    for (let i = 0; i < selectedSeats.length; i += 2) {
+      this.roundTripPairs.push([selectedSeats[i], selectedSeats[i + 1]]);
+    }
+  }
+  removeUnpairedSeats(selectedSeat: any): void {
+    this.roundTripPairs = this.roundTripPairs.filter(
+      pair => !pair.includes(selectedSeat)
+    );
   }
 
   toggleSeatSelection(seat: Seat, schedule: any): void {
@@ -160,8 +187,6 @@ export class TrainResultsComponent implements OnInit {
     }
 
   }
-
-  
 
   removeSeat(seatId: number): void {
     this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
@@ -267,6 +292,7 @@ export class TrainResultsComponent implements OnInit {
 
 
   onSubmit(): void {
+
     this.router.navigate(['/booking/ticket']);
   }
   closeDialog(): void {

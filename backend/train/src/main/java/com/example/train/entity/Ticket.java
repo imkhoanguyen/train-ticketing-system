@@ -29,6 +29,11 @@ public class Ticket {
     private Seat seat;
     private String seatName;
 
+    @ManyToOne
+    @JoinColumn(name = "returnSeatId",  nullable = true)
+    private Seat returnSeat;
+    private String returnSeatName;
+
     private LocalDateTime dateBuy;
 
     @Enumerated(EnumType.STRING)
