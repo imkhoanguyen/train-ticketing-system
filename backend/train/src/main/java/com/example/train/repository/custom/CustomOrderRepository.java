@@ -14,9 +14,10 @@ public interface CustomOrderRepository {
             nativeQuery = true) // nativeQuery = raw
     BigDecimal getTotalToDay();
 
-    @Query("SELECT COALESCE(SUM(o.subTotal - " +
-            "CASE WHEN o.promotion IS NOT NULL THEN o.promotion.price ELSE 0 END), 0) " +
-            "FROM Order o " +
-            "WHERE YEAR(o.created) = :year AND MONTH(o.created) = :month") // jpql
+    @Query(value = "SELECT COALESCE(SUM(o.subTotal - COALESCE(p.price, 0)), 0) " +
+            "FROM orders o " +
+            "LEFT JOIN promotion p ON o.promotionId = p.id " +
+            "WHERE YEAR(o.created) = :year " +
+            "AND MONTH(o.created) = :month", nativeQuery = true)
     BigDecimal findMonthlyTotal(@Param("year") int year, @Param("month") int month);
 }

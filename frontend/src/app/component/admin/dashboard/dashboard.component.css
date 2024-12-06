@@ -26,3 +26,17 @@
 .text-success {
   color: #ff7f50;
 }
+
+::ng-deep .p-calendar {
+  min-width: 350px;
+}
+
+::ng-deep .p-element {
+  text-align: center;
+}
+
+.grouped-data {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}

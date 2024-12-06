@@ -25,4 +25,29 @@ export class StatisticalService {
       params,
     });
   }
+
+  getListOder(
+    page: number = 1,
+    size: number = 2,
+    search: string = '',
+    sortBy: string = 'id,desc',
+    startDate: string = '',
+    endDate: string = ''
+  ) {
+    let params = new HttpParams();
+    params = params.append('pageNumber', page.toString());
+    params = params.append('pageSize', size.toString());
+    params = params.append('sortBy', sortBy);
+    if (startDate) params = params.append('startDate', startDate);
+    if (endDate) params = params.append('endDate', endDate);
+
+    if (search) {
+      params = params.append('search', search);
+    }
+
+    return this.http.get<any>(`${this.baseUrl}/statistical/list-order`, {
+      observe: 'response',
+      params,
+    });
+  }
 }

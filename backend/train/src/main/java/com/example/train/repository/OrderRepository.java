@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import com.example.train.repository.custom.CustomOrderRepository;
+import org.aspectj.weaver.ast.Or;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -17,7 +18,8 @@ public interface OrderRepository extends JpaRepository<Order,Integer>, CustomOrd
 
     Page<Order> findByUserId(int userId, Pageable pageable);
     Page<Order> findByCreatedBetweenAndUserId(LocalDateTime startOfDay, LocalDateTime endOfDay, int userId, Pageable pageable);
-
+    Page<Order> findByCreatedBetween(LocalDateTime startOfDay, LocalDateTime endOfDay, Pageable pageable);
+    Page<Order> findByFullNameContainingIgnoreCaseAndCreatedBetween(String search, LocalDateTime startDate, LocalDateTime endDate, Pageable pageable);
     Optional<Order> findById(int id);
     Optional<Order> findByUserId(int userId);
 }
