@@ -13,6 +13,7 @@ import { ScheduleService } from '../../_services/schedule.service';
 import { RouteModule } from '../../_models/route.module';
 import { schedule } from '../../_models/schedule.module';
 import { ApiResponse } from '../../_models/api-response.module';
+import { ToastrService } from '../../_services/toastr.service';
 
 @Component({
   selector: 'app-home',
@@ -33,18 +34,22 @@ export class HomeComponent implements OnInit {
   selectedDestination: any;
   tripType: string = 'motchieu';
   departureDate!: Date;
-  returnDate!: null;
+  returnDate: null | Date = null;
   loading: boolean = false;
   isLogin = false;
-  private authService = inject(AuthService);
-  private routeService = inject(RouteService);
-  private scheduleService = inject(ScheduleService);
   currentUser: any;
 
   stationForm!: FormGroup;
+  minDate: Date = new Date();
+  private authService = inject(AuthService);
+  private routeService = inject(RouteService);
+  private scheduleService = inject(ScheduleService);
+  private toastrService = inject(ToastrService);
+
   constructor(private stationService: StationService, private router: Router) {}
 
   ngOnInit(): void {
+    this.minDate.setDate(this.minDate.getDate());
     this.currentUser = this.authService.getCurrentUser();
     if (this.currentUser) {
       this.isLogin = true;
@@ -95,7 +100,7 @@ export class HomeComponent implements OnInit {
           const routeId = routes[0].id;
           this.loadSchedules(routeId);
         } else {
-          console.log('No routes found');
+          this.toastrService.error('Không tìm thấy tuyến xe phù hợp');
         }
       },
       error: (error) => {
@@ -108,6 +113,10 @@ export class HomeComponent implements OnInit {
     const startDate = new Date(new Date( this.departureDate).getTime() + 7 * 60 * 60 * 1000);
     this.scheduleService.getSchedulesByRouteIdAndDate(routeId, startDate.toISOString()).subscribe({
       next: (response: ApiResponse<schedule[]>) => {
+        if(response.data.length === 0) {
+          this.toastrService.error('Không tìm thấy lịch trình phù hợp');
+          return;
+        }
         this.scheduleService.setSchedules(response.data);
         this.router.navigate(['/train-results']);
       },
