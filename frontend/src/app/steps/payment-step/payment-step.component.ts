@@ -41,11 +41,17 @@ export class PaymentStepComponent implements OnInit {
     this.ticketData = JSON.parse(ticketObj);
     console.log('ticketData', this.ticketData);
     this.orderData = JSON.parse(this.orderItemService.getOrderData());
+
+    if(this.orderData == null && this.ticketData ==null){
+      this.router.navigate(['/booking/ticket']);
+    }
     this.currentUser = this.authService.getCurrentUser();
 
     this.subTotalPrice = this.ticketData.reduce((total, ticket) => total + ticket.price, 0);
   }
   applyPromotion(code: string): void {
+
+
     this.promotionService.getPromotionByCode(code).subscribe({
       next: (response: ApiResponse<Promotion>) => {
         if (response.data) {
