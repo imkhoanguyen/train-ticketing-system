@@ -40,3 +40,7 @@
   flex-direction: column;
   gap: 6px;
 }
+
+::ng-deep .p-inputtext {
+  width: 100%;
+}

@@ -6,8 +6,11 @@ import { StatisticalService } from '../../../_services/statistical.service';
 import { CalendarModule } from 'primeng/calendar';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { OrderList } from '../../../_models/statistical';
+import { IconFieldModule } from 'primeng/iconfield';
+import { InputIconModule } from 'primeng/inputicon';
+import { InputTextModule } from 'primeng/inputtext';
 @Component({
   selector: 'app-dashboard',
   standalone: true,
@@ -18,6 +21,9 @@ import { OrderList } from '../../../_models/statistical';
     FormsModule,
     CommonModule,
     PaginatorModule,
+    IconFieldModule,
+    InputIconModule,
+    InputTextModule,
   ],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.css',
@@ -27,6 +33,7 @@ export class DashboardComponent implements OnInit {
   private router = inject(Router);
   totalTicketToDay = 0;
   totalPriceToDay = 0;
+  totalUserToDay = 0;
   listDataChart = [];
   orders: OrderList[] = [];
   rangeDates: Date[] | undefined = [];
@@ -61,6 +68,19 @@ export class DashboardComponent implements OnInit {
       next: (res) => {
         if (res) {
           this.totalPriceToDay = res.data;
+        }
+      },
+      error: (er) => {
+        console.log(er);
+      },
+    });
+  }
+
+  getTotalUserToDay() {
+    this.statisticalService.getTotalUserToDay().subscribe({
+      next: (res) => {
+        if (res) {
+          this.totalUserToDay = res.data;
         }
       },
       error: (er) => {
@@ -150,6 +170,7 @@ export class DashboardComponent implements OnInit {
     });
     this.getTotalPriceToDay();
     this.getTotalTicketToDay();
+    this.getTotalUserToDay();
     this.loadOrders();
   }
 

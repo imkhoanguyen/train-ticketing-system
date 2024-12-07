@@ -76,5 +76,12 @@ public class CustomUserRepositoryImpl implements CustomUserRepository {
                 .build();
     }
 
+    @Override
+    public int getUserRegisterToDay() {
+        String query = "SELECT COUNT(u) FROM User u WHERE DATE(u.created) = CURRENT_DATE";
+        Long count = entityManager.createQuery(query, Long.class).getSingleResult();
+        return count != null ? count.intValue() : 0;
+    }
+
 
 }

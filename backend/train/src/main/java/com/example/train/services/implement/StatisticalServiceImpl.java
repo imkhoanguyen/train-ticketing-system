@@ -4,6 +4,7 @@ import com.example.train.dto.response.PageResponse;
 import com.example.train.entity.Order;
 import com.example.train.repository.OrderRepository;
 import com.example.train.repository.TicketRepository;
+import com.example.train.repository.UserRepository;
 import com.example.train.services.StatisticalService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -21,6 +22,7 @@ import java.util.List;
 public class StatisticalServiceImpl implements StatisticalService {
     private  final OrderRepository orderRepository;
     private final TicketRepository ticketRepository;
+    private final UserRepository userRepository;
 
     @Override
     public int getTotalTicketToDay() {
@@ -90,5 +92,10 @@ public class StatisticalServiceImpl implements StatisticalService {
                 .total(orderPage.getTotalElements())
                 .items(orderPage.getContent())
                 .build();
+    }
+
+    @Override
+    public int getNewUserToDay() {
+        return userRepository.getUserRegisterToDay();
     }
 }

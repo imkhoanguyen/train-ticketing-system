@@ -13,6 +13,10 @@ export class StatisticalService {
     return this.http.get<any>(this.baseUrl + '/statistical/total-price-today');
   }
 
+  getTotalUserToDay() {
+    return this.http.get<any>(this.baseUrl + '/statistical/total-user-today');
+  }
+
   getTotalTicketToDay() {
     return this.http.get<any>(this.baseUrl + '/statistical/total-ticket-today');
   }

@@ -61,6 +61,12 @@ public class StatisticalController {
         LocalDateTime startDateTime = start != null ? start.toLocalDateTime() : null;
         LocalDateTime endDateTime = end != null ? end.toLocalDateTime() : null;
         PageResponse<List<Order>> response = (PageResponse<List<Order>>) statisticalService.GetOrder(pageNumber, pageSize, search, sortBy, startDateTime, endDateTime);
-        return new ResponseData<>(HttpStatus.OK.value(), "get list discount with limit", response);
+        return new ResponseData<>(HttpStatus.OK.value(), "get list order with limit", response);
+    }
+
+    @GetMapping("/total-user-today")
+    public ResponseData<?> GetTotalUserToday() {
+        int total = statisticalService.getNewUserToDay();
+        return new ResponseData<>(HttpStatus.OK.value(), "get total user today success", total);
     }
 }

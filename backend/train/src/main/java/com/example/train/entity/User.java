@@ -1,5 +1,6 @@
 package com.example.train.entity;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
@@ -39,7 +40,7 @@ public class User {
     private boolean isDelete = false;
 
     private String role;
-
+    private LocalDateTime created = LocalDateTime.now();
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
     @JsonManagedReference // Cho phép tuần tự hóa từ User -> Orders
     private List<Order> orders;

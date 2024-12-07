@@ -7,5 +7,6 @@ import java.util.List;
 
 public interface CustomUserRepository {
     PageResponse<List<UserResponse>> findAllWithCustomQuery(int pageNo, int pageSize, String search, String sortBy);
+    int getUserRegisterToDay();
 }
 

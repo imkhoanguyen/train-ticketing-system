@@ -13,4 +13,5 @@ public interface StatisticalService {
     BigDecimal getTotalPriceOrderToDay();
     PageResponse<?> GetOrder(int pageNo, int pageSize, String search,
                              String sortBy, LocalDateTime startDate, LocalDateTime endDate);
+    int getNewUserToDay();
 }
