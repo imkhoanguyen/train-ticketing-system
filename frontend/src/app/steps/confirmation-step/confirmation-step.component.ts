@@ -42,6 +42,10 @@ export class ConfirmationStepComponent {
     this.orderItemData = JSON.parse(this.orderItemService.getOrderItemData());
     console.log("orderItemData", this.orderItemData);
 
+
+    if(this.orderData == null && this.ticketData ==null){
+      this.router.navigate(['/booking/ticket']);
+    }
     this.route.queryParams.subscribe((params) => {
       this.paymentData = params;
       console.log('Payment data:', this.paymentData);
@@ -78,6 +82,14 @@ export class ConfirmationStepComponent {
         return this.orderItemService.deleteOrderItem(orderItem.id).subscribe({
           next: (response: ApiResponse<any>) => {
             this.ticketData.map((ticket) => {
+              this.orderService.deleteOrder(this.orderData.id).subscribe({
+                next: (response: ApiResponse<any>) => {
+                  console.log('Order deleted:', response.data);
+                },
+                error: (err) => {
+                  console.error('Error deleting order:', err);
+                }
+              });
               return this.ticketService.deleteTicket(ticket.id).subscribe({
                 next: (response: ApiResponse<any>) => {
                   console.log('Ticket deleted:', response.data);
