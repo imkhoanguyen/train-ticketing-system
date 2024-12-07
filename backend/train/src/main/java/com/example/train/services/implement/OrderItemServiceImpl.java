@@ -32,10 +32,8 @@ public class OrderItemServiceImpl implements OrderItemService{
         Order order = orderRepository.findById(orderItemRequestDto.getOrder_id())
             .orElseThrow(() -> new NotFoundException("Order không tìm thấy"));
 
-    Ticket ticket = ticketRepository.findById(orderItemRequestDto.getTicket_id())
-            .orElseThrow(() -> new NotFoundException("Ticket không tìm thấy"));
-
-            ;
+        Ticket ticket = ticketRepository.findById(orderItemRequestDto.getTicket_id())
+            .orElseThrow(() -> new NotFoundException("Ticket không tìm thấy"));;
     OrderItem orderItem = OrderItem.builder()
             .order(order)
             .ticket(ticket)

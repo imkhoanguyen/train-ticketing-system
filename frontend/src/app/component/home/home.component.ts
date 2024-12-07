@@ -90,10 +90,12 @@ export class HomeComponent implements OnInit {
       return;
     }
 
+
     if (!this.departureDate) {
       alert('Vui lòng chọn ngày đi');
       return;
     }
+
 
     // Xử lý ngày đi
     const departureDate = this.addHoursToDate(this.departureDate, 7);
@@ -110,6 +112,7 @@ export class HomeComponent implements OnInit {
         return;
       }
 
+
       const returnDate = this.addHoursToDate(this.returnDate, 7);
       this.getRoutesAndSchedules(
         this.selectedDestination.id,
@@ -118,6 +121,7 @@ export class HomeComponent implements OnInit {
       );
     }
   }
+
 
   addHoursToDate(date: Date, hours: number): Date {
     return new Date(new Date(date).getTime() + hours * 60 * 60 * 1000);
@@ -149,6 +153,7 @@ export class HomeComponent implements OnInit {
         },
       });
   }
+
 
   loadSchedules(routeId: number, date: Date) {
     console.log(

@@ -244,6 +244,7 @@ export class TicketStepComponent implements OnInit {
               ticket_id: ticket.id
             }));
 
+
             // Thêm OrderItems
             this.addOrderItems(orderItems);
           },
@@ -262,8 +263,11 @@ export class TicketStepComponent implements OnInit {
 
   // Hàm thêm OrderItems
   private addOrderItems(orderItems: any[]): void {
+    console.log("111", orderItems)
     // Create an array of observables for the requests
     const requests = orderItems.map((orderItem) =>
+
+
       this.orderItemService.addOrderItem(orderItem).pipe(
         catchError((error) => {
           //console.error('Error adding order item:', error);
