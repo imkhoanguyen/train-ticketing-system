@@ -16,7 +16,7 @@ import { Table, TableModule } from 'primeng/table';
 import { PaginatorModule } from 'primeng/paginator';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { CalendarModule } from 'primeng/calendar';
-import { DatePipe } from '@angular/common';
+import { CommonModule, DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-promotion',
@@ -30,6 +30,7 @@ import { DatePipe } from '@angular/common';
     TableModule,
     CalendarModule,
     DatePipe,
+    CommonModule,
   ],
   templateUrl: './promotion.component.html',
   styleUrl: './promotion.component.css',

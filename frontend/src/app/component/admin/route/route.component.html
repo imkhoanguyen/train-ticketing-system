@@ -67,7 +67,7 @@
   </div>
   }
 
-  <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true" header="Thông tin chuyến tàu">
+  <p-dialog [(visible)]="displayDialog" [style]="{ width: '40rem', height: 'auto', overflow: 'visible' }" modal="modal" [closable]="true" [responsive]="true" header="Thông tin chuyến tàu">
     <div class="container">
         <h2 *ngIf="!currentState; else editTemplate">Thêm chuyến tàu</h2>
         <ng-template #editTemplate>

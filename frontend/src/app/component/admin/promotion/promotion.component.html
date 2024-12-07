@@ -24,27 +24,13 @@
 >
   <ng-template pTemplate="header">
     <tr>
-      <th pSortableColumn="id" style="width: 5%">
-        Id <p-sortIcon field="id" />
-      </th>
-      <th pSortableColumn="name" style="width: 10%">
-        Tiêu đề <p-sortIcon field="name" />
-      </th>
-      <th pSortableColumn="code" style="width: 5%">
-        Code <p-sortIcon field="code" />
-      </th>
-      <th pSortableColumn="price" style="width: 10%">
-        Giá giảm <p-sortIcon field="name" />
-      </th>
-      <th pSortableColumn="count" style="width: 10%">
-        Số lượng <p-sortIcon field="name" />
-      </th>
-      <th pSortableColumn="startDate" style="width: 15%">
-        Thời gian bắt đầu <p-sortIcon field="created" />
-      </th>
-      <th pSortableColumn="endDate" style="width: 15%">
-        Thời gian kết thúc <p-sortIcon field="description" />
-      </th>
+      <th style="width: 5%">Id</th>
+      <th style="width: 10%">Tiêu đề</th>
+      <th style="width: 5%">Code</th>
+      <th style="width: 10%">Giá giảm</th>
+      <th style="width: 10%">Số lượng</th>
+      <th style="width: 15%">Thời gian bắt đầu</th>
+      <th style="width: 15%">Thời gian kết thúc</th>
       <th style="width: 20%">Mô tả</th>
 
       <th style="width: 10%"></th>
@@ -55,7 +41,7 @@
       <td>{{ promotion.id }}</td>
       <td>{{ promotion.name }}</td>
       <td>{{ promotion.code }}</td>
-      <td>{{ promotion.price }}</td>
+      <td>{{ promotion.price | number : "1.0" }}</td>
       <td>{{ promotion.count }}</td>
       <td>{{ promotion.startDate | date : "dd/MM/yyyy HH:mm:ss" }}</td>
       <td>{{ promotion.endDate | date : "dd/MM/yyyy HH:mm:ss" }}</td>

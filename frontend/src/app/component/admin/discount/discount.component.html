@@ -2,6 +2,7 @@
 <div class="d-flex mb-3">
   <form (submit)="onSearch()">
     <input
+      style="min-width: 400px"
       class="form-control"
       placeholder="Nhập tối tượng khuyến mãi khuyến mãi"
       [(ngModel)]="search"
@@ -44,7 +45,7 @@
     <tr>
       <td>{{ discount.id }}</td>
       <td>{{ discount.object }}</td>
-      <td>{{ discount.price }}</td>
+      <td>{{ discount.price | number : "1.0" }}</td>
       <td>{{ discount.description }}</td>
 
       <td class="d-flex gap-1 align-items-center justify-content-center">

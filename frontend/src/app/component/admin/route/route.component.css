@@ -1,168 +1,172 @@
 .container {
-    padding: 20px;
-    background-color: #e9f7fc; /* Nền xanh nhạt */
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  h2.text-center {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #2b5f87; /* Màu xanh đậm */
-    text-align: center;
-    margin: 10px 0;
-  }
-  
-  .button-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 15px;
-  }
-  
-  button {
-    font-size: 1rem;
-    padding: 8px 12px;
-    border-radius: 4px;
-    transition: transform 0.2s ease, background-color 0.2s ease;
-  }
-  
-  button.p-button-success {
-    background-color: #3aa8db; /* Màu xanh chính */
-    color: white;
-  }
-  
-  button.p-button-success:hover {
-    background-color: #2b87ba; /* Xanh đậm hơn khi hover */
-  }
-  
-  button.p-button-info {
-    background-color: #2b87ba; /* Màu xanh đậm */
-    color: white;
-  }
-  
-  button.p-button-info:hover {
-    background-color: #226a91; /* Xanh đậm hơn khi hover */
-  }
-  
-  .search-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    max-width: 400px;
-    margin-bottom: 15px;
-  }
-  
-  .form-control {
-    flex: 1;
-    padding: 10px 12px;
-    border: 1px solid #b3d9ec; /* Viền xanh nhạt */
-    border-radius: 4px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
-    background-color: #f1faff; /* Nền xanh nhạt */
-    color: #2b5f87; /* Chữ xanh đậm */
-  }
-  
-  p-table {
-    border-collapse: collapse;
-    width: 100%;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  
-  p-table th,
-  p-table td {
-    padding: 12px 16px;
-    text-align: left;
-    border-bottom: 1px solid #b3d9ec;
-  }
-  
-  p-table th {
-    background-color: #d0ecf7;
-    color: #2b5f87;
-    font-weight: bold;
-  }
-  
-  p-table tr:nth-child(even) {
-    background-color: #f1faff;
-  }
-  
-  p-table tr:nth-child(odd) {
-    background-color: #ffffff;
-  }
-  
-  p-table tr:hover {
-    background-color: #c6e6f9; /* Màu khi hover */
-  }
-  
-  /* CSS cho các nút trong cột hành động */
-  button.p-button-rounded {
-    width: 40px; /* Kích thước chiều rộng */
-    height: 40px; /* Kích thước chiều cao */
-    border-radius: 50%; /* Làm cho nút thành hình tròn */
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho nút */
-    transition: transform 0.2s ease, background-color 0.2s ease, box-shadow 0.3s ease; /* Hiệu ứng chuyển động khi hover */
-  }
-  
-  /* Hiệu ứng hover cho nút */
-  button.p-button-rounded:hover {
-    background-color: #226a91; /* Màu nền khi hover */
-    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Đổ bóng đậm hơn khi hover */
-    transform: translateY(-2px); /* Nâng nút lên một chút khi hover */
-  }
-  
-  /* Thêm hiệu ứng cho nút mắt (eye-button) */
-  button.p-button-rounded.eye-button {
-    background-color: #2b87ba; /* Màu nền của nút mắt */
-    color: white;
-  }
-  
-  button.p-button-rounded.eye-button:hover {
-    background-color: #2b87ba; /* Màu nền khi hover */
-  }
-  
-  /* Thêm hiệu ứng cho nút bút (pencil-button) */
-  button.p-button-rounded.pi-pencil {
-    background-color: #2b87ba; /* Màu nền của nút bút */
-    color: white;
-  }
-  
-  button.p-button-rounded.pi-pencil:hover {
-    background-color: #226a91; /* Màu nền khi hover */
-  }
-  
-  p-inputSwitch {
-    display: inline-flex;
-    align-items: center;
-  }
-  
-  p-dialog {
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    background-color: #ffffff;
-  }
-  
-  .dialog-form {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-  }
-  
-  .p-field {
-    display: flex;
-    flex-direction: column;
-    gap: 5px;
-  }
-  
-  .submit-button {
-    background-color: #3aa8db;
-    color: white;
-    padding: 10px;
-    font-weight: bold;
-  }
-  
-  .submit-button:hover {
-    background-color: #2b87ba;
-  }
-  
+  padding: 20px;
+  background-color: #e9f7fc; /* Nền xanh nhạt */
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+h2.text-center {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2b5f87; /* Màu xanh đậm */
+  text-align: center;
+  margin: 10px 0;
+}
+
+.button-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 15px;
+}
+
+button {
+  font-size: 1rem;
+  padding: 8px 12px;
+  border-radius: 4px;
+  transition: transform 0.2s ease, background-color 0.2s ease;
+}
+
+button.p-button-success {
+  background-color: #3aa8db; /* Màu xanh chính */
+  color: white;
+}
+
+button.p-button-success:hover {
+  background-color: #2b87ba; /* Xanh đậm hơn khi hover */
+}
+
+button.p-button-info {
+  background-color: #2b87ba; /* Màu xanh đậm */
+  color: white;
+}
+
+button.p-button-info:hover {
+  background-color: #226a91; /* Xanh đậm hơn khi hover */
+}
+
+.search-container {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  max-width: 400px;
+  margin-bottom: 15px;
+}
+
+.form-control {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #b3d9ec; /* Viền xanh nhạt */
+  border-radius: 4px;
+  box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+  background-color: #f1faff; /* Nền xanh nhạt */
+  color: #2b5f87; /* Chữ xanh đậm */
+}
+
+p-table {
+  border-collapse: collapse;
+  width: 100%;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+p-table th,
+p-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #b3d9ec;
+}
+
+p-table th {
+  background-color: #d0ecf7;
+  color: #2b5f87;
+  font-weight: bold;
+}
+
+p-table tr:nth-child(even) {
+  background-color: #f1faff;
+}
+
+p-table tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+
+p-table tr:hover {
+  background-color: #c6e6f9; /* Màu khi hover */
+}
+
+/* CSS cho các nút trong cột hành động */
+button.p-button-rounded {
+  width: 40px; /* Kích thước chiều rộng */
+  height: 40px; /* Kích thước chiều cao */
+  border-radius: 50%; /* Làm cho nút thành hình tròn */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Đổ bóng nhẹ cho nút */
+  transition: transform 0.2s ease, background-color 0.2s ease,
+    box-shadow 0.3s ease; /* Hiệu ứng chuyển động khi hover */
+}
+
+/* Hiệu ứng hover cho nút */
+button.p-button-rounded:hover {
+  background-color: #226a91; /* Màu nền khi hover */
+  box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2); /* Đổ bóng đậm hơn khi hover */
+  transform: translateY(-2px); /* Nâng nút lên một chút khi hover */
+}
+
+/* Thêm hiệu ứng cho nút mắt (eye-button) */
+button.p-button-rounded.eye-button {
+  background-color: #2b87ba; /* Màu nền của nút mắt */
+  color: white;
+}
+
+button.p-button-rounded.eye-button:hover {
+  background-color: #2b87ba; /* Màu nền khi hover */
+}
+
+/* Thêm hiệu ứng cho nút bút (pencil-button) */
+button.p-button-rounded.pi-pencil {
+  background-color: #2b87ba; /* Màu nền của nút bút */
+  color: white;
+}
+
+button.p-button-rounded.pi-pencil:hover {
+  background-color: #226a91; /* Màu nền khi hover */
+}
+
+p-inputSwitch {
+  display: inline-flex;
+  align-items: center;
+}
+
+p-dialog {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  background-color: #ffffff;
+}
+
+.dialog-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.p-field {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.submit-button {
+  background-color: #3aa8db;
+  color: white;
+  padding: 10px;
+  font-weight: bold;
+}
+
+.submit-button:hover {
+  background-color: #2b87ba;
+}
+
+::ng-deep .p-dropdown-items {
+  padding-left: 0;
+}

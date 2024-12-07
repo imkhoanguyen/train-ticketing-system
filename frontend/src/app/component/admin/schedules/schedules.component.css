@@ -1,234 +1,237 @@
 /* Global Styles */
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    background-color: #e9f7fc; /* Light blue background */
-    color: #2b5f87; /* Dark blue text */
-  }
-  
-  /* Container */
-  .container {
-    max-width: 1200px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #ffffff; /* White background */
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Header Container */
-  .header-container {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 20px;
-  }
-  
-  /* Schedule Title - Align center */
-  .schedule-title {
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #2b5f87;
-    text-align: center;
-    margin: 0;
-    width: 100%; /* Ensure it's full width for centering */
-    display: block;
-    text-align: center; /* Center align text */
-  }
-  
-  /* Back Button */
-  .back-button {
-    background-color: #3aa8db;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    width: 150px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease;
-  }
-  
-  .back-button:hover {
-    background-color: #2b87ba; 
-    transform: scale(1.05);
-  }
-  
-  /* Button Container - Align left */
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  background-color: #e9f7fc; /* Light blue background */
+  color: #2b5f87; /* Dark blue text */
+}
+
+/* Container */
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #ffffff; /* White background */
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header Container */
+.header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* Schedule Title - Align center */
+.schedule-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #2b5f87;
+  text-align: center;
+  margin: 0;
+  width: 100%; /* Ensure it's full width for centering */
+  display: block;
+  text-align: center; /* Center align text */
+}
+
+/* Back Button */
+.back-button {
+  background-color: #3aa8db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  width: 150px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+  background-color: #2b87ba;
+  transform: scale(1.05);
+}
+
+/* Button Container - Align left */
+.button-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+/* Button in Button Container */
+.button-container button {
+  background-color: #3aa8db;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+}
+
+.button-container button:hover {
+  background-color: #2b87ba;
+  transform: scale(1.05);
+}
+
+/* Search Input */
+.form-control {
+  width: 100%;
+  max-width: 300px;
+  padding: 10px 15px;
+  border: 1px solid #b3d9ec;
+  border-radius: 4px;
+  background-color: #f1faff;
+  color: #2b5f87;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: #3aa8db;
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Table Styles */
+p-table {
+  width: 100%;
+  margin-top: 20px;
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+p-table th {
+  background-color: #3aa8db;
+  color: white;
+  text-align: left;
+  padding: 15px;
+  font-size: 1rem;
+  border-bottom: 2px solid #b3d9ec;
+}
+
+p-table tr:nth-child(even) {
+  background-color: #f1faff; /* Light blue for even rows */
+}
+
+p-table tr:nth-child(odd) {
+  background-color: white; /* White for odd rows */
+}
+
+p-table tr:hover {
+  background-color: #d0ecf7; /* Light blue on hover */
+}
+
+p-table td {
+  padding: 15px;
+  font-size: 0.9rem;
+  color: #2b5f87;
+  border-bottom: 1px solid #b3d9ec;
+}
+
+p-table td:first-child,
+p-table td:last-child {
+  text-align: center;
+}
+
+/* Paginator Styles */
+.p-paginator {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.p-paginator button {
+  border-radius: 50%;
+  background-color: #3aa8db;
+  color: white;
+  font-size: 1rem;
+  margin: 0 5px;
+  padding: 10px;
+  transition: background-color 0.3s ease;
+}
+
+.p-paginator button:hover {
+  background-color: #2b87ba;
+}
+
+/* Dialog Styles */
+p-dialog {
+  background-color: white;
+  border-radius: 8px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.p-field {
+  margin-bottom: 15px;
+}
+
+.p-field label {
+  color: #2b5f87;
+  font-size: 1rem;
+}
+
+.p-button-success-1 {
+  background-color: #3aa8db;
+  color: white;
+  font-size: 1rem;
+  padding: 10px 20px;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.p-button-success-1:hover {
+  background-color: #2b87ba;
+  transform: scale(1.05);
+}
+
+/* Action Column Button Styles */
+p-table td button {
+  border-radius: 50%; /* Make buttons circular */
+  padding: 10px;
+  background-color: #3aa8db;
+  color: white;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+p-table td button:hover {
+  background-color: #2b87ba;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
   .button-container {
-    display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 10px;
-    margin-bottom: 20px;
   }
-  
-  /* Button in Button Container */
-  .button-container button {
-    background-color: #3aa8db;
-    color: white;
-    font-size: 1rem;
-    padding: 10px 20px;
-    border-radius: 4px;
-    transition: background-color 0.3s ease, transform 0.3s ease;
-  }
-  
-  .button-container button:hover {
-    background-color: #2b87ba;
-    transform: scale(1.05);
-  }
-  
-  /* Search Input */
+
   .form-control {
     width: 100%;
-    max-width: 300px;
-    padding: 10px 15px;
-    border: 1px solid #b3d9ec;
-    border-radius: 4px;
-    background-color: #f1faff;
-    color: #2b5f87;
-    transition: all 0.3s ease;
   }
-  
-  .form-control:focus {
-    border-color: #3aa8db;
-    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Table Styles */
-  p-table {
-    width: 100%;
-    margin-top: 20px;
-    border-spacing: 0;
-    border-collapse: collapse;
-  }
-  
-  p-table th {
-    background-color: #3aa8db;
-    color: white;
-    text-align: left;
-    padding: 15px;
-    font-size: 1rem;
-    border-bottom: 2px solid #b3d9ec;
-  }
-  
-  p-table tr:nth-child(even) {
-    background-color: #f1faff; /* Light blue for even rows */
-  }
-  
-  p-table tr:nth-child(odd) {
-    background-color: white; /* White for odd rows */
-  }
-  
-  p-table tr:hover {
-    background-color: #d0ecf7; /* Light blue on hover */
-  }
-  
+
+  p-table th,
   p-table td {
-    padding: 15px;
-    font-size: 0.9rem;
-    color: #2b5f87;
-    border-bottom: 1px solid #b3d9ec;
-  }
-  
-  p-table td:first-child,
-  p-table td:last-child {
-    text-align: center;
-  }
-  
-  /* Paginator Styles */
-  .p-paginator {
-    display: flex;
-    justify-content: center;
-    margin-top: 20px;
-  }
-  
-  .p-paginator button {
-    border-radius: 50%;
-    background-color: #3aa8db;
-    color: white;
-    font-size: 1rem;
-    margin: 0 5px;
     padding: 10px;
-    transition: background-color 0.3s ease;
+    font-size: 0.85rem;
   }
-  
-  .p-paginator button:hover {
-    background-color: #2b87ba;
-  }
-  
-  /* Dialog Styles */
-  p-dialog {
-    background-color: white;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  }
-  
-  .p-field {
-    margin-bottom: 15px;
-  }
-  
-  .p-field label {
-    color: #2b5f87;
-    font-size: 1rem;
-  }
-  
+
   .p-button-success-1 {
-    background-color: #3aa8db;
-    color: white;
-    font-size: 1rem;
-    padding: 10px 20px;
-    border-radius: 4px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    transition: background-color 0.3s ease;
+    width: 100%;
+    margin: 5px 0;
   }
-  
-  .p-button-success-1:hover {
-    background-color: #2b87ba;
-    transform: scale(1.05);
+
+  .back-button {
+    width: 100%;
+    margin: 10px 0;
   }
-  
-  /* Action Column Button Styles */
-  p-table td button {
-    border-radius: 50%; /* Make buttons circular */
-    padding: 10px;
-    background-color: #3aa8db;
-    color: white;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  }
-  
-  p-table td button:hover {
-    background-color: #2b87ba;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3); /* Stronger shadow on hover */
-  }
-  
-  /* Responsive Styles */
-  @media (max-width: 768px) {
-    .button-container {
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 10px;
-    }
-  
-    .form-control {
-      width: 100%;
-    }
-  
-    p-table th,
-    p-table td {
-      padding: 10px;
-      font-size: 0.85rem;
-    }
-  
-    .p-button-success-1 {
-      width: 100%;
-      margin: 5px 0;
-    }
-  
-    .back-button {
-      width: 100%;
-      margin: 10px 0;
-    }
-  }
-  
+}
+
+::ng-deep .p-dropdown-items {
+  padding-left: 0;
+}

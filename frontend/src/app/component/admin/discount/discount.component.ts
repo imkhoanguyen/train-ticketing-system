@@ -15,6 +15,7 @@ import { DialogModule } from 'primeng/dialog';
 import { ConfirmPopupModule } from 'primeng/confirmpopup';
 import { PaginatorModule } from 'primeng/paginator';
 import { TableModule } from 'primeng/table';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-discount',
@@ -26,6 +27,7 @@ import { TableModule } from 'primeng/table';
     ConfirmPopupModule,
     PaginatorModule,
     TableModule,
+    CommonModule,
   ],
   templateUrl: './discount.component.html',
   styleUrl: './discount.component.css',
