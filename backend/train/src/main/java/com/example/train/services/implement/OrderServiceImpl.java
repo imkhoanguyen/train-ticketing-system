@@ -215,5 +215,16 @@ public class OrderServiceImpl implements OrderService{
                 .build();
     }
 
+    @Override
+    public void updateOrderSubtotal(int orderId, BigDecimal subTotal) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new NotFoundException("Order không tìm thấy"));
+
+        order.setSubTotal(subTotal);
+
+        orderRepository.save(order);
+        log.info("Order updated: {}", order);
+    }
+
     
 }

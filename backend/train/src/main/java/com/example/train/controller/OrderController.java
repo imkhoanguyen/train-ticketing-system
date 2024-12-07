@@ -1,5 +1,6 @@
 package com.example.train.controller;
 
+import java.math.BigDecimal;
 import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -102,5 +103,12 @@ public class OrderController {
         orderService.deleteOrder(id);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(new ResponseData<>(HttpStatus.OK.value(), "Order deleted successfully", null));
+    }
+
+    @PutMapping("/updateSubtotal/{orderId}/{subTotal}")
+    public ResponseEntity<ResponseData<Order>> UpdateOrderSubtotal(@PathVariable int orderId, @PathVariable BigDecimal subTotal) {
+        orderService.updateOrderSubtotal(orderId, subTotal);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseData<>(HttpStatus.OK.value(), "Order subtotal updated successfully", null));
     }
 }

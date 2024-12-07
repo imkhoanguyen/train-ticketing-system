@@ -86,6 +86,17 @@ export class PaymentStepComponent implements OnInit {
     this.orderService.updateOrderPromotion(this.orderData.id, promotionId).subscribe({
       next: () => {
         this.toastrService.success('Mã đã được áp dụng!');
+
+        this.orderService.updateOrderSubtotal(this.orderData.id, this.totalPrice).subscribe({
+          next: () =>{
+            console.log('cap nhat thanh cong');
+          },
+          error: (err) => {
+            console.log("loi");
+          }
+        });
+
+
         this.isButtonDisabled = true;
         promotion.count = promotion.count - 1;
         if (promotion.count > 0) {
@@ -117,7 +128,7 @@ export class PaymentStepComponent implements OnInit {
 
   get totalPrice(): number {
 
-    return this.subTotalPrice - this.promotionPrice;
+    return  this.subTotalPrice - this.promotionPrice;
   }
 
 

@@ -217,7 +217,7 @@ export class TicketStepComponent implements OnInit {
       next: (orderResponse) => {
         this.orderData = orderResponse.data;
         //this.toastrService.success('Order added successfully!');
-
+        console.log("Order:", orderResponse.data);
         this.orderItemService.setOrderData(orderResponse.data);
 
         const tickets: Ticket[] = this.ticketForm.value.tickets.map((ticket: any) => {

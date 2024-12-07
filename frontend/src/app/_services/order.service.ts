@@ -80,4 +80,7 @@ export class OrderService {
   deleteOrder(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/order/delete/${id}`);
   }
+  updateOrderSubtotal(id: number, subtotal: number): Observable<any> {
+    return this.http.put(`${this.baseUrl}/order/updateSubtotal/${id}/${subtotal}`, {});
+  }
 }
