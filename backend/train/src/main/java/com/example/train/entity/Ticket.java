@@ -36,7 +36,7 @@ public class Ticket {
     
     private String returnSeatName;
 
-    private LocalDateTime dateBuy;
+    private LocalDateTime dateBuy = LocalDateTime.now();
 
     @Enumerated(EnumType.STRING)
     private TicketStatus status;

@@ -6,7 +6,6 @@
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
-
 .pdropdown {
   margin-bottom: 15px;
 }
@@ -34,7 +33,6 @@
 .radio-group input[type="radio"] {
   display: none;
 }
-
 
 .btn {
   background-color: #337ab7;

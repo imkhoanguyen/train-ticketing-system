@@ -1,6 +1,7 @@
 package com.example.train.services.implement;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -67,7 +68,7 @@ public class TicketServiceImpl implements TicketService {
                     .seatName(seat.getName())
                     .returnSeat(returnSeat)
                     .returnSeatName(returnSeatName)
-                    .dateBuy(ticketRequestDto.getDateBuy())
+                    .dateBuy(LocalDateTime.now())
                     .status(ticketRequestDto.getStatus())
                     .objectDiscount(ticketRequestDto.getObject())
                     .fullName(ticketRequestDto.getFullname())

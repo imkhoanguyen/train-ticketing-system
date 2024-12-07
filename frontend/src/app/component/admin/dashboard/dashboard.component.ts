@@ -72,6 +72,7 @@ export class DashboardComponent implements OnInit {
       },
       error: (er) => {
         console.log(er);
+        this.totalPriceToDay = 0;
       },
     });
   }

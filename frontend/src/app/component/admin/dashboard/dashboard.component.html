@@ -37,7 +37,9 @@
             </div>
             <div>
               <h5 class="card-title mb-0">Doanh thu</h5>
-              <p class="card-text mb-0">{{ totalPriceToDay ?? 0 }} VNĐ</p>
+              <p class="card-text mb-0">
+                {{ totalPriceToDay | number : "1.0" }} VNĐ
+              </p>
             </div>
             <div class="ms-auto text-muted">Hôm nay</div>
           </div>
@@ -89,7 +91,7 @@
     >
       <ng-template pTemplate="header">
         <tr style="text-align: start">
-          <th style="width: 10%">Id /></th>
+          <th style="width: 10%">ID</th>
           <th>Tên và thông tin người đặt</th>
           <th>Giá tiền</th>
           <th>Ngày đặt</th>
@@ -100,7 +102,7 @@
 
       <ng-template pTemplate="body" let-order>
         <tr>
-          <td class="text-center">#{{ order.id }}</td>
+          <td>#{{ order.id }}</td>
           <td>
             <div class="grouped-data">
               <div><strong>Tên:</strong> {{ order.fullName }}</div>
@@ -110,7 +112,10 @@
           </td>
           <td>
             <div class="grouped-data">
-              <div><strong>Giá đơn hàng:</strong> {{ order.subTotal }}</div>
+              <div>
+                <strong>Giá đơn hàng:</strong>
+                {{ order.subTotal | number : "1.0" }}
+              </div>
               <div *ngIf="order.promotion !== null">
                 <strong>Giảm giá của đơn hàng:</strong>
                 {{ order.promotion.price }}

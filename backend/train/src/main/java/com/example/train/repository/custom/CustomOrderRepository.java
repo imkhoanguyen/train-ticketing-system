@@ -7,12 +7,13 @@ import java.math.BigDecimal;
 import java.util.List;
 
 public interface CustomOrderRepository {
-    @Query(value = "SELECT o.subTotal - COALESCE(p.price, 0) AS total " +
+    @Query(value = "SELECT SUM(o.subTotal - COALESCE(p.price, 0)) AS total " +
             "FROM orders o " +
             "LEFT JOIN promotion p ON o.promotionId = p.id " +
             "WHERE DATE(o.created) = CURRENT_DATE",
-            nativeQuery = true) // nativeQuery = raw
+            nativeQuery = true)
     BigDecimal getTotalToDay();
+
 
     @Query(value = "SELECT COALESCE(SUM(o.subTotal - COALESCE(p.price, 0)), 0) " +
             "FROM orders o " +

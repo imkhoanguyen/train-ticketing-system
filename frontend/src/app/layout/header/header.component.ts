@@ -15,12 +15,16 @@ export class HeaderComponent {
   private authService = inject(AuthService);
   currentUser: any;
   userId = 0;
+  isAdmin = false;
   constructor(private router: Router) {}
   ngOnInit(): void {
     this.currentUser = this.authService.getCurrentUser();
     if (this.currentUser) {
       this.isLogin = true;
       this.userId = this.currentUser.id;
+      if(this.currentUser.role === "Admin") {
+        this.isAdmin = true;
+      }
     } else {
       this.isLogin = false;
     }

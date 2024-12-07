@@ -26,9 +26,15 @@
         <li class="nav-item">
           <a
             class="nav-link"
+            style="cursor: pointer"
             *ngIf="currentUser != null"
             (click)="goToChangeInfo()"
             >Thay đổi thông tin</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="isAdmin === true" routerLink="/admin"
+            >Admin</a
           >
         </li>
       </ul>
