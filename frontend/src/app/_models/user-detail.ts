@@ -19,6 +19,15 @@ export interface User {
   role: string;
 }
 
+export interface UserUpdate {
+  id: number;
+  userName: string;
+  fullName: string;
+  email: string;
+  phone: string;
+  cmnd: string;
+}
+
 export interface LoginRequest {
   userName: string;
   password: string;

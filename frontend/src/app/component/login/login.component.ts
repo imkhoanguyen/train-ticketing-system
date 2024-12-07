@@ -55,10 +55,10 @@ export class LoginComponent {
         if (user) {
           const role = user.role;
           if (role === 'Admin') {
-            this.router.navigateByUrl('/admin/station');
+            this.router.navigateByUrl('/admin');
             return;
           }
-          this.router.navigateByUrl('/');
+          window.location.href = '/';
         }
       },
       error: (er) => {

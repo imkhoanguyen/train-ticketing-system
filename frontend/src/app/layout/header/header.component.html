@@ -23,6 +23,14 @@
         <li class="nav-item">
           <a class="nav-link" href="#">Thông tin đặt chỗ</a>
         </li>
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            *ngIf="currentUser != null"
+            (click)="goToChangeInfo()"
+            >Thay đổi thông tin</a
+          >
+        </li>
       </ul>
       <ul class="navbar-nav ms-auto">
         @if(isLogin) {
@@ -44,4 +52,3 @@
     </div>
   </div>
 </nav>
-

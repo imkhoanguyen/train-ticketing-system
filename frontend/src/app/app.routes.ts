@@ -22,6 +22,7 @@ import { OrderedTicketComponent } from './component/ordered-ticket/ordered-ticke
 import { TicketStepComponent } from './steps/ticket-step/ticket-step.component';
 import { DashboardComponent } from './component/admin/dashboard/dashboard.component';
 import { authGuard } from './_guards/auth.guard';
+import { ChangeInfoComponent } from './component/change-info/change-info.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -58,5 +59,6 @@ export const routes: Routes = [
     ],
   },
   { path: 'login', component: LoginComponent },
+  { path: 'change-info/:id', component: ChangeInfoComponent },
   { path: 'register', component: RegisterComponent },
 ];
