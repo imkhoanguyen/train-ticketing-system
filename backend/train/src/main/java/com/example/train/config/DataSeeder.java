@@ -54,15 +54,15 @@ public class DataSeeder {
                 discountRepository.save(discount);
 
                 Discount discount1 = new Discount();
-                discount.setPrice(new BigDecimal("5000"));
-                discount.setObject("Trẻ em");
-                discount.setDescription("Giảm giá cho trẻ em");
+                discount1.setPrice(new BigDecimal("5000"));
+                discount1.setObject("Trẻ em");
+                discount1.setDescription("Giảm giá cho trẻ em");
                 discountRepository.save(discount1);
 
                 Discount discount2= new Discount();
-                discount.setPrice(new BigDecimal("0"));
-                discount.setObject("Người lớn");
-                discount.setDescription("Giảm giá cho người lớn");
+                discount2.setPrice(new BigDecimal("0"));
+                discount2.setObject("Người lớn");
+                discount2.setDescription("Giảm giá cho người lớn");
                 discountRepository.save(discount2);
             }
 

@@ -111,7 +111,7 @@
 
 
     <!-- Dialog for adding/editing station -->
-    <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true" header="Thông tin Ga">
+    <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true" header="Thông tin Tàu" [style]="{ width: '40rem', height: 'auto', overflow: 'visible' }">
       <div class="container">
         <h2 *ngIf="!currentState; else editTemplate">Thêm Tàu</h2>
         <ng-template #editTemplate>

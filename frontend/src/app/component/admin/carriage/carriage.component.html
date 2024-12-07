@@ -1,27 +1,33 @@
 <div class="container">
   <div class="header-container">
-      <button pButton
-        label="Quay lại"
-        icon="pi pi-arrow-left"
-        class="p-button-success mb-2 back-button"
-        [routerLink]="['/admin/train']"
-        routerLinkActive="active">
-      </button>
-      <h2 class="carriage-title">Danh sách toa tàu</h2>
+    <button
+      pButton
+      label="Quay lại"
+      icon="pi pi-arrow-left"
+      class="p-button-success mb-2 back-button"
+      [routerLink]="['/admin/train']"
+      routerLinkActive="active"
+    ></button>
+    <h2 class="carriage-title">Danh sách toa tàu</h2>
   </div>
 
   <div class="button-container">
-    <button pButton label="Thêm mới" icon="pi pi-plus" class="p-button-success mb-2" (click)="newCarriage()"></button>
-      <div class="search-container">
-          <input
-            class="form-control"
-            placeholder="Tìm kiếm tên toa"
-            [(ngModel)]="search"
-            name="search"
-            (keyup)="onSearch()"
-        />
-      </div>
-      <button pButton label="Thêm mới" icon="pi pi-plus" class="p-button-success mb-2" (click)="newCarriage()"></button>
+    <button
+      pButton
+      label="Thêm mới"
+      icon="pi pi-plus"
+      class="p-button-success mb-2"
+      (click)="newCarriage()"
+    ></button>
+    <div class="search-container">
+      <input
+        class="form-control"
+        placeholder="Tìm kiếm tên toa"
+        [(ngModel)]="search"
+        name="search"
+        (keyup)="onSearch()"
+      />
+    </div>
   </div>
 
   <!-- <p-table [value]="filteredCarriages" [paginator]="true" [rows]="5" responsiveLayout="scroll" class="custom-table">
@@ -55,88 +61,126 @@
   </p-table> -->
 
   <p-table
-      [value]="carriages"
-      [tableStyle]="{ 'min-width': '60rem' }"
-      [customSort]="false"
+    [value]="carriages"
+    [tableStyle]="{ 'min-width': '60rem' }"
+    [customSort]="false"
+  >
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="id" style="width: 10%">
+          Id <p-sortIcon field="id" />
+        </th>
+        <th pSortableColumn="train.name">
+          Tên tàu<p-sortIcon field="train.name"></p-sortIcon>
+        </th>
+        <th pSortableColumn="name">
+          Tên toa <p-sortIcon field="name"></p-sortIcon>
+        </th>
+        <th>Mô tả</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-carriage>
+      <tr>
+        <td>{{ carriage.id }}</td>
+        <td>{{ carriage.train.name }}</td>
+        <td>{{ carriage.name }}</td>
+        <td>{{ carriage.description }}</td>
+        <td>
+          <p-inputSwitch
+            [style]="{ width: '50px' }"
+            (onChange)="
+              carriage.delete ? onRestore(carriage) : onDelete(carriage)
+            "
+            [(ngModel)]="carriage.delete"
+          >
+          </p-inputSwitch>
+        </td>
+        <td>
+          <button
+            pButton
+            icon="pi pi-pencil"
+            class="p-button-rounded p-button-info mr-2"
+            (click)="editCarriage(carriage.id)"
+          ></button>
+          <button
+            pButton
+            icon="pi pi-eye"
+            class="p-button-rounded p-button-info mr-2 eye-button"
+            [routerLink]="['seat', carriage.id]"
+            routerLinkActive="active"
+          ></button>
+        </td>
+      </tr>
+    </ng-template>
+  </p-table>
+  <!-- paginator ngprime -->
+  @if(pageSize && pageNumber) {
+  <div class="card flex justify-content-center mt-3">
+    <p-paginator
+      [first]="(pageNumber - 1) * pageSize || 0"
+      [rows]="pageSize"
+      [totalRecords]="total || 0"
+      [rowsPerPageOptions]="[5, 10, 20]"
+      (onPageChange)="onPageChange($event)"
     >
-      <ng-template pTemplate="header">
-        <tr>
-          <th pSortableColumn="id" style="width: 10%">
-            Id <p-sortIcon field="id" />
-          </th>
-          <th pSortableColumn="train.name">Tên tàu<p-sortIcon field="train.name"></p-sortIcon></th>
-          <th pSortableColumn="name">Tên toa <p-sortIcon field="name"></p-sortIcon></th>
-          <th >Mô tả</th>
-          <th>Trạng thái</th>
-          <th>Hành động</th>
-        </tr>
+    </p-paginator>
+  </div>
+  }
+
+  <p-dialog
+    [(visible)]="displayDialog"
+    modal="modal"
+    [closable]="true"
+    [responsive]="true"
+    header="Thông tin toa tàu"
+  >
+    <div class="container">
+      <h2 *ngIf="!currentState; else editTemplate">Thêm toa tàu</h2>
+      <ng-template #editTemplate>
+        <h2>Chỉnh sửa toa tàu</h2>
       </ng-template>
-      <ng-template pTemplate="body" let-carriage>
-        <tr>
-          <td>{{ carriage.id }}</td>
-          <td>{{ carriage.train.name }}</td>
-          <td>{{ carriage.name }}</td>
-          <td>{{ carriage.description}}</td>
-          <td>
-            <p-inputSwitch
-              [style]="{width: '50px'}"
-              (onChange)="carriage.delete ? onRestore(carriage) : onDelete(carriage)"
-              [(ngModel)]="carriage.delete">
-            </p-inputSwitch>
-          </td>
-          <td>
-            <button pButton icon="pi pi-pencil" class="p-button-rounded p-button-info mr-2" (click)="editCarriage(carriage.id)"></button>
-            <button pButton icon="pi pi-eye" class="p-button-rounded p-button-info mr-2 eye-button" [routerLink]="['seat',carriage.id]" routerLinkActive="active"></button>
-          </td>
-        </tr>
-      </ng-template>
-    </p-table>
-    <!-- paginator ngprime -->
-    @if(pageSize && pageNumber) {
-    <div class="card flex justify-content-center mt-3">
-      <p-paginator
-        [first]="(pageNumber - 1) * pageSize || 0"
-        [rows]="pageSize"
-        [totalRecords]="total || 0"
-        [rowsPerPageOptions]="[5, 10, 20]"
-        (onPageChange)="onPageChange($event)"
-      >
-      </p-paginator>
+
+      <form [formGroup]="carriageForm" (ngSubmit)="onSubmit()">
+        <div class="p-field">
+          <label for="trainType">Tên tàu:</label>
+          <input
+            id="trainSelect"
+            formControlName="trainSelect"
+            pInputText
+            placeholder="Nhập tên  tàu"
+          />
+        </div>
+
+        <div class="p-field">
+          <label for="name">Tên toa:</label>
+          <input id="name" pInputText formControlName="name" required />
+        </div>
+
+        <div class="p-field">
+          <label for="description">Mô tả:</label>
+          <input
+            id="description"
+            pInputText
+            formControlName="description"
+            required
+          />
+        </div>
+
+        <div class="p-field-checkbox">
+          <p-checkbox
+            inputId="is_active"
+            formControlName="is_active"
+            [binary]="true"
+          ></p-checkbox>
+          <label for="is_active">Kích hoạt</label>
+        </div>
+
+        <button pButton type="submit" class="p-button-success-1">
+          <b>{{ currentState ? "Chỉnh sửa chuyến tàu" : "Thêm chuyến tàu" }}</b>
+        </button>
+      </form>
     </div>
-    }
-
-  <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true" header="Thông tin toa tàu">
-      <div class="container">
-          <h2 *ngIf="!currentState; else editTemplate">Thêm toa tàu</h2>
-          <ng-template #editTemplate>
-              <h2>Chỉnh sửa toa tàu</h2>
-          </ng-template>
-
-          <form [formGroup]="carriageForm" (ngSubmit)="onSubmit()">
-              <div class="p-field">
-                  <label for="trainType">Tên tàu:</label>
-                  <input id="trainSelect" formControlName="trainSelect" pInputText placeholder="Nhập tên  tàu" />
-              </div>
-
-              <div class="p-field">
-                  <label for="name">Tên toa:</label>
-                  <input id="name" pInputText formControlName="name" required />
-              </div>
-
-              <div class="p-field">
-                  <label for="description">Mô tả:</label>
-                  <input id="description" pInputText formControlName="description" required />
-              </div>
-
-              <div class="p-field-checkbox">
-                  <p-checkbox inputId="is_active" formControlName="is_active" [binary]="true"></p-checkbox>
-                  <label for="is_active">Kích hoạt</label>
-              </div>
-
-              <button pButton type="submit" class="p-button-success-1">
-                  <b>{{ currentState ? 'Chỉnh sửa chuyến tàu' : 'Thêm chuyến tàu' }}</b>
-              </button>
-          </form>
-      </div>
   </p-dialog>
 </div>

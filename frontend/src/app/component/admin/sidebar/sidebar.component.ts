@@ -40,27 +40,27 @@ export class SidebarComponent {
     {
       routerLink: 'train',
       icon: 'pi pi-car',
-      label: 'Train',
+      label: 'Xe lửa',
     },
     {
       routerLink: 'promotion',
       icon: 'pi pi-angle-double-down',
-      label: 'Promotion',
+      label: 'Mã khuyến mãi',
     },
     {
       routerLink: 'discount',
       icon: 'pi pi-arrow-circle-down',
-      label: 'Discount',
+      label: 'Đối tượng khuyến mãi',
     },
     {
       routerLink: 'order',
       icon: 'pi pi-gift',
-      label: 'Order',
+      label: 'Đơn hàng',
     },
     {
       routerLink: 'user',
       icon: 'pi pi-users',
-      label: 'User',
+      label: 'Khách hàng',
     },
   ];
 
