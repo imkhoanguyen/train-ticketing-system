@@ -32,25 +32,6 @@
       </div>
     </div>
     <div class="row justify-content-center align-items-center mb-3">
-      <div class="radio-group">
-        <p-radioButton
-          name="tripType"
-          [(ngModel)]="tripType"
-          value="motchieu"
-          label="Một chiều"
-          (onClick)="onTripTypeChange()"
-        ></p-radioButton>
-        <p-radioButton
-          name="tripType"
-          [(ngModel)]="tripType"
-          value="khuhoi"
-          label="Khứ hồi"
-          (onClick)="onTripTypeChange()"
-        ></p-radioButton>
-      </div>
-    </div>
-    <div class="row justify-content-center align-items-center mb-3">
-      <div class="col-auto">
         <label for="departureDate">Ngày đi</label><br />
         <p-calendar
           [(ngModel)]="departureDate"
@@ -60,22 +41,9 @@
           dateFormat="dd/mm/yy"
           placeholder="Chọn ngày bắt đầu"
           [appendTo]="'body'"
+          [style]="{ width: '100%' }"
           [minDate]="minDate"
         ></p-calendar>
-      </div>
-      <div class="col-auto">
-        <label for="returnDate">Ngày về</label><br />
-        <p-calendar
-          [(ngModel)]="returnDate"
-          showIcon="true"
-          readonlyInput="true"
-          inputId="returnDate"
-          dateFormat="dd/mm/yy"
-          placeholder="Chọn ngày trở về"
-          [disabled]="tripType === 'motchieu'"
-          [minDate]="departureDate || minDate"
-        ></p-calendar>
-      </div>
     </div>
     <div class="row justify-content-center">
       <button pButton label="Tìm kiếm" class="p-button-primary" (click)="search()"></button>
