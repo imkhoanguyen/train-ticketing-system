@@ -28,7 +28,7 @@ public class OrderItemServiceImpl implements OrderItemService{
     private final OrderRepository  orderRepository;
 
     @Override
-    public void addOrderItem(OrderItemRequestDto orderItemRequestDto) {
+    public OrderItem addOrderItem(OrderItemRequestDto orderItemRequestDto) {
         Order order = orderRepository.findById(orderItemRequestDto.getOrder_id())
             .orElseThrow(() -> new NotFoundException("Order không tìm thấy"));
 
@@ -46,5 +46,13 @@ public class OrderItemServiceImpl implements OrderItemService{
     // Cập nhật tổng giá trị của Order
     order.setSubTotal(order.getSubTotal().add(ticket.getPrice()));
     orderRepository.save(order);
+    return orderItem;
     }
+
+        @Override
+        public void deleteOrderItem(int id) {
+            OrderItem orderItem = orderItemRepository.findById(id)
+                    .orElseThrow(() -> new NotFoundException("OrderItem không tìm thấy"));
+            orderItemRepository.delete(orderItem);
+        }    
 }

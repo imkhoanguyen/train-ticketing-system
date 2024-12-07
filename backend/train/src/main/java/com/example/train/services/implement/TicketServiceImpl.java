@@ -45,14 +45,16 @@ public class TicketServiceImpl implements TicketService {
             if (schedule == null) throw new NotFoundException("Schedule không tìm thấy");
 
             Schedule returnSchedule = scheduleRepository.findById(ticketRequestDto.getReturnSchedules_id()).orElse(null);
-            if (returnSchedule == null) return null;
             
             Seat seat = seatRepository.findById(ticketRequestDto.getSeat_id()).orElse(null);
             if (seat == null) throw new NotFoundException("Seat không tìm thấy");
 
             Seat returnSeat = seatRepository.findById(ticketRequestDto.getReturnSeat_id()).orElse(null);
-            if (returnSeat == null) return null;
+            String returnSeatName = null; 
 
+            if (returnSeat != null) {
+                returnSeatName = returnSeat.getName();
+            }
             Discount discount = discountRepository.findByObject(ticketRequestDto.getObject()).orElse(null);
             BigDecimal priceDiscount = discount != null ? discount.getPrice() : BigDecimal.ZERO;
 
@@ -64,7 +66,7 @@ public class TicketServiceImpl implements TicketService {
                     .seat(seat)
                     .seatName(seat.getName())
                     .returnSeat(returnSeat)
-                    .returnSeatName(returnSeat.getName())
+                    .returnSeatName(returnSeatName)
                     .dateBuy(ticketRequestDto.getDateBuy())
                     .status(ticketRequestDto.getStatus())
                     .objectDiscount(ticketRequestDto.getObject())
@@ -75,6 +77,7 @@ public class TicketServiceImpl implements TicketService {
                     .discount(discount)
                     .build();
 
+                    System.out.println(ticket);
             return ticketRepository.save(ticket);
         }).collect(Collectors.toList());
     }
@@ -106,11 +109,9 @@ public class TicketServiceImpl implements TicketService {
     @Override
     public void deleteTicket(int id) {
         Ticket ticket = ticketRepository.findById(id)
-        .orElseThrow(() -> new IllegalArgumentException("ticket not found with id: " + id));
+        .orElseThrow(() -> new NotFoundException("ticket not found with id: " + id));
 
-        ticket.setStatus(TicketStatus.USED); 
-
-        ticketRepository.save(ticket);
+        ticketRepository.delete(ticket);
         log.info("ticket deleted (set as inactive): {}", ticket);
     }
 

@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
 import { OrderItem } from '../_models/orderItem.module';
+import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +13,7 @@ export class OrderItemService {
 
   private ticketData: any;
   private orderData: any;
+  private orderItemData: any;
 
 
   // getAllOrderItemsByOrderId(id:number) {
@@ -41,7 +43,7 @@ export class OrderItemService {
   // }
 
   addOrderItem(orderItem: any) {
-    return this.http.post(`${this.baseUrl}/orderItem/add`, orderItem, {});
+    return this.http.post(`${this.baseUrl}/orderItem/add`, orderItem);
   }
 
   setTicketData(data: any): void {
@@ -59,4 +61,17 @@ export class OrderItemService {
   getOrderData(): any {
     return localStorage.getItem('orderData');
   }
+  setOrderItemData(data: any): void {
+    this.orderItemData = data;
+    localStorage.setItem('orderItemData', JSON.stringify(data));
+  }
+  getOrderItemData(): any {
+    return localStorage.getItem('orderItemData');
+  }
+
+  deleteOrderItem(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/orderItem/delete/${id}`);
+  }
+
+
 }

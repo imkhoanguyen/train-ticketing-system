@@ -76,4 +76,8 @@ export class OrderService {
   getOrderById(id: number): Observable<any> {
     return this.http.get<{ status: number; message: string; data: Order }>(`${this.baseUrl}/order/get/${id}`);
   }
+
+  deleteOrder(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/order/delete/${id}`);
+  }
 }

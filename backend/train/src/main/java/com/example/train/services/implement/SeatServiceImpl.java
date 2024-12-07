@@ -26,6 +26,7 @@ import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.SeatDetailResponse;
 import com.example.train.entity.Carriage;
 import com.example.train.entity.Seat;
+import com.example.train.exception.BadRequestException;
 import com.example.train.repository.CarriageRepository;
 import com.example.train.repository.SeatRepository;
 import com.example.train.services.SeatService;
@@ -49,26 +50,34 @@ public class SeatServiceImpl implements SeatService{
 
     private static final long EXPIRATION_TIME =120;
     
-    private String getSeatKey(int userId, int seatId) {
-        return String.format("seat:%s:%d", userId, seatId);
+    private String getSeatKey(int seatId) {
+        return String.format("seat:%d",seatId);
     }
     @Override 
     public void saveSeatSelection(SeatSelection seatSelection) { 
-        String key = getSeatKey(seatSelection.getuserId(), seatSelection.getSeatId()); 
+        String key = getSeatKey(seatSelection.getSeatId()); 
         seatSelection.setTime(System.currentTimeMillis());
+
+        SeatSelection existingSeatSelection = (SeatSelection) redisTemplate.opsForValue().get(key);
+
+        if(existingSeatSelection != null) {
+            System.out.println("Seat selection with key: " + key + " already exists");
+            throw new BadRequestException("Seat selection already exists");
+        }
+        
         redisTemplate.opsForValue().set(key, seatSelection, EXPIRATION_TIME, TimeUnit.SECONDS); 
         System.out.println("Saved seat selection with key: " + key); 
     } 
         
     @Override 
     public void cancelSeatSelection(SeatSelection seatSelection) { 
-        String key = getSeatKey(seatSelection.getuserId(), seatSelection.getSeatId()); 
+        String key = getSeatKey(seatSelection.getSeatId()); 
         redisTemplate.delete(key); 
         System.out.println("Cancelled seat selection with key: " + key); 
     } 
     @Override 
-    public SeatSelection getReservedSeat(int userId, int seatId) { 
-        String key = getSeatKey(userId, seatId); 
+    public SeatSelection getReservedSeat(int seatId) { 
+        String key = getSeatKey(seatId); 
         SeatSelection seatSelection = (SeatSelection) redisTemplate.opsForValue().get(key); 
         System.out.println("Retrieved seat selection with key: " + key); 
         return seatSelection; 

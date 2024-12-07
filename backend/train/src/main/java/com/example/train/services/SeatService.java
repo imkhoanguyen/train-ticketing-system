@@ -23,7 +23,7 @@ public interface SeatService {
     List<SeatDetailResponse> getAllSeatsByTrainId(int id);
 
     void cancelSeatSelection(SeatSelection seatSelection);
-    SeatSelection getReservedSeat(int userId, int seatId);
+    SeatSelection getReservedSeat(int seatId);
     void saveSeatSelection(SeatSelection seatSelection);
    
     //SSE

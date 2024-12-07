@@ -132,8 +132,11 @@ public class OrderServiceImpl implements OrderService{
 
     @Override
     public void deleteOrder(int id) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'deleteOrder'");
+        Order order = orderRepository.findById(id)
+                .orElseThrow(() -> new NotFoundException("Order không tìm thấy"));
+
+        orderRepository.delete(order);
+        log.info("Order deleted: {}", order);
     }
 
     @Override

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.example.train.dto.request.TicketRequestDto;
 import com.example.train.dto.response.PageResponse;
-import com.example.train.dto.response.TicketDetailResponse;
 import com.example.train.entity.Ticket;
 import com.example.train.entity.TicketStatus;
 
