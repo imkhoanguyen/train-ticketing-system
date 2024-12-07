@@ -29,7 +29,6 @@ export class TrainResultsComponent implements OnInit {
   checked: boolean = false;
   isVisible = false;
   selectedSeats: number[] = [];
-  selectedSeatsState: Map<number, boolean> = new Map(); 
   roundTripPairs: any[][] = [];
 
   carriages: any[] = [];
@@ -63,19 +62,19 @@ export class TrainResultsComponent implements OnInit {
     console.log('Schedules in TrainResultsComponent:', this.schedules);
     this.currentUser = this.authService.getCurrentUser();
     Promise.all(
-      this.schedules.map(schedule => 
+      this.schedules.map(schedule =>
         this.seatService.getAllSeatsByTrainId(schedule.train.id).toPromise()
       )
     ).then(results => {
       this.schedules = this.schedules.map((schedule, index) => {
         const response = results[index];
-    
+
         if (response) {
           const paidSeat = response.data.filter(seat => this.paidSeats.includes(seat.id));
           return {
             ...schedule,
-            totalSeats: response.data.length,  
-            paidSeatsCount: paidSeat.length  
+            totalSeats: response.data.length,
+            paidSeatsCount: paidSeat.length
           };
         }
         return schedule;
@@ -91,21 +90,15 @@ export class TrainResultsComponent implements OnInit {
       (data) => {
         this.seatService.getSeats().subscribe({
           next: (seats) => {
-            this.selectSeats = [...seats];
-
-            this.selectSeats.forEach(seat => {
-              if (this.selectedSeatsState.has(seat.seatId)) {
-                seat.isSelected = this.selectedSeatsState.get(seat.seatId);
-              }
-            });
+            this.selectSeats = seats;
           },
           error: (err) => console.error('Error loading seats:', err),
         });
 
         this.expiredSeats = data.split(',');
-
         this.expiredSeats.forEach((expiredSeat) => {
-          const match = expiredSeat.match(/seat:\d+:(\d+)=(\d+)/);
+          const match = expiredSeat.match(/seat:(\d+)=(\d+)/);
+
           if (match) {
             const seatId = parseInt(match[1], 10);
             const ttl = parseInt(match[2], 10);
@@ -138,20 +131,27 @@ export class TrainResultsComponent implements OnInit {
 
   onSeatSelectionChange(selectedSeat: any): void {
     const selectedSeats = this.selectSeats.filter(seat => seat.isSelected );
- 
+
     if (selectedSeats.length % 2 === 0) {
+
       this.updateRoundTripPairs(selectedSeats);
     } else {
       this.removeUnpairedSeats(selectedSeat);
     }
-  
+
     console.log('Cặp vé khứ hồi:', this.roundTripPairs);
   }
 
   updateRoundTripPairs(selectedSeats: any[]): void {
     this.roundTripPairs = [];
     for (let i = 0; i < selectedSeats.length; i += 2) {
+      if(selectedSeats[i].scheduleId === selectedSeats[i + 1].scheduleId) {
+        alert('Vui lòng chọn ghế khác chuyến');
+        return;
+      }
+      console.log('selectedSeats[i].schedule.id', selectedSeats[i]);
       this.roundTripPairs.push([selectedSeats[i], selectedSeats[i + 1]]);
+
     }
   }
   removeUnpairedSeats(selectedSeat: any): void {
@@ -162,7 +162,6 @@ export class TrainResultsComponent implements OnInit {
 
   toggleSeatSelection(seat: Seat, schedule: any): void {
     const seatData = {
-      userId: this.currentUser.id,
       scheduleId: schedule.id,
       seatId: seat.id,
       name: seat.name,
@@ -188,9 +187,11 @@ export class TrainResultsComponent implements OnInit {
 
   }
 
-  removeSeat(seatId: number): void {
-    this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seatId);
-    localStorage.removeItem('seat' + seatId);
+  removeSeat(seat: any): void {
+    this.selectedSeatIds = this.selectedSeatIds.filter((id) => id !== seat.seatId);
+    localStorage.removeItem('seat' + seat.seatId);
+    this.seatService.cancelSeatSelection(seat).subscribe();
+
     this.cdr.detectChanges();
   }
 
@@ -292,7 +293,9 @@ export class TrainResultsComponent implements OnInit {
 
 
   onSubmit(): void {
-
+    if (this.roundTripPairs.length > 0) {
+      localStorage.setItem('roundTripPairs', JSON.stringify(this.roundTripPairs));
+    }
     this.router.navigate(['/booking/ticket']);
   }
   closeDialog(): void {

@@ -1,4 +1,4 @@
-import { Component, inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { SeatService } from '../../_services/seat.service';
@@ -30,6 +30,8 @@ export class TicketStepComponent implements OnInit {
   ticketForm!: FormGroup;
   orderForm!: FormGroup;
 
+  roundTripPairs: any[][] = [];
+
   schedules: any ={};
   selectSeats: any[] = [];
   discountObjects: any[] = [];
@@ -48,19 +50,41 @@ export class TicketStepComponent implements OnInit {
   private orderService = inject(OrderService);
   private orderItemService = inject(OrderItemService);
 
-  constructor(private router: Router, private fb: FormBuilder) {
+  constructor(private router: Router, private fb: FormBuilder, private cdr: ChangeDetectorRef) {
 
   }
 
   ngOnInit(): void {
     this.initializeTicketForm();
-    this.loadSelectedSeats();
+
     this.loadDiscounts();
     if(this.authService.getCurrentUser()){
       this.currentUser = this.authService.getCurrentUser();
       this.initializeOrderForm();
     }
+
+    const storedPairs = localStorage.getItem('roundTripPairs');
+    if (storedPairs) {
+      this.roundTripPairs = JSON.parse(storedPairs);
+      console.log('Round trip pairs:', this.roundTripPairs);
+      this.roundTripPairs.forEach((pair: any) => {
+        const ticketData = {
+          scheduleId: pair[0].scheduleId,
+          seatId: pair[0].seatId,
+          price: pair[0].price,
+          schedulePrice: pair[0].schedulePrice,
+          returnScheduleId: pair[1].scheduleId,
+          returnSeatId: pair[1].seatId,
+        };
+        console.log('Ticket data:', ticketData);
+        this.addTicket(ticketData);
+    });
+    } else {
+      console.log('Không có cặp vé khứ hồi được lưu trữ');
+    }
+    this.loadSelectedSeats();
   }
+
 
   initializeTicketForm(): void {
     this.ticketForm = this.fb.group({
@@ -78,35 +102,59 @@ export class TicketStepComponent implements OnInit {
     return this.ticketForm.get('tickets') as FormArray;
   }
 
-  addTicket(seat: any): void {
+  addTicket(pair: any): void {
     this.tickets.push(
       this.fb.group({
-        schedules_id: [seat.scheduleId, Validators.required],
-        seat_id: [seat.seatId, Validators.required],
+        schedules_id: [pair.scheduleId, Validators.required],
+        returnSchedules_id: [pair.returnScheduleId],
+        seat_id: [pair.seatId, Validators.required],
+        returnSeat_id: [pair.returnSeatId],
         dateBuy: [new Date(), Validators.required],
         status: [TicketStatus.PENDING, Validators.required],
         object: [null, Validators.required],
         promotion_id: [null],
         fullname: ['', Validators.required],
         can_cuoc: [''],
-        price: [seat.price, Validators.required],
+        price: [pair.price, Validators.required],
         price_reduced: [null, Validators.required],
-        schedulePrice: [seat.schedulePrice, Validators.required],
+        schedulePrice: [pair.schedulePrice, Validators.required],
+
       })
     );
   }
 
-
-
   loadSelectedSeats(): void {
+    const usedSeatIds = new Set<number>();
+    if (this.roundTripPairs) {
+      this.roundTripPairs.forEach((pair: any) => {
+        usedSeatIds.add(pair[0].seatId);
+        usedSeatIds.add(pair[1].seatId);
+      });
+    }
+
     this.seatService.getSeats().subscribe({
       next: (seats) => {
         this.selectSeats = seats;
+        console.log("seat", seats);
         seats.forEach((seat) => this.addTicket(seat));
+          // if (!usedSeatIds.has(seat.id)) {
+          //   this.addTicket({
+          //     schedules_id: seat.scheduleId,
+          //     seat_Id: seat.seatId,
+          //     price: seat.price,
+          //     schedulePrice: seat.schedulePrice,
+          //   });
+          // }
+
       },
       error: (err) => console.error('Error loading seats:', err),
     });
   }
+
+  isRoundTripPair(index: number): boolean {
+    return this.roundTripPairs && !!this.roundTripPairs[index];
+  }
+
 
   loadDiscounts(): void {
     this.discountService.getAllDiscounts().subscribe({
@@ -158,13 +206,24 @@ export class TicketStepComponent implements OnInit {
     0);
   }
 
-  removeTicket(index: number): void {
-    this.tickets.removeAt(index);
+  removeTicket(seatId: number): void {
+    console.log('Removing ticket:', seatId);
+    localStorage.removeItem('seat' + seatId);
+    this.tickets.removeAt(this.tickets.controls.findIndex((ticket) => ticket.get('seat_id')?.value === seatId));
+    this.cdr.detectChanges();
   }
 
-  clearTickets(): void {
+  removeTicketAll(): void {
+    for (let i = 0; i < this.tickets.length; i++) {
+      const seatId = this.tickets.at(i).get('seat_id')?.value;
+      if (seatId !== undefined) {
+        localStorage.removeItem('seat' + seatId);
+      }
+    }
     this.tickets.clear();
+    this.cdr.detectChanges();
   }
+
 
 
 
@@ -199,6 +258,7 @@ export class TicketStepComponent implements OnInit {
 
             // Tạo OrderItem cho từng Ticket
             const orderItems = ticketResponses.data.map((ticket: any) => ({
+              id: null,
               order_id: this.orderData.id,
               ticket_id: ticket.id
             }));
@@ -223,11 +283,14 @@ export class TicketStepComponent implements OnInit {
   private addOrderItems(orderItems: any[]): void {
     const requests = orderItems.map((orderItem) =>
       this.orderItemService.addOrderItem(orderItem)
+
     );
 
     // Gửi tất cả các yêu cầu đồng thời
     forkJoin(requests).subscribe({
-      next: () => {
+      next: (responses: any[]) => {
+        const orderItems = responses.map(response => response.data);
+        this.orderItemService.setOrderItemData(orderItems);
         this.toastrService.success('Order items added successfully!');
         this.router.navigate(['/booking/payment']);
       },

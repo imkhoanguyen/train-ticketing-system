@@ -23,6 +23,8 @@ export class ConfirmationStepComponent {
   status: string = '';
   ticketData: Ticket[] = [];
   orderData: any;
+  orderItemData: any;
+  dateNow = new Date().getDate();
 
   private toastrService = inject(ToastrService);
   private ticketService = inject(TicketService);
@@ -37,7 +39,8 @@ export class ConfirmationStepComponent {
     const ticketObj = this.orderItemService.getTicketData();
     this.ticketData = JSON.parse(ticketObj);
     this.orderData = JSON.parse(this.orderItemService.getOrderData());
-    console.log("orderData", this.orderData);
+    this.orderItemData = JSON.parse(this.orderItemService.getOrderItemData());
+    console.log("orderItemData", this.orderItemData);
 
     this.route.queryParams.subscribe((params) => {
       this.paymentData = params;
@@ -49,6 +52,21 @@ export class ConfirmationStepComponent {
         this.updateStatus(false);
       }
     });
+    this.getOrderById(this.orderData.id);
+
+
+  }
+
+  getOrderById(id: number){
+    this.orderService.getOrderById(id).subscribe({
+      next: (response: ApiResponse<any>) => {
+        this.orderData = response.data;
+        console.log('Order:', this.orderData);
+      },
+      error: (err) => {
+        console.error('Error getting order:', err);
+      }
+    });
   }
 
   updateStatus(success: boolean): void {
@@ -56,8 +74,27 @@ export class ConfirmationStepComponent {
       this.updateTicketStatus(TicketStatus.PAID);
       this.updateOrderStatus(OrderStatus.SUCCESS);
     } else {
-      this.updateTicketStatus(TicketStatus.CANCELLED);
-      this.updateOrderStatus(OrderStatus.FAIL);
+      this.orderItemData.map((orderItem: any) => {
+        return this.orderItemService.deleteOrderItem(orderItem.id).subscribe({
+          next: (response: ApiResponse<any>) => {
+            this.ticketData.map((ticket) => {
+              return this.ticketService.deleteTicket(ticket.id).subscribe({
+                next: (response: ApiResponse<any>) => {
+                  console.log('Ticket deleted:', response.data);
+                },
+                error: (err) => {
+                  console.error('Error deleting ticket:', err);
+                }
+              });
+            });
+            console.log('Order item deleted:', response.data);
+          },
+          error: (err) => {
+            console.error('Error deleting order item:', err);
+          }
+        });
+      });
+
     }
   }
 

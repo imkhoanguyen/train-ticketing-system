@@ -1,7 +1,6 @@
 package com.example.train.services;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.List;
 
 import com.example.train.dto.request.ScheduleRequestDto;

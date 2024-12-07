@@ -1,10 +1,10 @@
 <div class="invoice-container">
   <h2 class="text-center">Hóa đơn thanh toán</h2>
   <div class="invoice-details">
-    <p><strong>Mã đơn hàng:</strong> {{ paymentData?.orderId }}</p>
-    <p><strong>Số tiền:</strong> {{ paymentData?.amount | currency:'VND':'symbol' }}</p>
-    <p><strong>Phương thức thanh toán:</strong> {{ paymentData?.paymentMethod }}</p>
-    <p><strong>Ngày giao dịch:</strong> {{ paymentData?.transactionDate }}</p>
+    <p><strong>Mã đơn hàng:</strong> {{ orderData?.id }}</p>
+    <p><strong>Số tiền:</strong> {{ orderData?.subTotal | currency:'VND':'symbol' }}</p>
+    <p><strong>Phương thức thanh toán:</strong> VN Pay</p>
+    <p><strong>Ngày giao dịch:</strong> {{ orderData?.created | date:'yyyy-MM-dd HH:mm:ss'  }}</p>
     <p><strong>Trạng thái:</strong>
       <span class="badge" [ngClass]="status === 'success' ? 'badge-success' : 'badge-danger'">
         {{ status }}

@@ -7,7 +7,6 @@ import com.example.train.dto.request.UserRequestDto;
 import com.example.train.dto.response.PageResponse;
 import com.example.train.dto.response.UserDetailResponse;
 import com.example.train.dto.response.UserResponse;
-import com.example.train.entity.User;
 
 import java.util.List;
 

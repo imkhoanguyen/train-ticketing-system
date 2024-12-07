@@ -37,20 +37,41 @@
               <input type="text" class="form-control" formControlName="can_cuoc">
             </div>
           </td>
-          <td class="text-center align-middle">{{ selectSeats[i]?.name }}</td>
-          <td class="text-center align-middle">{{ selectSeats[i]?.schedulePrice }}</td> <!-- Giá chuyến đi -->
-          <td class="text-center align-middle">{{ selectSeats[i]?.price }}</td> <!-- Giá vé -->
-          <td class="text-center align-middle">{{ ticket.get('price_reduced')?.value || 0 }}</td>
-          <td class="text-center align-middle">{{ calculateFinalPrice(i) }}</td>
+
+          <!-- Nếu là roundTripPair -->
+          <td class="text-center align-middle" *ngIf="isRoundTripPair(i)">
+            {{ roundTripPairs[i][0]?.name }} ; {{ roundTripPairs[i][1]?.name }}
+          </td>
+
+          <!-- Nếu là vé 1 chiều -->
+          <td class="text-center align-middle" *ngIf="!isRoundTripPair(i)">
+            {{ selectSeats[i]?.name }}
+          </td>
+
+          <!-- Hiển thị giá (theo cặp vé hoặc vé lẻ) -->
           <td class="text-center align-middle">
-            <button type="button" class="btn btn-danger" (click)="removeTicket(i)">
+            {{ isRoundTripPair(i) ? roundTripPairs[i][0]?.schedulePrice + roundTripPairs[i][1]?.schedulePrice : selectSeats[i]?.schedulePrice }}
+          </td>
+          <td class="text-center align-middle">
+            {{ isRoundTripPair(i) ? roundTripPairs[i][0]?.price + roundTripPairs[i][1]?.price : selectSeats[i]?.price }}
+          </td>
+
+          <!-- Giảm giá -->
+          <td class="text-center align-middle">{{ ticket.get('price_reduced')?.value || 0 }}</td>
+          <!-- Giá cuối cùng -->
+          <td class="text-center align-middle">{{ calculateFinalPrice(i) }}</td>
+
+          <td class="text-center align-middle">
+            <button type="button" class="btn btn-danger" (click)="removeTicket(ticket.get('seat_id')?.value)">
               <i class="bi bi-trash"></i> Xóa vé
             </button>
           </td>
         </tr>
+
+        <!-- Xóa tất cả vé -->
         <tr>
           <td colspan="4">
-            <button type="button" class="btn btn-danger" (click)="clearTickets()">
+            <button type="button" class="btn btn-danger" (click)="removeTicketAll()">
               Xóa tất cả các vé
             </button>
           </td>
@@ -59,6 +80,7 @@
           </td>
         </tr>
       </tbody>
+
     </table>
 
     <div class="d-flex justify-content-end">

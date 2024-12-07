@@ -59,7 +59,7 @@ export class TicketService {
     return this.http.post(`${this.baseUrl}/ticket/add`, tickets);
   }
 
-  DeleteTicket(id: number) {
+  deleteTicket(id: number): Observable<any> {
     return this.http.delete(`${this.baseUrl}/ticket/delete/${id}`, {
       headers: { 'Content-Type': 'application/json' }
     });

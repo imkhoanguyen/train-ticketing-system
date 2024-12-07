@@ -32,6 +32,8 @@ public class Ticket {
     @ManyToOne
     @JoinColumn(name = "returnSeatId",  nullable = true)
     private Seat returnSeat;
+
+    
     private String returnSeatName;
 
     private LocalDateTime dateBuy;

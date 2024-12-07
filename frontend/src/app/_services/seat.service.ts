@@ -14,7 +14,7 @@ export class SeatService {
   private seats: any[] = [];
 
 
-  getSeats(): Observable<Seat[]> {
+  getSeats(): Observable<any[]> {
     const selectedSeats = [];
     for (let i = 0; i < localStorage.length; i++) {
       const key = localStorage.key(i);

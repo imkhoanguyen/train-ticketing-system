@@ -4,6 +4,7 @@ import java.util.List;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -69,12 +70,12 @@ public class OrderController {
     }
 
 
-    @GetMapping("get/{userId}")
-    public ResponseData<OrderDetailResponse> GetOrderByUserId(@PathVariable int userId) {
-        OrderDetailResponse response = orderService.getOrderByUserId(userId);
+    // @GetMapping("get/{userId}")
+    // public ResponseData<OrderDetailResponse> GetOrderByUserId(@PathVariable int userId) {
+    //     OrderDetailResponse response = orderService.getOrderByUserId(userId);
 
-        return new ResponseData<>(HttpStatus.OK.value(), "get order by user id", response);
-    }
+    //     return new ResponseData<>(HttpStatus.OK.value(), "get order by user id", response);
+    // }
     @PutMapping("/updateStatus/{id}/{status}")
     public ResponseEntity<ResponseData<Order>> UpdateOrderStatus(@PathVariable int id, @PathVariable OrderStatus status) {
         orderService.updateOrderStatus(id, status);
@@ -95,5 +96,11 @@ public class OrderController {
         OrderDetailResponse response = orderService.getOrderById(id);
 
         return new ResponseData<>(HttpStatus.OK.value(), "get order by id", response);
+    }
+    @DeleteMapping("/delele/{id}")
+    public ResponseEntity<ResponseData<Order>> DeleteOrder(@PathVariable int id) {
+        orderService.deleteOrder(id);
+        return ResponseEntity.status(HttpStatus.OK)
+                .body(new ResponseData<>(HttpStatus.OK.value(), "Order deleted successfully", null));
     }
 }
