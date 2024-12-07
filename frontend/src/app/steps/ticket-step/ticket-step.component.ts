@@ -262,40 +262,22 @@ export class TicketStepComponent implements OnInit {
   }
 
   // Hàm thêm OrderItems
-  private addOrderItems(orderItems: any[]): void {
-    console.log("111", orderItems)
-    // Create an array of observables for the requests
-    const requests = orderItems.map((orderItem) =>
-
-
-      this.orderItemService.addOrderItem(orderItem).pipe(
-        catchError((error) => {
-          //console.error('Error adding order item:', error);
-          return of(null);
-        })
-      )
-    );
-
-    forkJoin(requests).subscribe({
-      next: (responses: any[]) => {
-        const successfulResponses = responses.filter((response) => response !== null);
-
-        if (successfulResponses.length > 0) {
-          const orderItems = successfulResponses.map(response => response.data);
-          this.orderItemService.setOrderItemData(orderItems);
-
-          // Navigate to the next step
-          this.router.navigate(['/booking/payment']);
-          this.toastrService.success('Order items added successfully!');
-        } else {
-          //this.toastrService.warning('No order items were added successfully.');
-        }
-      },
-      error: (err) => {
-        console.error('Unhandled error in forkJoin:', err);
-        // this.toastrService.error('Failed to add order items. Please try again.');
+  private async addOrderItems(orderItems: any[]): Promise<void> {
+    for (const orderItem of orderItems) {
+      try {
+        const response = await this.orderItemService.addOrderItem(orderItem).toPromise();
+        console.log('Order item added:', response);
+      } catch (error) {
+        console.error('Error adding order item:', error);
+        this.toastrService.error('Failed to add an order item. Continuing with the next...');
       }
-    });
+    }
+
+    console.log('All order items processed.');
+    this.router.navigate(['/booking/payment']);
+    this.toastrService.success('Order items added successfully!');
   }
+
+
 
 }

@@ -43,7 +43,7 @@ export class OrderItemService {
   // }
 
   addOrderItem(orderItem: any) {
-    return this.http.post(`${this.baseUrl}/orderItem/add`, orderItem);
+    return this.http.post<any[]>(`${this.baseUrl}/orderItem/add`, orderItem);
   }
 
   setTicketData(data: any): void {
