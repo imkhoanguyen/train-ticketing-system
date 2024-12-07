@@ -14,13 +14,14 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { MessageService } from 'primeng/api';
 import { errorInterceptor } from './_interceptor/error.interceptor';
 import { jwtInterceptor } from './_interceptor/jwt.interceptor';
+import { loadingInterceptor } from './_interceptor/loading.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     importProvidersFrom(BrowserAnimationsModule),
-    provideHttpClient(withInterceptors([errorInterceptor, jwtInterceptor])),
+    provideHttpClient(withInterceptors([errorInterceptor, loadingInterceptor,jwtInterceptor])),
     provideAnimations(),
     MessageService,
   ],

@@ -21,6 +21,7 @@ import { UserComponent } from './component/admin/user/user.component';
 import { OrderedTicketComponent } from './component/ordered-ticket/ordered-ticket/ordered-ticket.component';
 import { TicketStepComponent } from './steps/ticket-step/ticket-step.component';
 import { DashboardComponent } from './component/admin/dashboard/dashboard.component';
+import { authGuard } from './_guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -39,6 +40,7 @@ export const routes: Routes = [
   {
     path: 'admin',
     component: AdminComponent,
+    canActivate: [authGuard],
     children: [
       { path: 'station', component: StationComponent },
       { path: 'route', component: RouteComponent },

@@ -1,5 +1,12 @@
-import { Component, EventEmitter, Input, input, Output, output } from '@angular/core';
-import { TreeModule } from 'primeng/tree'
+import {
+  Component,
+  EventEmitter,
+  Input,
+  input,
+  Output,
+  output,
+} from '@angular/core';
+import { TreeModule } from 'primeng/tree';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SidebarModule as PrimeNgSidebarModule } from 'primeng/sidebar';
@@ -9,12 +16,17 @@ import { TreeNode } from 'primeng/api';
   standalone: true,
   imports: [CommonModule, RouterModule, PrimeNgSidebarModule, TreeModule],
   templateUrl: './sidebar.component.html',
-  styleUrls: ['./sidebar.component.css']
+  styleUrls: ['./sidebar.component.css'],
 })
-export class SidebarComponent{
+export class SidebarComponent {
   @Input() isSidebarCollapsed: boolean = false;
   @Output() changeIsSidebarCollapsed = new EventEmitter<boolean>();
   items = [
+    {
+      routerLink: 'dashboard',
+      icon: 'pi pi-chart-line',
+      label: 'Thống kê',
+    },
     {
       routerLink: 'station',
       icon: 'pi pi-arrow-right-arrow-left',
@@ -29,7 +41,6 @@ export class SidebarComponent{
       routerLink: 'train',
       icon: 'pi pi-car',
       label: 'Train',
-
     },
     {
       routerLink: 'promotion',
@@ -52,7 +63,6 @@ export class SidebarComponent{
       label: 'User',
     },
   ];
-
 
   toggleCollapse(): void {
     this.changeIsSidebarCollapsed.emit(!this.isSidebarCollapsed);
