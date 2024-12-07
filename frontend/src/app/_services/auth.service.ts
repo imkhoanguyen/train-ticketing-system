@@ -32,6 +32,7 @@ export class AuthService {
 
   logout() {
     if (localStorage.getItem('user')) localStorage.removeItem('user');
+    localStorage.clear();
   }
 
   setCurrentUser(user: UserDetail) {

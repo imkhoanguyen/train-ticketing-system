@@ -59,7 +59,6 @@ export class HomeComponent implements OnInit {
     this.loadStations();
   }
 
-
   onTripTypeChange() {
     if (this.tripType === 'motchieu') {
       this.returnDate = null;
@@ -71,7 +70,7 @@ export class HomeComponent implements OnInit {
     this.stationService.getAllStations().subscribe(
       (response: any) => {
         this.stations = response.data;
-        console.log("stations", this.stations);
+        console.log('stations', this.stations);
       },
       (error) => {
         console.log('error load stations', error);
@@ -79,77 +78,98 @@ export class HomeComponent implements OnInit {
     );
   }
   search() {
-    console.log('Starting search...');
-  
+    Object.keys(localStorage).forEach((key) => {
+      if (key !== 'user') {
+        localStorage.removeItem(key);
+      }
+    });
+
     // Kiểm tra dữ liệu đầu vào
     if (!this.selectedStation || !this.selectedDestination) {
       alert('Vui lòng chọn ga đi và ga đến');
       return;
     }
-  
+
     if (!this.departureDate) {
       alert('Vui lòng chọn ngày đi');
       return;
     }
-  
+
     // Xử lý ngày đi
     const departureDate = this.addHoursToDate(this.departureDate, 7);
-    this.getRoutesAndSchedules(this.selectedStation.id, this.selectedDestination.id, departureDate);
-  
+    this.getRoutesAndSchedules(
+      this.selectedStation.id,
+      this.selectedDestination.id,
+      departureDate
+    );
+
     // Xử lý khứ hồi
     if (this.tripType === 'khuhoi') {
       if (!this.returnDate) {
         alert('Vui lòng chọn ngày về');
         return;
       }
-  
+
       const returnDate = this.addHoursToDate(this.returnDate, 7);
-      this.getRoutesAndSchedules(this.selectedDestination.id, this.selectedStation.id, returnDate);
+      this.getRoutesAndSchedules(
+        this.selectedDestination.id,
+        this.selectedStation.id,
+        returnDate
+      );
     }
   }
-  
+
   addHoursToDate(date: Date, hours: number): Date {
     return new Date(new Date(date).getTime() + hours * 60 * 60 * 1000);
   }
-  
-  getRoutesAndSchedules(selectedStationId: number, selectedDestinationId: number, date: Date) {
-    console.log(`Searching routes from ${selectedStationId} to ${selectedDestinationId} on ${date.toISOString()}`);
-  
-    this.routeService.getRoutesByStationId(selectedStationId, selectedDestinationId).subscribe({
-      next: (routes: RouteModule[]) => {
-        if (routes.length > 0) {
-          console.log('Found routes:', routes);
-          const routeId = routes[0].id;
-          this.loadSchedules(routeId, date);
-        } else {
-          this.toastrService.error('Không tìm thấy tuyến xe phù hợp');
-        }
-      },
-      error: (error) => {
-        console.error('Error loading routes:', error);
-      }
-    });
+
+  getRoutesAndSchedules(
+    selectedStationId: number,
+    selectedDestinationId: number,
+    date: Date
+  ) {
+    console.log(
+      `Searching routes from ${selectedStationId} to ${selectedDestinationId} on ${date.toISOString()}`
+    );
+
+    this.routeService
+      .getRoutesByStationId(selectedStationId, selectedDestinationId)
+      .subscribe({
+        next: (routes: RouteModule[]) => {
+          if (routes.length > 0) {
+            console.log('Found routes:', routes);
+            const routeId = routes[0].id;
+            this.loadSchedules(routeId, date);
+          } else {
+            this.toastrService.error('Không tìm thấy tuyến xe phù hợp');
+          }
+        },
+        error: (error) => {
+          console.error('Error loading routes:', error);
+        },
+      });
   }
-  
+
   loadSchedules(routeId: number, date: Date) {
-    console.log(`Loading schedules for routeId ${routeId} on ${date.toISOString()}`);
-  
-    this.scheduleService.getSchedulesByRouteIdAndDate(routeId, date.toISOString()).subscribe({
-      next: (response: ApiResponse<schedule[]>) => {
-        if (response.data.length === 0) {
-          this.toastrService.error('Không tìm thấy lịch trình phù hợp');
-          return;
-        }
-        this.scheduleService.setSchedules(response.data);
-        
-        this.router.navigate(['/train-results']);
-      },
-      error: (error) => {
-        console.error('Error loading schedules:', error);
-      }
-    });
+    console.log(
+      `Loading schedules for routeId ${routeId} on ${date.toISOString()}`
+    );
+
+    this.scheduleService
+      .getSchedulesByRouteIdAndDate(routeId, date.toISOString())
+      .subscribe({
+        next: (response: ApiResponse<schedule[]>) => {
+          if (response.data.length === 0) {
+            this.toastrService.error('Không tìm thấy lịch trình phù hợp');
+            return;
+          }
+          this.scheduleService.setSchedules(response.data);
+
+          this.router.navigate(['/train-results']);
+        },
+        error: (error) => {
+          console.error('Error loading schedules:', error);
+        },
+      });
   }
-  
-
-
 }

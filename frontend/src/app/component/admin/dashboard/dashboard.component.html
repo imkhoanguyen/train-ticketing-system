@@ -101,7 +101,7 @@
       </ng-template>
 
       <ng-template pTemplate="body" let-order>
-        <tr>
+        <tr *ngIf="order.status === 'SUCCESS'">
           <td>#{{ order.id }}</td>
           <td>
             <div class="grouped-data">

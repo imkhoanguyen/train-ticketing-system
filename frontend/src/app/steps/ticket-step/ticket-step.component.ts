@@ -249,13 +249,13 @@ export class TicketStepComponent implements OnInit {
           },
           error: (error) => {
             console.error('Error adding tickets:', error);
-            this.toastrService.error('Failed to add tickets. Please try again.');
+            // this.toastrService.error('Failed to add tickets. Please try again.');
           }
         });
       },
       error: (err) => {
         console.error('Error adding order:', err);
-        this.toastrService.error('Failed to add order. Please try again.');
+        // this.toastrService.error('Failed to add order. Please try again.');
       }
     });
   }
@@ -289,7 +289,7 @@ export class TicketStepComponent implements OnInit {
       },
       error: (err) => {
         console.error('Unhandled error in forkJoin:', err);
-        this.toastrService.error('Failed to add order items. Please try again.');
+        // this.toastrService.error('Failed to add order items. Please try again.');
       }
     });
   }
