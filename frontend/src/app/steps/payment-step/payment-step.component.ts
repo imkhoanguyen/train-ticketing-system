@@ -86,7 +86,7 @@ export class PaymentStepComponent implements OnInit {
     this.orderService.updateOrderPromotion(this.orderData.id, promotionId).subscribe({
       next: () => {
         this.toastrService.success('Mã đã được áp dụng!');
-
+        console.log("totallllllllllllll", this.totalPrice);
         this.orderService.updateOrderSubtotal(this.orderData.id, this.totalPrice).subscribe({
           next: () =>{
             console.log('cap nhat thanh cong');

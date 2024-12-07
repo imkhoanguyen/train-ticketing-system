@@ -17,7 +17,7 @@ import { AuthService } from '../../_services/auth.service';
 import { Order, OrderStatus } from '../../_models/order.module';
 import { OrderService } from '../../_services/order.service';
 import { OrderItemService } from '../../_services/orderItem.service';
-import { forkJoin } from 'rxjs';
+import { catchError, forkJoin, of } from 'rxjs';
 
 @Component({
   selector: 'app-ticket-step',
@@ -262,23 +262,36 @@ export class TicketStepComponent implements OnInit {
 
   // Hàm thêm OrderItems
   private addOrderItems(orderItems: any[]): void {
+    // Create an array of observables for the requests
     const requests = orderItems.map((orderItem) =>
-      this.orderItemService.addOrderItem(orderItem)
-
+      this.orderItemService.addOrderItem(orderItem).pipe(
+        catchError((error) => {
+          //console.error('Error adding order item:', error);
+          return of(null);
+        })
+      )
     );
 
-    // Gửi tất cả các yêu cầu đồng thời
     forkJoin(requests).subscribe({
       next: (responses: any[]) => {
-        const orderItems = responses.map(response => response.data);
-        this.orderItemService.setOrderItemData(orderItems);
-        //this.toastrService.success('Order items added successfully!');
-        this.router.navigate(['/booking/payment']);
+        const successfulResponses = responses.filter((response) => response !== null);
+
+        if (successfulResponses.length > 0) {
+          const orderItems = successfulResponses.map(response => response.data);
+          this.orderItemService.setOrderItemData(orderItems);
+
+          // Navigate to the next step
+          this.router.navigate(['/booking/payment']);
+          this.toastrService.success('Order items added successfully!');
+        } else {
+          //this.toastrService.warning('No order items were added successfully.');
+        }
       },
       error: (err) => {
-        console.error('Error adding order items:', err);
+        console.error('Unhandled error in forkJoin:', err);
         this.toastrService.error('Failed to add order items. Please try again.');
       }
     });
   }
+
 }
