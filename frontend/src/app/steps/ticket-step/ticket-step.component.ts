@@ -63,25 +63,6 @@ export class TicketStepComponent implements OnInit {
       this.initializeOrderForm();
     }
 
-    const storedPairs = localStorage.getItem('roundTripPairs');
-    if (storedPairs) {
-      this.roundTripPairs = JSON.parse(storedPairs);
-      console.log('Round trip pairs:', this.roundTripPairs);
-      this.roundTripPairs.forEach((pair: any) => {
-        const ticketData = {
-          scheduleId: pair[0].scheduleId,
-          seatId: pair[0].seatId,
-          price: pair[0].price,
-          schedulePrice: pair[0].schedulePrice,
-          returnScheduleId: pair[1].scheduleId,
-          returnSeatId: pair[1].seatId,
-        };
-        console.log('Ticket data:', ticketData);
-        this.addTicket(ticketData);
-    });
-    } else {
-      console.log('Không có cặp vé khứ hồi được lưu trữ');
-    }
     this.loadSelectedSeats();
   }
 
@@ -114,7 +95,7 @@ export class TicketStepComponent implements OnInit {
         object: [null, Validators.required],
         promotion_id: [null],
         fullname: ['', Validators.required],
-        can_cuoc: [''],
+        can_cuoc: ['', [Validators.required, Validators.pattern(/^\d{9}|\d{12}$/)]],
         price: [pair.price, Validators.required],
         price_reduced: [null, Validators.required],
         schedulePrice: [pair.schedulePrice, Validators.required],
@@ -235,7 +216,7 @@ export class TicketStepComponent implements OnInit {
     this.orderService.addOrder(order).subscribe({
       next: (orderResponse) => {
         this.orderData = orderResponse.data;
-        this.toastrService.success('Order added successfully!');
+        //this.toastrService.success('Order added successfully!');
 
         this.orderItemService.setOrderData(orderResponse.data);
 
@@ -245,14 +226,14 @@ export class TicketStepComponent implements OnInit {
         });
         console.log('Tickets:', tickets);
         if (!this.ticketForm.valid) {
-          this.toastrService.error('Please fill in all required fields.');
+          this.toastrService.error('Vui lòng nhập đúng thông tin');
           return;
         }
 
         this.ticketService.addTickets(tickets).subscribe({
           next: (ticketResponses) => {
             console.log('Ticket Responses:', ticketResponses);
-            this.toastrService.success('Tickets added successfully!');
+            //this.toastrService.success('Tickets added successfully!');
 
             this.orderItemService.setTicketData(ticketResponses.data);
 
@@ -291,7 +272,7 @@ export class TicketStepComponent implements OnInit {
       next: (responses: any[]) => {
         const orderItems = responses.map(response => response.data);
         this.orderItemService.setOrderItemData(orderItems);
-        this.toastrService.success('Order items added successfully!');
+        //this.toastrService.success('Order items added successfully!');
         this.router.navigate(['/booking/payment']);
       },
       error: (err) => {
