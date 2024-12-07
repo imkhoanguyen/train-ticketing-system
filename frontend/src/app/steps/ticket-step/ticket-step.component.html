@@ -17,24 +17,28 @@
           <td class="text-center align-middle">
             <div class="input-group mb-3">
               <span class="input-group-text">Họ và tên</span>
-              <input type="text" class="form-control" formControlName="fullname">
+              <input type="text" class="form-control" formControlName="fullname" placeholder="Nhập họ tên">
             </div>
             <div class="input-group mb-3">
               <span class="input-group-text">Đối tượng</span>
               <select
                 class="form-select"
-                formControlName="object"
+                formControlName="object_id"
                 (change)="getObjectById(i, $event)"
               >
-                <option selected disabled>Chọn đối tượng</option>
+                <option value="" disabled>Chọn đối tượng</option>
                 <option *ngFor="let object of discountObjects" [value]="object.id">
                   {{ object.object }}
                 </option>
               </select>
             </div>
+
             <div class="input-group mb-3">
               <span class="input-group-text">Số giấy tờ</span>
-              <input type="text" class="form-control" formControlName="can_cuoc">
+              <input type="number"
+              class="form-control"
+              formControlName="can_cuoc"
+              placeholder="Nhập CMND (9 hoặc 12 chữ số)">
             </div>
           </td>
 
