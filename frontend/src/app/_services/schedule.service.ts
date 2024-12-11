@@ -15,10 +15,8 @@ export class ScheduleService {
   schedules$ = this.scheduleList.asObservable();
 
   setSchedules(schedules: schedule[]): void {
-    this.scheduleList.next(schedules);
     localStorage.setItem('schedules', JSON.stringify(schedules));
   }
-
 
   getSchedules(): schedule[] {
     const storedSchedules = localStorage.getItem('schedules');
@@ -29,22 +27,23 @@ export class ScheduleService {
     }
   }
 
-  getAllSchedulesByRouteId(id:number) {
-    return this.http.get<ApiResponse<schedule[]>>(`${this.baseUrl}/schedule/routeId/${id}`);
+  getAllSchedulesByRouteId(id: number) {
+    return this.http.get<ApiResponse<schedule[]>>(
+      `${this.baseUrl}/schedule/routeId/${id}`
+    );
   }
   getSchedulesByRouteIdAndDate(id: number, startDate: string) {
-
-    return this.http.get<ApiResponse<schedule[]>>(`${this.baseUrl}/schedule/routeId/${id}/startDate/${startDate}`);
+    return this.http.get<ApiResponse<schedule[]>>(
+      `${this.baseUrl}/schedule/routeId/${id}/startDate/${startDate}`
+    );
   }
-
-
 
   getWithLimit(
     page: number = 1,
     size: number = 10,
     search: string = '',
     sortBy: string = 'id,desc',
-    id:number
+    id: number
   ) {
     let params = new HttpParams();
     params = params.set('pageNumber', page.toString());
@@ -61,32 +60,31 @@ export class ScheduleService {
     });
   }
   getScheduleById(id: number) {
-    return this.http.get<{ status: number; message: string; data: schedule }>(`${this.baseUrl}/schedule/${id}`);
+    return this.http.get<{ status: number; message: string; data: schedule }>(
+      `${this.baseUrl}/schedule/${id}`
+    );
   }
 
   AddSchedule(data: any) {
     return this.http.post(`${this.baseUrl}/schedule/add`, data, {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 
-  UpdateSchedule(id: number,data: any) {
+  UpdateSchedule(id: number, data: any) {
     return this.http.put(`${this.baseUrl}/schedule/update/${id}`, data, {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     });
   }
 
   DeleteSchedule(id: number) {
     return this.http.delete(`${this.baseUrl}/schedule/delete/${id}`, {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     });
   }
   RestoreSchedule(id: number) {
     return this.http.put(`${this.baseUrl}/schedule/restore/${id}`, {
-      headers: { 'Content-Type': 'application/json' }
+      headers: { 'Content-Type': 'application/json' },
     });
   }
-
-
 }
-
