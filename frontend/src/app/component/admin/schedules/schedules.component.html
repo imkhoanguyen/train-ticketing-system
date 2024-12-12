@@ -79,9 +79,9 @@
 
     <p-dialog [(visible)]="displayDialog" modal="modal" [closable]="true" [responsive]="true" header="Thông tin chuyến tàu">
       <div class="container">
-        <h2 *ngIf="!currentState; else editTemplate">Thêm chuyến tàu</h2>
+        <h2 *ngIf="!currentState; else editTemplate">Thêm lịch trình</h2>
         <ng-template #editTemplate>
-          <h2>Chỉnh sửa chuyến tàu</h2>
+          <h2>Chỉnh sửa lịch trình</h2>
         </ng-template>
 
         <form [formGroup]="scheduleForm" (ngSubmit)="onSubmit()">
@@ -141,7 +141,7 @@
           </div>
 
           <button pButton type="submit" class="p-button-success-1">
-            <b>{{ currentState ? 'Chỉnh sửa chuyến tàu' : 'Thêm chuyến tàu' }}</b>
+            <b>{{ currentState ? 'Chỉnh sửa lịch trình' : 'Thêm lịch trình' }}</b>
           </button>
         </form>
       </div>
